@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import {definePageMeta} from "nuxt/dist/pages/runtime";
-
 definePageMeta({
-  middleware: 'auth'
+  layout: 'default',
+  middleware: 'auth',
+  title: 'Senex',
 })
 </script>
 
 <template>
   <div>
-    <slot />
+    <p>This page will be displayed at the /index page.</p>
   </div>
 </template>

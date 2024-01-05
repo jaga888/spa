@@ -1,0 +1,36 @@
+.high90__shine {
+
+  position: relative;
+  overflow: hidden;
+
+  &:after {
+    display: block;
+    position: absolute;
+    content: ' ';
+    top: -150%;
+    left: -150%;
+    bottom: 100%;
+    right: 100%;
+    transform: rotate(135deg);
+    animation: shine 5s linear infinite;
+    animation-delay: 1s;
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0)50%, rgba(255, 255, 255, 0.5)100%);
+  }
+
+  @keyframes shine {
+    0% {
+      top: -150%;
+      left: -150%;
+      bottom: 100%;
+      right: 100%;
+    }
+    20%, 100% {
+      top: 100%;
+      left: 100%;
+      bottom: -150%;
+      right: -150%;
+    }
+  }
+
+
+}

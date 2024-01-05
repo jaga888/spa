@@ -1,0 +1,48 @@
+.senex__signature__image {
+  // filter: invert(20%) sepia() saturate(100%) hue-rotate(170deg);
+  filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(170deg);
+  width: 100%;
+}
+
+.senex__signature {
+  position: relative;
+  
+  width: 100%;
+  max-width: 740px;
+
+  &__canvas {
+    border: 5px solid $senex-color-light-grey-shade;
+    border-radius: 10px;
+  }
+
+  &__baseline {
+    display: block;
+    content: '';
+    position: absolute;
+    bottom: 25%;
+    width: 100%;
+    height: 2px;
+    background-color: rgba(0,0,0,0.1);
+  }
+
+  // &__rotate-me {
+  //   display: none;
+  // }
+
+}
+
+
+// Responsive
+// ------------------------------------------------------
+// Phone (portrait): Show rotate me.
+// @media (max-width: 640px) and (orientation: portrait) {
+//
+//   .senex__signature {
+//     display: none;
+//   }
+//
+//   .senex__signature__rotate-me {
+//     display: block;
+//   }
+//
+// }

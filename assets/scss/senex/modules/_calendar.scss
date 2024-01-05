@@ -1,0 +1,128 @@
+.senex__calendar {
+
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  position: absolute;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  &__title {
+    display: inline-block;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  &__title-prev {
+    float: left;
+    display: -block;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 0rem;
+  }
+
+  &__title-next {
+    float: right;
+    display: block;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 0rem;
+  }
+
+}
+
+
+.senex__calendar-header {
+
+  display: flex;
+  flex-direction: row;
+
+  flex-grow: 0;
+
+  &__day {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+
+    padding: 1rem;
+
+    text-align: center;
+    font-weight: bold;
+  }
+
+}
+
+
+.senex__calendar__week {
+
+  display: flex;
+  flex-direction: row;
+
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0;
+
+  // border-bottom: 0.25rem solid #ededed;
+
+}
+
+.senex__calendar__day {
+
+  position: relative;
+
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0;
+
+  background-color: $senex-color-light-grey;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  margin: 0.25rem;
+  &:first-child {
+    margin-left: 0.5rem;
+  }
+  &:last-child {
+    margin-right: 0.5rem;
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &--blank {
+    background-color: transparent;
+  }
+
+  &--weekend {
+    background-color: tint($senex-color-light-grey, 25%);
+  }
+
+  &--today {
+    // background-color: #ffc;
+  }
+
+  &--future {
+    // background-color: #f0fcff;
+  }
+
+  &--active {
+    background-color: $senex-color-yellow;
+  }
+
+}
+
+.senex__calendar__date {
+  padding: .2rem;
+  font-size: 1.2rem;
+  color: rgba(black, 0.2);
+}

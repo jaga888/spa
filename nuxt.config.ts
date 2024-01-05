@@ -1,4 +1,19 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true }
+    app: {
+        head: {
+            title: 'Senex',
+            charset: 'utf-8',
+            viewport: 'width=device-width, initial-scale=1',
+        },
+    },
+    vite: {
+        css: {
+            preprocessorOptions: {
+                scss: {
+                    additionalData: '@use "/assets/scss/senex.scss" as *;'
+                }
+            }
+        }
+    },
+    devtools: {enabled: true}
 })

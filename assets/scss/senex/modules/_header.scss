@@ -1,0 +1,123 @@
+// Theme mixin for this module.
+@mixin senex-header-theme(
+  $background-color: transparent,
+  $color: inherit,
+  $background-image: none
+) {
+
+  background-color: $background-color;
+  background-image: $background-image;
+  color: $color;
+}
+
+.senex__header {
+
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 0;
+  font-size: 0.9rem;
+
+  background-size: cover;
+  background-repeat: repeat-x;
+  background-position: left center;
+
+  // Mods
+  &--small {
+    height: $senex-header-small-height;
+  }
+
+  &--medium {
+    height: $senex-header-medium-height;
+  }
+
+  &--large {
+    height: $senex-header-large-height;
+  }
+
+  // Subs
+  &__top {
+    flex: 0 0 auto;
+
+    display: flex;
+    flex-flow: row nowrap;
+  }
+  &__middle {
+    flex: 1 1 auto;
+
+    display: flex;
+    flex-flow: row nowrap;
+  }
+  &__bottom {
+    flex: 0 0 auto;
+
+    display: flex;
+    flex-flow: row nowrap;
+  }
+
+  &__left {
+    flex: 1 1 0;
+  }
+  &__center {
+    flex: 1 1 0;
+    text-align: center;
+  }
+  &__right {
+    flex: 1 1 0;
+    text-align: right;
+  }
+
+  &__supertitle {
+    font-size: 14px;
+    padding: 8px $senex-horizontal-margin 4px $senex-horizontal-margin;
+  }
+
+  &__title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    padding: 0 $senex-horizontal-margin;
+  }
+
+  &__subtitle {
+    font-size: 14px;
+    padding: 0 $senex-horizontal-margin 10px $senex-horizontal-margin;
+  }
+
+  &__body {
+    position: relative;
+    padding: 8px $senex-horizontal-margin;
+  }
+
+  // Themes
+
+  // Include default theme.
+  @include senex-header-theme();
+
+  &--blue {
+    @include senex-header-theme(
+      $background-color: $senex-color-blue-shade,
+      $color: white
+    );
+  }
+
+  &--help {
+    @include senex-header-theme(
+      $background-color: $senex-color-purple,
+      $background-image: url('../images/headers/help.svg'),
+      $color: white
+    );
+  }
+
+  &--account {
+    @include senex-header-theme(
+      $background-color: $senex-color-dark-blue
+    );
+  }
+
+  &--user {
+    @include senex-header-theme(
+      $background-color: $senex-color-turquoise,
+      $background-image: url('../images/headers/user.svg')
+    );
+  }
+
+}

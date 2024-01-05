@@ -1,0 +1,53 @@
+.senex__markdown {
+  h1,h2,h3,h4,h5,h6 {
+    font-weight: bold;
+    margin: 0;
+  }
+
+  h1 {
+    font-size: 1.1rem;
+  }
+  h2 {
+    font-size: 1.1rem;
+    font-style: italic;
+  }
+  h3 {
+    font-size: 1rem;
+    text-decoration: underline;
+  }
+  h4 {
+    font-size: 1rem;
+  }
+  h5 {
+    font-size: 1rem;
+  }
+  h6 {
+    font-size: 1rem;
+  }
+
+  ul, ol {
+    padding: 0 0 0 2rem;
+  }
+
+  ul {
+    list-style: disc inside;
+
+    li {
+      display: list-item;
+    }
+  }
+
+  ol {
+    list-style: decimal inside;
+    li {
+      display: list-item;
+    }
+  }
+
+  blockquote {
+    margin-left: 2rem;
+    border-left-style: solid;
+    border-left-width: 1px;
+    font-style: italic;
+  }
+}

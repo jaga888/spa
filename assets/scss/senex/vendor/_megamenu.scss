@@ -1,0 +1,583 @@
+//  Theme Name : Mega Menu Complete Set
+//	Item URI : http://codecanyon.net/item/mega-menu-complete-set/152825
+//	Author URI : http://codecanyon.net/user/Pixelworkshop
+//	Version : 1.4
+
+/* Configuration */
+$megamenu-height: 40px;
+$megamenu-width: 100%;
+$default-text-color: #fff;
+$base-color: $senex-color-blue;
+
+
+
+/*  _____________________________________________________________________________
+
+    01 MENU BAR
+    _____________________________________________________________________________  */
+
+.megamenu_container {
+
+  // Cast shadow on lower elements.
+  box-shadow: 0 3px 0 rgba(black, 0.1);
+
+  #logo a {
+  	font-size: 1.5em;
+  	font-weight: normal;
+  	padding: 0 0.1em;
+  	text-align: center;
+
+  	img {
+  		height: 40px;
+  		width: 40px;
+  		padding: 5px 5px;
+  		margin: 0 5px;
+  	}
+  }
+
+  background-color: $base-color;
+
+	width: $megamenu-width;
+	height: $megamenu-height;
+	margin: 0 auto;
+	position: relative;
+
+	.megamenu {
+		list-style:none;
+		z-index: 9999;
+		padding: 0;
+		margin: 0;
+		color: $default-text-color;
+
+    // Form
+    input {
+      border-radius: 0.25rem;
+      border: 2px solid tint($senex-color-blue, 10%);
+      background-color: transparent;
+      color: white;
+      font-size: 0.9rem;
+      padding: 0.25rem 0.5rem;
+      margin-right: 1.0rem;
+    }
+
+
+		> li {
+			float: left;
+			margin: 0;
+			height: $megamenu-height;
+			line-height: $megamenu-height;
+
+			a {
+				color: $default-text-color;
+				outline: 0;
+				font-weight: bold;
+				text-decoration: none;
+				display: block;
+				padding: 0 15px;
+			}
+
+			&.no-drop:hover, .no-drop.active {
+				background: none;
+			}
+
+			&:hover, &.active {
+				background: rgba(black, 0.1);
+
+				a {
+					color: $default-text-color;
+				}
+			}
+
+			&.drop-button {
+				& > a {
+				}
+			}
+
+			&.noactive {
+				background:none;
+			}
+
+			&.right {
+				float: right;
+				// margin-right: -1px;
+				// a {
+				// 	margin-right: 5px;
+				// }
+			}
+
+		}
+
+		li.drop:after {
+		    content: ' v ';
+		}
+
+	}
+}
+
+
+// Custom color tabs for different panels.
+@mixin megamenu-color-tab($base-color: #161616) {
+
+	color: $base-color;
+
+	a {
+		color: $base-color;
+	}
+
+	&:hover,
+	&.active {
+		background: $base-color;
+
+		color: $default-text-color;
+		a, a:hover {
+			color: $default-text-color;
+		}
+	}
+
+	.dropcontent {
+		border-top: 2px solid darken($base-color, 10%);
+
+		.header {
+			@include button(darken($base-color, 10%));
+		}
+
+		h5 {
+			// border-bottom: 2px solid $base-color;
+		}
+
+		ul.small li {
+			color: $base-color;
+		}
+	}
+
+}
+
+// Custom color tabs for different panels.
+@mixin megamenu-color-button($base-color: #161616) {
+	background: $base-color;
+	color: $default-text-color;
+
+	a {
+		color: $default-text-color;
+	}
+
+	&:hover,
+	&.active {
+		background: $base-color;
+		color: $default-text-color;
+		a, a:hover {
+			color: $default-text-color;
+		}
+	}
+
+	.dropcontent {
+		border-top: 2px solid darken($base-color, 10%);
+
+		.header {
+			@include button(darken($base-color, 10%));
+
+			color: $default-text-color;
+		}
+
+		h5 {
+		}
+
+		ul.small li {
+			color: $base-color;
+		}
+	}
+
+}
+
+
+/*  _____________________________________________________________________________
+
+    02 DROP DOWN COMMON CONTAINER
+    _____________________________________________________________________________  */
+
+.megamenu > li .dropcontent {
+
+	box-shadow: 0px 5px 5px rgba(black, 0.3);
+	background-color: #3b3b3b;
+
+	font-size: 0.9em;
+
+	//margin: 0 auto;
+	margin: 0 auto 0 -1px;
+	position: absolute;
+	left: -9999em;
+	top: $megamenu-height; /* Places the drop down under the menu bar */
+	z-index: 9998; /* For IE7 */
+	padding: 12px 0 10px 0;
+	text-align: left;
+	line-height: normal;
+
+}
+// .megamenu > li .dropfirst {
+// 	margin: 0 auto 0 -1px; /* Fixes a 1px issue for the 1st drop down */
+// }
+
+/* Showing Drop Down on Mouse Hover - Left aligned */
+.megamenu > li:hover .dropcontent {
+	left: auto;
+}
+
+/* Showing Drop Down on Mouse Hover - Right aligned */
+.megamenu > li .align_right {
+	// right: -1px;
+	right: 0px;
+}
+.megamenu > li:hover .align_right {
+	left: auto;
+	// right: -1px;
+	right: 0px;
+}
+
+/* Full width drop down */
+.megamenu > li .fullwidth {
+	// @include border-radius(0 0 5px 5px);
+
+	position: absolute;
+	width: 100%;
+	padding: 12px 0 10px 0;
+	left: -9999em;
+	top: $megamenu-height;
+	border-top:none;
+	line-height: normal;
+}
+.megamenu > li:hover .fullwidth {
+	display: block;
+	z-index: 9998;
+	left: -1px;
+}
+
+
+
+/*  _____________________________________________________________________________
+
+    03 DROP DOWN SPECIFIC CONTAINERS
+    _____________________________________________________________________________  */
+
+.megamenu .drop1column {width: 80px;}
+.megamenu .drop2columns {width: 160px;}
+.megamenu .drop3columns {width: 240px;}
+.megamenu .drop4columns {width: 320px;}
+.megamenu .drop5columns {width: 400px;}
+.megamenu .drop6columns {width: 480px;}
+.megamenu .drop7columns {width: 560px;}
+.megamenu .drop8columns {width: 640px;}
+.megamenu .drop9columns {width: 720px;}
+.megamenu .drop10columns {width: 800px;}
+.megamenu .drop11columns {width: 880px;}
+.megamenu .drop12columns {width: 960px;}
+
+/*  _____________________________________________________________________________
+
+    04 COLUMNS GRID
+    _____________________________________________________________________________  */
+
+.megamenu .col_1,
+.megamenu .col_2,
+.megamenu .col_3,
+.megamenu .col_4,
+.megamenu .col_5,
+.megamenu .col_6,
+.megamenu .col_7,
+.megamenu .col_8,
+.megamenu .col_9,
+.megamenu .col_10,
+.megamenu .col_11,
+.megamenu .col_12 {
+	float: left;
+	display:inline;
+	position: relative;
+	margin-left: 15px;
+	margin-right: 15px;
+
+	// -- Column styles -------------
+	&.header {
+		border-bottom: 1px solid #555;
+		margin: -12px 0 15px 0;
+		padding: 5px 15px;
+	}
+
+	&.pane {
+
+		height: 100%;
+		margin: 0;
+
+		&.top {
+			margin-top: -12px;
+		}
+
+		&.bottom {
+			// @include border-bottom-left-radius(10px);
+			margin-bottom: -10px;
+		}
+
+	}
+
+	&.border-top {
+		//@include border-image(linear-gradient(rgba(white,0.1),rgba(black,0.8)));
+		border-top: 2px solid #555;
+		margin-top: 10px;
+		padding-top: 5px;
+	}
+
+	&.border-bottom {
+		//@include border-image(linear-gradient(rgba(white,0.1),rgba(black,0.8)));
+		border-bottom: 2px solid #555;
+		margin-bottom: 10px;
+	}
+
+}
+.megamenu .col_1 {width:50px;}
+.megamenu .col_2 {width:130px;}
+.megamenu .col_3 {width:210px;}
+.megamenu .col_4 {width:290px;}
+.megamenu .col_5 {width:370px;}
+.megamenu .col_6 {width:450px;}
+.megamenu .col_7 {width:530px;}
+.megamenu .col_8 {width:610px;}
+.megamenu .col_9 {width:690px;}
+.megamenu .col_10 {width:770px;}
+.megamenu .col_11 {width:850px;}
+.megamenu .col_12 {width:930px;}
+
+.clear {
+	clear: both;
+	display: block;
+	overflow: hidden;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+}
+
+
+/*  _____________________________________________________________________________
+
+    05 DROP DOWN TYPOGRAPHY
+    _____________________________________________________________________________  */
+.megamenu p,
+.megamenu h1,
+.megamenu h2,
+.megamenu h3,
+.megamenu h4,
+.megamenu h5,
+.megamenu h6 {
+	padding: 0;
+	margin: 0;
+	color: #FFFFFF;
+}
+.megamenu p {
+	font-size:12px;
+	margin-bottom: 6px;
+}
+.megamenu h1,
+.megamenu h2 {
+	padding-bottom:12px;
+}
+.megamenu h1,
+.megamenu h2,
+.megamenu h3 {
+	font-weight: bold;
+	margin-bottom: 12px;
+}
+.megamenu h4,
+.megamenu h5,
+.megamenu h6 {
+	font-weight: bold;
+	margin-bottom: 6px;
+}
+.megamenu h1 {
+	font-size: 36px;
+}
+.megamenu h2 {
+	font-size: 30px;
+}
+.megamenu h3 {
+	font-size: 28px;
+}
+.megamenu h4 {
+	font-size: 18px;
+}
+.megamenu h5 {
+	text-shadow: 0px -1px 0px darken(#999, 40%);
+
+	color: #CCC;
+	font-size: 14px;
+}
+.megamenu h6 {
+	color: #CCC;
+	font-size: 12px;
+	font-weight: normal;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+}
+
+/* Links */
+.megamenu li .dropcontent a,
+.megamenu li .fullwidth a {
+	text-transform: none;
+	display: inline;
+	padding: 0;
+}
+
+/* Images & Boxes */
+.megamenu .img_left {
+	float:left;
+	margin-right:12px;
+}
+.megamenu .img_right {
+	float:right;
+	margin-left:12px;
+}
+
+
+/* Lists */
+.megamenu .dropcontent ul,
+.megamenu .fullwidth ul {
+
+	list-style: none;
+	margin: 0;
+	padding: 0 0 12px 0;
+
+	li {
+
+		// @include border-radius(5px);
+
+		&:hover {
+			background-color: rgba(white, 0.2);
+		}
+
+		a {
+
+			display: block;
+			position: relative;
+
+			&>i {
+				position: absolute;
+				top: 50%;
+				left: 0px;
+				// height: 16px;
+				margin-top: -8px;
+
+				&~.supertitle,
+				&~.title,
+				&~.subtitle {
+					margin-left: 24px;
+				}
+			}
+
+			img.icon {
+				position: absolute;
+				top: 50%;
+				left: 0px;
+				height: 16px;
+				margin-top: -8px;
+
+				&~.title,
+				&~.subtitle {
+					margin-left: 24px;
+				}
+			}
+
+			.title {
+				// @include text-shadow(darken(#999, 40%) 0px -1px 0px);
+
+	  			color: $default-text-color;
+				font-weight: bold;
+			}
+
+			.subtitle {
+				color: rgba($default-text-color, 0.5);
+				font-size: 0.8em;
+				font-weight: normal;
+			}
+
+			.action {
+				height: 20px;
+				margin-top: -10px;
+				position: absolute;
+				right: 20px;
+				top: 50%;
+				vertical-align: middle;
+			}
+
+		}
+
+		&.disabled {
+			color: #999;
+
+			&:hover {
+				background-color: transparent;
+			}
+
+			a {
+				 color: #999;
+			}
+		}
+	}
+}
+
+// Large
+.megamenu li ul.large {
+
+	li {
+		padding: 5px;
+	}
+
+}
+
+
+// Small
+.megamenu li ul.small {
+	li {
+		color: #777;
+		display: block;
+		font-size: 0.9em;
+		padding: 2px 0px;
+
+		&:before {
+			content: "\25B8\0020";
+		}
+
+		a {
+			color: $default-text-color;
+			display: inline-block;
+			font-weight: normal;
+			padding: 2px 0px;
+		}
+	}
+}
+
+// Horizontal links
+.megamenu li ul.horizontal {
+
+	padding: 0;
+
+	li {
+
+		color: #000; // seperators
+		display: block;
+		float: left;
+		font-size: 0.9em;
+		margin: 0;
+		padding: 0 5px;
+
+		a {
+			color: white;
+			display: inline-block;
+			font-weight: normal;
+			padding:  2px 5px;
+		}
+
+		img {
+			vertical-align: top;
+		}
+	}
+
+	&.right {
+		float: right;
+	}
+}

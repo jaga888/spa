@@ -1,0 +1,44 @@
+.senex__swatch-picker {
+  
+  &__swatch {
+    border-radius: 100px;
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    cursor: pointer;
+    margin: 5px 5px;
+  }
+
+  &__selected {
+    border-radius: 100px;
+    display: inline-block;
+    height: 30px;
+    width: 30px;
+    margin: 0 10px 0 0;
+  }
+
+  &__swatch, &__selected {
+    &[data-color="red"] {
+      background-color: red;
+    }
+    &[data-color="orange"] {
+      background-color: orange;
+    }
+    &[data-color="yellow"] {
+      background-color: yellow;
+    }
+    &[data-color="green"] {
+      background-color: green;
+    }
+    &[data-color="blue"] {
+      background-color: blue;
+    }
+    &[data-color="purple"] {
+      background-color: purple;
+    }
+    &[data-color="transparent"] {
+      background-color: transparent;
+      border: 2px solid gray;
+    }
+  }
+}

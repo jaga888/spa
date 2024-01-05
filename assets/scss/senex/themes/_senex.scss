@@ -1,0 +1,20 @@
+.senex__theme--senex {
+
+  &.senex__template.senex__page--login {
+
+    .senex__card {
+
+      .senex__card__header {
+        background-image: url("../images/themes/senex/senex-open-stack.svg");
+        background-position: center;
+        background-size: 50%;
+        background-repeat: no-repeat;
+        background-color: $senex-color-blue;
+        height: 460px;
+      }
+
+    }
+
+  }
+
+}

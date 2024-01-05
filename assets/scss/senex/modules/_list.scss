@@ -1,0 +1,169 @@
+// Theme mixin for this module.
+@mixin senex-list-theme(
+  $background-color: transparent,
+  $color: inherit,
+  $active-background-color: rgba(255,255,255,0.25),
+  $active-color: inherit
+) {
+
+  &.senex__list--selectable {
+    .senex__list__item {
+      &:hover {
+        background-color: darken($background-color, 5%);
+      }
+
+      // No hover over active item.
+      &--active {
+        &:hover {
+          background-color: $active-background-color;
+          color: $active-color;
+        }
+      }
+    }
+  }
+
+  .senex__list__item {
+    &--active {
+      background-color: $active-background-color;
+      color: $active-color;
+    }
+  }
+
+  background-color: $background-color;
+  color: $color;
+
+}
+
+.senex__list {
+
+  &--selectable {
+    .senex__list__item {
+      cursor: pointer;
+      transition: all 0.5s ease;
+    }
+  }
+
+  &__item {
+
+    padding: 1rem;
+
+    border-width: 0 0 1px 0;
+    border-style: solid;
+    border-color: rgba(0,0,0,0.15);
+
+    position: relative;
+
+    &--button {
+
+      margin: 1rem;
+      padding: 0.5rem 1rem;
+
+      border-width: 1px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.5s ease;
+      font-weight: 600;
+
+      text-align: center;
+
+      &:hover {
+        background-color: rgba(white, 0.05);
+      }
+    }
+
+    &--active {
+      background-color: rgba(white, 0.25);
+    }
+
+    a {
+      color: inherit !important;
+    }
+
+  }
+
+  &__item-icon {
+    float: left;
+    width: 3rem;
+    height: 3rem;
+
+    & > i {
+      padding: 0.5rem 0;
+			color: $senex-color-blue;
+    }
+
+    & ~ * {
+      margin-left: 3rem;
+    }
+  }
+
+  &__item-supertitle {
+    font-size: 0.9rem;
+    padding: 0.25rem 0;
+    font-style: italic;
+  }
+
+  &__item-title {
+    font-weight: bold;
+    padding: 0.25rem 0;
+  }
+
+  &__item-subtitle {
+    font-size: 0.9rem;
+    padding: 0.25rem 0;
+  }
+
+  &__item-text {
+    font-size: 0.9rem;
+    padding: 0.25rem 0;
+  }
+
+  &__item-actions {
+    font-weight: bold;
+    padding: 0.25rem 0;
+  }
+
+  &__item-menu {
+    font-weight: bold;
+    padding: 0.25rem 0;
+  }
+
+  &__item-right {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+  }
+
+  &__item-delete {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+
+    &:hover {
+
+    }
+  }
+
+  &__sublist-item-title {
+    font-weight: bold;
+  }
+
+  &__sublist {
+    padding: 0.25rem 0;
+  }
+
+  &__sublist-item {
+    padding: 0.25rem 0;
+  }
+
+  &__sublist-item-title {
+    font-weight: bold;
+  }
+
+  // Themes
+
+  // Include default theme.
+  @include senex-list-theme();
+
+}

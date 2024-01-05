@@ -1,0 +1,12 @@
+body, input, textarea, select {
+  font: 16px/1 sans-serif;
+  font-family: proxima-nova, sans-serif;
+}
+
+.wf-loading {
+  visibility: hidden;
+}
+
+.wf-active, .wf-inactive {
+  visibility: visible;
+}

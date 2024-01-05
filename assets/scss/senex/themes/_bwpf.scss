@@ -1,0 +1,29 @@
+.senex__theme--bwpf {
+
+  &.senex__template {
+    background-image: url("../images/themes/bwpf/UniversityofMichiganLawLibrary.jpg");
+
+  }
+
+  &.senex__template.senex__page--login {
+
+    .senex__card {
+
+      .senex__card__header {
+        background-image: url("../images/themes/bwpf/BWPF-Logo.svg");
+        background-position: center;
+        background-size: 80%;
+        background-repeat: no-repeat;
+        background-color: $senex-color-dark-blue;
+
+        padding: 0;
+        height: 460px;
+      }
+
+    }
+
+  }
+
+
+
+}

@@ -1,0 +1,20 @@
+// Theme mixin for this module.
+@mixin senex-footer-theme(
+  $background-color: rgba(black, 0.05),
+  $color: $senex-color-dark-blue-shade,
+  $margin: 0
+) {
+  background-color: $background-color;
+  color: $color;
+  padding: 0;
+}
+
+.senex__footer {
+
+  height: $senex-footer-height;
+  align-items: center;
+
+  // Default theme.
+  @include senex-footer-theme();
+
+}

@@ -1,0 +1,39 @@
+.senex__policies {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+
+  .senex__form__checkbox, label {
+    cursor: pointer;
+  }
+
+  label {
+    &:hover {
+      font-weight: bold;
+      transition-duration: 0.3s;
+    }
+  }
+
+  .policies_container {
+    flex: 100%;
+
+    &_1, &_2 {
+      flex: 50%;
+    }
+  }
+
+  .exclude:hover {
+    cursor: pointer;
+  }
+
+  .wrap-policies-svg {
+    display: inline;
+  }
+}
+
+@media screen and (max-width: 1516px) {
+  .senex__policies {
+    display: flex;
+    flex-direction: column;
+  }
+}

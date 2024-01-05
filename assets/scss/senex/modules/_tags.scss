@@ -1,0 +1,183 @@
+.senex__tag {
+
+  display: inline-block;
+  font-weight: bold;
+  padding: 0.1rem 0.25rem;
+  margin: 0 0.5rem 0 0;
+  border-radius: 100px;
+  font-size: 0.8rem;
+
+  &--info {
+    background-color: white;
+    color: $senex-color-blue;
+;
+  }
+
+  &--warn {
+    background-color: $senex-color-yellow;
+    color: $senex-color-dark-blue-shade;
+  }
+
+  &--error {
+    background-color: $senex-color-red;
+    color: white;
+  }
+
+  &--fatal {
+
+  }
+
+  &--small {
+
+  }
+
+  &--tiny {
+
+  }
+
+
+}
+
+
+
+
+
+.senex__status {
+  display: block;
+
+  @include media("<threeColumn") {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+  }
+
+  &:after {
+    padding: 5px 10px;
+    // margin: 0 0.5rem 0 0;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  &--inline {
+    display: inline-block;
+  }
+
+  &--small {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 500;
+    &:after {
+      padding: 2px 5px;
+    }
+  }
+
+  &--draft {
+    &:after{
+      background-color: $senex-color-grey-shade;
+      color: white;
+      content: 'draft';
+    }
+  }
+
+  &--unsent {
+    &:after{
+      background-color: $senex-color-orange;
+      color: white;
+      content: 'unsent';
+    }
+  }
+
+  &--open {
+    &:after{
+      background-color: $senex-color-blue-shade;
+      color: white;
+      content: 'open';
+    }
+  }
+
+  &--sent {
+    &:after{
+      background-color: $senex-color-blue;
+      color: white;
+      content: 'sent';
+    }
+  }
+
+  &--paid {
+    &:after{
+      background-color: $senex-color-green;
+      color: white;
+      content: 'paid';
+    }
+  }
+
+  &--hold {
+    &:after{
+      background-color: $senex-color-orange;
+      color: white;
+      content: 'hold';
+    }
+  }
+
+  &--partial {
+    &:after{
+      background-color: $senex-color-yellow;
+      color: $senex-color-dark-blue-shade;
+      content: 'partial';
+    }
+  }
+
+  &--overdue {
+    &:after{
+      background-color: $senex-color-red-shade;
+      color: white;
+      content: 'overdue';
+    }
+  }
+
+  &--closed {
+    &:after{
+      background-color: black;
+      color: white;
+      content: 'closed';
+    }
+  }
+
+}
+
+
+
+.senex__microtag {
+
+  &::before {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 100px;
+    margin-right: 3px;
+    height: 14px;
+    width: 14px;
+    text-align: center;
+    line-height: 14px;
+  }
+
+
+}
+
+.senex__microtag--company::before {
+  @extend .senex__microtag;
+
+  background-color: $senex-color-blue;
+  color: white;
+  content: 'C';
+}
+
+.senex__microtag--property::before {
+  @extend .senex__microtag;
+
+  background-color: $senex-color-green;
+  color: $senex-color-dark-blue-shade;
+  content: 'P';
+}

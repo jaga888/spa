@@ -1,0 +1,38 @@
+.high90__columns {
+
+  flex: 1 1 auto; // Fill available.
+
+  display: flex;
+  flex-flow: row nowrap;
+
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  z-index: 5;
+
+  &__column {
+
+    position: relative;
+    flex: 1 0 100%;
+
+    @media (min-width: 600px) {
+      & { flex-basis: 50%; }
+      &--2x { flex-basis: 50%; }
+    }
+
+    @media (min-width: 1024px) {
+      & { flex-basis: 33.33333%; }
+      &--2x { flex-basis: 66.66666%; }
+    }
+
+    @media (min-width: 1920px) {
+      & { flex-basis: 25%; }
+      &--2x { flex-basis: 50%; }
+    }
+
+    @media (min-width: 2400px) {
+      & { flex-basis: 20%; }
+      &--2x { flex-basis: 40%; }
+    }
+
+  }
+
+}

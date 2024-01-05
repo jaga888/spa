@@ -1,0 +1,120 @@
+@function gcd($a, $b) {
+  // From: http://rosettacode.org/wiki/Greatest_common_divisor#JavaScript
+  @if ($b != 0) {
+    @return gcd($b, $a % $b);
+  } @else {
+    @return abs($a);
+  }
+}
+
+@function pow($base, $exponent, $prec: 12) {
+  // Handles decimal exponents by trying to convert them into a fraction and then use a nthRoot-algorithm for parts of the calculation
+  @if (floor($exponent) != $exponent) {
+    $prec2 : pow(10, $prec);
+    $exponent: round($exponent * $prec2);
+    $denominator: gcd($exponent, $prec2);
+    @return nthRoot(pow($base, $exponent / $denominator), $prec2 / $denominator, $prec);
+  }
+
+  $value: $base;
+  @if $exponent > 1 {
+    @for $i from 2 through $exponent {
+      $value: $value * $base;
+    }
+  } @else if $exponent < 1 {
+    @for $i from 0 through -$exponent {
+      $value: $value / $base;
+    }
+  }
+
+  @return $value;
+}
+
+@function nthRoot($num, $n: 2, $prec: 12) {
+  // From: http://rosettacode.org/wiki/Nth_root#JavaScript
+  $x: 1;
+
+  @for $i from 0 through $prec {
+    $x: 1 / $n * (($n - 1) * $x + ($num / pow($x, $n - 1)));
+  }
+
+  @return $x;
+}
+
+
+/// Slightly lighten a color
+/// @access public
+/// @param {Color} $color - color to tint
+/// @param {Number} $percentage - percentage of `$color` in returned color
+/// @return {Color}
+@function tint($color, $percentage) {
+  @return mix(white, $color, $percentage);
+}
+
+/// Slightly darken a color
+/// @access public
+/// @param {Color} $color - color to shade
+/// @param {Number} $percentage - percentage of `$color` in returned color
+/// @return {Color}
+@function shade($color, $percentage) {
+  @return mix(black, $color, $percentage);
+}
+
+@function color_luminance($color) {
+  // Adapted from: https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js
+  // Formula: http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
+  $rgba: red($color), green($color), blue($color);
+  $rgba2: ();
+
+  @for $i from 1 through 3 {
+    $rgb: nth($rgba, $i);
+    $rgb: $rgb / 255;
+
+    $rgb: if($rgb < .03928, $rgb / 12.92, pow(($rgb + .055) / 1.055, 2.4));
+
+    $rgba2: append($rgba2, $rgb);
+  }
+
+  @return .2126 * nth($rgba2, 1) + .7152 * nth($rgba2, 2) + 0.0722 * nth($rgba2, 3);
+}
+
+@function color_contrast($color1, $color2) {
+  // Adapted from: https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js
+  // Formula: http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
+  $luminance1: color_luminance($color1) + .05;
+  $luminance2: color_luminance($color2) + .05;
+  $ratio: $luminance1 / $luminance2;
+
+  @if $luminance2 > $luminance1 {
+    $ratio: 1 / $ratio;
+  }
+
+  $ratio: round($ratio * 10) / 10;
+
+  @return $ratio;
+}
+
+@function contrast_color($color, $target_contrast) {
+  $list: 5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80 85 90 95 100;
+  @each $percent in $list {
+    $lighter: tint($color, $percent);
+    $darker: shade($color, $percent);
+    $darker-ratio: color_contrast($color, $darker);
+    $lighter-ratio: color_contrast($color, $lighter);
+
+    @if($lighter-ratio > $darker-ratio){
+      @if ($lighter-ratio > $target_contrast){
+        @return $lighter;
+      }
+    }
+
+    @if($darker-ratio > $lighter-ratio){
+      @if ($darker-ratio > $target_contrast){
+        @return $darker;
+      }
+    }
+
+  }
+
+  @return if(lightness($color) < 51, #FFF, rgba(44,62,80,1))
+}

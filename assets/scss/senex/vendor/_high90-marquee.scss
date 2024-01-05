@@ -1,0 +1,31 @@
+.high90__marquee {
+  height: 60px;
+  width: 100%;
+
+  overflow: hidden;
+  position: relative;
+}
+
+.high90__marquee div {
+
+  display: block;
+  width: auto;
+  height: 60px;
+
+  position: absolute;
+  overflow: hidden;
+  white-space: nowrap;
+
+  animation: marquee 5s linear infinite;
+}
+
+.high90__marquee span {
+  display: inline-block;
+  width: auto;
+  white-space: nowrap;
+}
+
+@keyframes marquee {
+  0% { left: 0%; }
+  100% { left: -100%; }
+}

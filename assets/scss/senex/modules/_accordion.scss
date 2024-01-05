@@ -1,0 +1,13 @@
+.senex__accordion {
+  &__item {
+    cursor: pointer;
+    &-content {
+      display: none;
+    }
+    &--expanded {
+      .senex__accordion__item-content {
+        display: block;
+      }
+    }
+  }
+}

@@ -1,0 +1,123 @@
+.senex__help {
+  background-color:   lighten($senex-color-grey,35%);
+  box-shadow: -5px 0 5px rgba(0,0,0,0.025);
+  color: $senex-color-dark-blue-shade;
+
+  a {
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  &__header {
+    position: relative;
+    height: 100px;
+    color: white;
+
+    background-color: rgba(142,68,173,1);
+    background-image: url("../images/headers/help.svg");
+    background-size: cover;
+  }
+
+  &__header-supertitle {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
+
+  &__header-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    padding: 0.25rem 1rem;
+  }
+
+  &__header-menu {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    font-size: 0.9rem;
+
+    .senex__detail-menu__sub-menu {
+      background-color: rgba(155,89,182,1);
+
+    }
+  }
+
+  &__header-actions {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    padding: 0.5rem 1rem;
+  }
+
+  &__body {
+    padding: 1rem;
+    font-size: 0.9rem;
+
+    h1,h2,h3,h4,h5,h6 {
+      font-weight: normal;
+      padding: 0;
+      margin: 1rem 0;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    h2 {
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+
+    h3 {
+      font-size: 1rem;
+      font-weight: bold;
+      font-style: italic;
+    }
+
+    h4 {
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+
+    h5 {
+      font-size: 0.9rem;
+      font-style: italic;
+    }
+
+    h6 {
+      font-size: 0.9rem;
+    }
+
+    a {
+      color: $senex-color-blue;
+      cursor: pointer;
+
+      &:hover {
+        border-bottom: 1px solid $senex-color-blue;
+      }
+    }
+
+    p {
+      font-size: 0.9rem;
+      padding: 0 0 0.5rem 0;
+      line-height: 1.25rem;
+    }
+
+    ul {
+      list-style: disc inside none;
+      padding: 0.5rem 1rem;
+
+      li {
+        display: list-item;
+        padding: .25rem 0;
+      }
+    }
+
+  }
+
+}
+
+[data-help] {
+}

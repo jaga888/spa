@@ -1,0 +1,57 @@
+@import "../vendor/include-media";
+
+$breakpoints: (
+  phone: 320px,
+  tablet: 768px,
+  desktop: 1024px,
+
+  twoColumn:    600px,
+  threeColumn:  1024px,
+  fourColumn:   1920px,
+  fiveColumn:   2400px
+);
+
+// Utility responsive classes.
+.one-column-only {
+  display: none !important;
+
+  @include media("<twoColumn") {
+    display: inherit !important;
+  }
+}
+
+.two-columns-only {
+  display: none !important;
+
+  @include media(">=twoColumn", "<threeColumn") {
+    display: inherit !important;
+  }
+}
+
+.two-columns-or-less {
+  display: none !important;
+
+  @include media("<threeColumn") {
+    display: inherit !important;
+  }
+}
+
+.two-columns-or-more {
+  display: none !important;
+
+  @include media(">=twoColumn") {
+    display: inherit !important;
+  }
+}
+
+.three-columns-or-more {
+  display: none !important;
+
+  @include media(">threeColumn") {
+    display: inherit !important;
+  }
+}
+
+.three-columns-only {
+  display: none !important;
+}

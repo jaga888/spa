@@ -1,0 +1,305 @@
+// Theme mixin for this module.
+@mixin senex-column-theme(
+  $background-color: transparent,
+  $color: inherit,
+  $background-image: none
+) {
+  background-color: $background-color;
+  color: $color;
+
+  @if $background-image != none {
+     background-image: $background-image;
+  }
+}
+
+
+.senex__column {
+
+  z-index: $senex-layer-base;
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  flex-flow: column nowrap;
+
+  // Single column mobile-constrained.
+  &--mobile {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+
+  // Basic layout
+  & > .senex__header {
+    flex: 0 0 100px;
+    position: relative;
+    // padding: 0.5rem 1rem;
+  }
+
+  & > .senex__body {
+    flex: 1 1 0px;
+    position: relative;
+
+    z-index: $senex-layer-under;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+
+    h1,h2,h3,h4,h5,h6 {
+      padding: 10px 20px;
+    }
+
+    p {
+      padding: 10px 20px;
+      line-height: 1.4rem;
+
+      a {
+        font-weight: 600;
+      }
+    }
+  }
+
+  & > .senex__footer {
+    flex: 0 0 40px;
+    position: relative;
+  }
+
+
+  // Themes
+
+  // Include default theme.
+  @include senex-column-theme();
+
+  &--loading {
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 75px;
+
+    &.senex__column--blue,
+    &.senex__column--dark-blue {
+      background-image: url('../images/icons/loading-white.svg');
+    }
+
+    &.senex__column--light-grey {
+      background-image: url('../images/icons/loading-dark-blue.svg');
+    }
+  }
+
+  &--error {
+
+  }
+
+  &--light-grey {
+    @include senex-column-theme(
+      $background-color: $senex-color-light-grey,
+      $color: $senex-color-dark-blue-shade
+    );
+
+    @include senex-form-theme(
+      $background-color: $senex-color-light-grey,
+      $legend-background-color: $senex-color-blue-shade,
+      $legend-color: white
+    );
+
+    .senex__link {
+      color: $senex-color-blue;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+  }
+
+  &--dark-blue {
+    @include senex-column-theme(
+      $background-color: $senex-color-dark-blue,
+      $color: white
+    );
+
+    @include senex-form-theme(
+      $color: white,
+      $background-color: $senex-color-dark-blue,
+      $legend-background-color: $senex-color-dark-blue-shade,
+      $legend-color: white,
+      $lowlight-color: tint($senex-color-dark-blue-shade, 20%),
+      $field-background-color: $senex-color-dark-blue-shade,
+      $field-color: white,
+      $field-border-color: $senex-color-dark-blue-shade
+    )
+  }
+
+  &--blue {
+
+    @include senex-column-theme(
+      $background-color: $senex-color-blue,
+      $color: white
+    );
+
+    @include senex-form-theme(
+      $color: white,
+      $link-color: $senex-color-yellow,
+      $background-color: $senex-color-blue-shade,
+      $legend-background-color: $senex-color-blue-shade,
+      $legend-color: white,
+      $lowlight-color: tint($senex-color-blue, 40%),
+      $field-background-color: tint($senex-color-blue, 10%),
+      $field-color: white,
+      $field-border-color: transparent,
+      $field-add-on-background-color: shade($senex-color-blue, 5%)
+    )
+  }
+
+
+  &--sidebar {
+    @include senex-column-theme(
+      $background-color: $senex-color-dark-blue,
+      $color: white
+    );
+
+    .senex__list {
+      @include senex-list-theme(
+        $active-background-color: $senex-color-blue,
+        $active-color: white
+      )
+    }
+
+    .senex__footer {
+      @include senex-footer-theme(
+        $color: white,
+        $margin: 10px
+      );
+
+      .senex__form__field {
+
+      }
+
+      .senex__form__field-add-on {
+        background-color: shade($senex-color-dark-blue, 20%);
+        border-color: shade($senex-color-dark-blue, 20%);
+      }
+
+      .senex__form__field-add-on--button {
+        background-color: shade($senex-color-dark-blue, 20%);
+        border-color: shade($senex-color-dark-blue, 20%);
+      }
+
+      .senex__form__input {
+        background-color: shade($senex-color-dark-blue, 20%);
+        border-color: shade($senex-color-dark-blue, 20%);
+      }
+    }
+  }
+
+  &--content {
+    @include senex-column-theme(
+      $background-color: $senex-color-light-grey,
+      $color: $senex-color-dark-blue-shade
+    );
+
+    .senex__link {
+      color: $senex-color-blue;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    .senex__list {
+      @include senex-list-theme(
+        $active-background-color: $senex-color-light-grey,
+        $active-color: $senex-color-dark-blue-shade
+      )
+    }
+
+    &.senex__column--company {
+      @include senex-column-theme(
+        $background-color: $senex-color-blue,
+        $color: white
+      );
+      .senex__header {
+        @include senex-header-theme(
+          $background-color: $senex-color-blue,
+          $background-image: url('../images/headers/company-blue.svg')
+        );
+      }
+
+      .senex__footer {
+        @include senex-footer-theme(
+          $color: white,
+          $margin: 10px
+        );
+
+        .senex__button {
+          background-color: $senex-color-green;
+        }
+
+        .senex__form__field {
+
+        }
+
+        .senex__form__field-add-on {
+          background-color: white;
+          border-color: white;
+        }
+
+        .senex__form__field-add-on--button {
+          background-color: white;
+          border-color: white;
+        }
+
+        .senex__form__input {
+          background-color: white;
+          border-color: white;
+        }
+      }
+
+    }
+
+  }
+
+  &--inspector {
+
+    @include senex-column-theme(
+      $background-color: $senex-color-light-grey,
+      $color: $senex-color-dark-blue-shade
+    );
+
+    &.senex__column--company {
+      .senex__header {
+        @include senex-header-theme(
+          $background-color: $senex-color-blue,
+          $background-image: url('../images/headers/company-blue-2.svg')
+        );
+      }
+      @include senex-form-theme();
+    }
+
+    &.senex__column--property {
+      .senex__header {
+        @include senex-header-theme(
+          $background-color: $senex-color-green-shade,
+          $color: white,
+          $background-image: url('../images/headers/property-mono.svg')
+        );
+      }
+      @include senex-form-theme(
+        $legend-background-color: $senex-color-green-shade
+      );
+    }
+
+    &.senex__column--user {
+      .senex__header {
+        @include senex-header-theme(
+          $background-color: $senex-color-turquoise,
+          $color: white,
+          $background-image: url('../images/headers/user.svg')
+        );
+      }
+      @include senex-form-theme(
+        $legend-background-color: $senex-color-turquoise-shade
+      );
+    }
+
+  }
+
+} // End .senex__column

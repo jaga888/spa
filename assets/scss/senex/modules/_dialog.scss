@@ -1,0 +1,125 @@
+// Theme mixin for this module.
+// ===================================================
+@mixin senex-dialog-theme(
+  $background-color: $senex-color-light-grey,
+  $color: $senex-color-dark-blue
+) {
+  .senex__dialog__box {
+    background-color: $background-color;
+    color: $color;
+  }
+}
+
+.senex__dialog {
+
+    position: fixed;
+    visibility: hidden;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    opacity: 0;
+    background: rgba(0,0,0,0.5);
+    transition: all 0.5s;
+
+
+  &.senex__dialog--visible {
+    visibility: visible;
+    opacity: 1;
+
+    .senex__dialog__box {
+  	  visibility: visible;
+    }
+  }
+
+  // Box
+  // ===================================================
+  .senex__dialog__box {
+
+    // Fullscreen with 1 column width
+    @include media("<twoColumn") {
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    	max-width: none;
+    	min-width: 0;
+      max-height: none;
+      transform: none;
+      width: 100%;
+    }
+
+    // display: block;
+    position: fixed;
+  	top: 50%;
+  	left: 50%;
+  	width: 50%;
+  	max-width: 630px;
+  	min-width: 320px;
+  	height: auto;
+    max-height: 600px;
+  	z-index: 2000;
+  	visibility: hidden;
+  	transform: translateX(-50%) translateY(-50%);
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+
+    // Basic layout
+    & > .senex__header {
+      flex: 0 0 40px;
+      position: relative;
+      // padding: 0.5rem 1rem;
+    }
+
+    & > .senex__body {
+      flex: 1 1 auto;
+      position: relative;
+
+      // z-index: $senex-layer-under;
+      overflow-y: auto;
+
+      h1,h2,h3,h4,h5,h6 {
+        padding: 10px 20px;
+      }
+
+      p {
+        padding: 10px 20px;
+        line-height: 1.4rem;
+
+        a {
+          font-weight: 600;
+        }
+      }
+    }
+
+    & > .senex__footer {
+      flex: 0 0 40px;
+      position: relative;
+    }
+
+    .senex__dialog__close {
+      cursor: pointer;
+    }
+
+
+  }
+
+  // Themes
+  // ===================================================
+  // Include default theme.
+  @include senex-dialog-theme();
+
+  &--error {
+    @include senex-dialog-theme(
+      $background-color: $senex-color-red,
+      $color: white
+    );
+  }
+
+}
+
+// Responsive
+// ===================================================

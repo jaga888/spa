@@ -1,0 +1,203 @@
+.senex__table {
+
+  display: table;
+  border-collapse: collapse;
+  width: 100%;
+
+  &--cursor-highlight-row {
+    tr:hover {
+      background-color: #ff9;
+    }
+  }
+
+  thead,
+  .senex__table__header {
+
+    th {
+      position: sticky;
+      top: 0;
+    }
+
+    &--multiple {
+      
+      tr {
+        // Disable cursor highlight for header rows.
+        &:hover {
+          background-color: initial;
+        }
+
+        th {
+          font-weight: normal;
+          padding: 0 10px;
+        }
+
+        &:first-child {
+          border: none;
+
+          th {
+            font-weight: bold;
+          }
+        } 
+
+        &:last-child {
+
+        }
+      }
+
+      tr:nth-child(2) {
+        th { 
+          top: 19px;
+        }
+      }
+
+    }
+  }
+
+  th {
+    @extend .senex__table__cell;
+  }
+
+  tr,
+  .senex__table__row {
+
+    // border-bottom: 1px solid shade($senex-color-light-grey, 5%);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+
+    display: table-row;
+    font-size: 14px;
+    line-height: 140%;
+
+    &--blue-shade {
+        background-color: $senex-color-blue-shade;
+        color: white;
+        .senex__link {
+            color: $senex-color-yellow;
+        }
+        th {
+          background-color: $senex-color-blue-shade;
+        }
+    }
+
+    &--blue-shade-border {
+        border-top: 3px solid $senex-color-blue-shade;
+    }
+
+    &--total {
+        background-color: rgba(0,0,0,0.05);
+    }
+
+    .senex__table__cell,
+    td {
+      vertical-align: top;
+      display: table-cell;
+      padding: 10px;
+      text-align: left;
+
+      &:first-child {
+        padding-left: 20px;
+      }
+
+      &:last-child {
+        padding-right: 20px;
+      }
+
+      &--yellow {
+          background-color: $senex-color-yellow;
+      }
+
+      &--orange {
+          background-color: $senex-color-orange;
+      }
+
+      &--red {
+          background-color: $senex-color-red-shade;
+          color: white;
+          .senex__link {
+              color: $senex-color-yellow;
+          }
+      }
+
+      &--subtotal {
+        background-color: rgba(0,0,0,0.1);
+      }
+
+      &--total {
+        background-color: rgba(0,0,0,0.15);
+      }
+
+      &--left {
+        text-align: left;
+      }
+
+      &--center {
+        text-align: center;
+      }
+
+      &--right,
+      &--currency {
+        text-align: right;
+      }
+
+      &--border {
+        border-left: 1px solid rgba(0,0,0,0.025);
+      }
+
+      @include media("<threeColumn") {
+        display: block;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 0;
+
+        &:last-child {
+          padding-bottom: 10px;
+        }
+      }
+
+    }
+
+  }
+
+}
+
+
+.senex__id {
+  display: block;
+  padding: 0 10px 5px 0;
+
+  font-weight: 600;
+  font-size: 16px;
+
+  white-space: nowrap;
+
+  &::before {
+    display: inline-block;
+    font: normal normal normal #{$fa-font-size-base}/#{$fa-line-height-base} FontAwesome; // shortening font declaration
+    font-size: inherit; // can't have font-size inherit on line above, so need to override
+    text-rendering: auto; // optimizelegibility throws things off #1094
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  &--claim {
+    &::before {
+      // color: $senex-color-blue;
+      margin: 3px 5px 3px 0;
+
+      content: '\f0b1';  // fa-briefcase
+    }
+  }
+
+  &--invoice {
+    &::before {
+      // vertical-align: top;
+      // font-size: 10px;
+      // background-color: $senex-color-dark-blue-shade;
+      // color: $senex-color-light-grey;
+      // border-radius: 1px;
+      // padding: 3px 4px 5px 2px;
+      // margin: 0px 8px 3px 0;
+
+      content: '# ';  // fa-usd
+    }
+  }
+}

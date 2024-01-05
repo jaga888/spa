@@ -1,0 +1,119 @@
+.senex__modal {
+
+  display: none;
+  z-index: $senex-layer-over;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  background-color: rgba(0,0,0,0.5);
+
+  &__dialog {
+
+    justify-content: center;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+
+    margin: 75px auto;
+
+    max-width: 740px;
+
+    background-color: $senex-color-light-grey;
+    color: $senex-color-dark-blue-shade;
+
+
+  }
+
+  &__header {
+    flex: 0 0 40px;
+    height: 40px;
+    line-height: 40px;
+    position: relative;
+    padding: 0 20px;
+  }
+
+  &__title {
+    display: inline-block;
+    font-weight: 600;
+  }
+
+  &__close {
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    padding: 0 20px;
+    height: 40px;
+    color: rgba(0,0,0,0.2);
+    display: inline-block;
+
+    &:hover {
+      color: $senex-color-red;
+    }
+  }
+
+  &__body {
+    flex: 1 1 auto;
+    padding: 20px;
+    overflow: auto;
+  }
+
+  &__footer {
+
+    flex: 0 0 40px;
+    height: 40px;
+    line-height: 40px;
+    position: relative;
+    padding: 0 4px;
+
+  }
+
+  &__button {
+    display: inline-block;
+    height: 32px;
+    margin: 4px 5px;
+    padding: 0 10px;
+    border-radius: 5px;
+    cursor: pointer;
+
+    line-height: 32px;
+
+    background-color: rgba(0,0,0,0.1);
+    color: $senex-color-dark-blue-shade;
+    font-weight: 600;
+
+    &:first-child {
+      margin-left: 0;
+      float: left;
+    }
+
+    &:last-child {
+      margin-right: 0;
+      float: right;
+    }
+
+    &--save {
+      background-color: $senex-color-green;
+      color: white;
+    }
+  }
+
+  // Responsive
+  // ------------------------------------------------------
+  // Phone: Model dialog goes fullscreen.
+  @media (max-width : 740px) {
+
+    .senex__modal__dialog {
+      position: absolute;
+      margin: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+
+  }
+
+}

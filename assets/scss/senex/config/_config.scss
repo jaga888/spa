@@ -1,0 +1,24 @@
+@import "colors";
+
+$senex-layer-over: 10;
+$senex-layer-header: 8;
+$senex-layer-help: 6;
+$senex-layer-base: 5;
+$senex-layer-columns: 3;
+$senex-layer-under: -1;
+
+$senex-template-header-height: 40px;
+
+$senex-header-small-height: 40px;
+$senex-header-medium-height: 100px;
+$senex-header-large-height: 250px;
+
+$senex-footer-height: 40px;
+
+$senex-horizontal-margin: 20px;
+
+// Responsive columns.
+$senex-2-column-break: 600px;
+$senex-3-column-break: 1024px;
+$senex-4-column-break: 1920px;
+$senex-5-column-break: 2400px;

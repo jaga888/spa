@@ -1,0 +1,99 @@
+.dropzone {
+
+}
+
+body.dz-drag-hover:before {
+  display: block;
+  pointer-events: none;
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+
+  background-color: rgba(black, 0.8);
+  content: ' ';
+
+}
+
+body.dz-drag-hover:after {
+
+    display: block;
+    pointer-events: none;
+  border-radius: 10px;
+    color: white;
+  position: absolute;
+  top: 20px;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  z-index: 101;
+  font-size: 3rem;
+  text-align: center;
+  padding: 50% 100px;
+
+  content: "Drop import files here.";
+  border: 5px dashed white;
+
+}
+
+
+.dz-message {
+
+}
+
+.dz-preview {
+
+  padding: 10px 20px;
+
+  .dz-image {
+
+  }
+
+  .dz-details {
+
+  }
+
+  .dz-size {
+    display: none;
+  }
+
+  .dz-filename {
+
+  }
+
+  .dz-progress {
+    .dz-upload {
+
+    }
+  }
+
+  .dz-error-message {
+
+  }
+
+  .dz-success-mark {
+    display: none;
+  }
+
+  .dz-error-mark {
+    display: none;
+  }
+
+  // Status.
+
+  &.dz-complete {
+    .dz-progress {
+      display: none;
+    }
+  }
+
+  &.dz-success {
+
+  }
+
+
+
+}

@@ -1,0 +1,79 @@
+.senex__template {
+
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  // overflow: hidden;
+
+  display: flex;
+  flex-flow: column nowrap;
+
+  &__header {
+    flex: 0 0 $senex-template-header-height;
+    z-index: $senex-layer-header;
+
+    @include media("<twoColumn") {
+      display: none;
+    }
+  }
+
+  &__body {
+    flex: 1 1 auto;
+    display: flex;
+    flex-flow: row nowrap;
+  }
+
+}
+
+.senex__help {
+  display: none;
+  flex-flow: column nowrap;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  z-index: $senex-layer-help;
+
+  & > .senex__header {
+    flex: 0 0 100px;
+    position: relative;
+  }
+
+  & > .senex__body {
+    flex: 1 1 0px;
+    position: relative;
+
+    z-index: $senex-layer-under;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  & > .senex__footer {
+    flex: 0 0 40px;
+    position: relative;
+  }  
+
+  @include media(">=twoColumn", "<threeColumn") {
+    top: $senex-template-header-height;
+    width: 50%;
+  }
+
+  @include media(">=threeColumn", "<fourColumn") {
+    top: $senex-template-header-height;
+    width: 33.33333%;
+  }
+
+  @include media(">=fourColumn", "<fiveColumn") {
+    top: $senex-template-header-height;
+    width: 25%;
+  }
+
+  @include media(">=fiveColumn") {
+    top: $senex-template-header-height;
+    width: 20%;
+  }
+
+}

@@ -1,0 +1,59 @@
+.editor-toolbar {
+  border: 0;
+}
+
+.CodeMirror {
+  border: 1px solid #bdc3c7;
+  border-width: 1px 0;
+  background: white;
+  color: $senex-color-dark-blue-shade;
+
+  .CodeMirror-code {
+      .cm-formatting {
+
+          &-header {
+              color: $senex-color-blue;
+          }
+
+          &-list {
+              color: $senex-color-blue;
+          }
+      }
+
+      .cm-header {
+      }
+
+      .cm-header-1 {
+          font-size: 130%;
+          line-height: 130%;
+      }
+      .cm-header-2 {
+          font-size: 115%;
+          line-height: 115%;
+      }
+      .cm-header-3 {
+          font-size: 105%;
+          line-height: 105%;
+      }
+      .cm-header-4 {
+          font-size: 100%;
+          line-height: 100%;
+      }
+      .cm-header-5 {
+          font-size: 100%;
+          line-height: 100%;
+      }
+      .cm-header-6 {
+          font-size: 100%;
+          line-height: 100%;
+      }
+
+
+      .cm-spell-error:not(.cm-url):not(.cm-comment):not(.cm-tag):not(.cm-word) {
+          background: transparent;
+          border-bottom: 1px dotted red;
+      }
+  }
+
+}
+

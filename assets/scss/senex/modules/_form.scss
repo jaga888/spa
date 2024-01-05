@@ -1,0 +1,524 @@
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+// Theme mixin for this module.
+@mixin senex-form-theme(
+  $background-color: $senex-color-light-grey,
+  $color: $senex-color-dark-blue-shade,
+  $highlight-color: $senex-color-yellow,
+  $lowlight-color: $senex-color-grey,
+  $link-color: $senex-color-blue,
+  $field-background-color: white,
+  $field-color: $senex-color-dark-blue-shade,
+  $field-border-color: $senex-color-light-grey-shade,
+  $field-add-on-background-color: $senex-color-light-grey,
+  $block-divider-color: $senex-color-light-grey-shade,
+  $legend-background-color: $senex-color-blue-shade,
+  $legend-color: white,
+  $legend-link-color: $senex-color-yellow
+) {
+
+  a, .senex__link {
+    color: $link-color;
+  }
+
+  .senex__form__legend {
+    background-color: $legend-background-color;
+    color: $legend-color;
+  }
+
+  .senex__form__label {
+    color: $lowlight-color;
+  }
+
+  .senex__form__text {
+    &--highlight {
+      color: $highlight-color;
+    }
+
+    &--lowlight {
+      color: $lowlight-color;
+    }
+  }
+
+  .senex__form__field-add-on {
+    color: $lowlight-color;
+    border-color: $field-border-color;
+    background-color: $field-background-color;
+
+    &--button {
+      color: $color;
+      background-color: $field-add-on-background-color;
+
+      &:hover {
+        background-color: $field-add-on-background-color;
+      }
+    }
+  }
+
+  .senex__form__input {
+    background-color: $field-background-color;
+    color: $field-color;
+    border-color: $field-border-color;
+
+    &:disabled {
+      background-color: transparent;
+    }
+
+    &--lowlight {
+      color: $lowlight-color;
+    }
+
+  }
+
+}
+
+
+.senex__form {
+
+  width: 100%;
+
+  textarea, input, select {
+  }
+
+  a, .senex__link {
+    font-weight: bold;
+    color: $senex-color-blue;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    i {
+      color: $senex-color-dark-blue-shade;
+    }
+
+  }
+
+
+  &__fieldset {
+    border-width: 0;
+    margin: 0;
+    padding: 0;
+
+    &:first-child {
+      margin-top: 0.5rem;
+    }
+
+    &--disabled {
+      color: $senex-color-grey;
+
+      .senex__form__header {
+        color: $senex-color-grey;
+      }
+
+      a {
+
+      }
+    }
+
+    &--highlight {
+      background-color: tint($senex-color-yellow, 50%);
+
+      .senex__form__header {
+
+      }
+
+      a {
+
+      }
+    }
+
+  }
+
+  &__legend {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    width: 100%;
+    color: white;
+    background-color: $senex-color-green-shade;
+    margin: 0;
+
+    i {
+      margin-right: 0.5rem;
+    }
+
+    a {
+      color: $senex-color-yellow;
+    }
+  }
+
+  &__block {
+    border-bottom: 1px solid $senex-color-light-grey-shade;
+    padding-bottom: 0.5rem;
+    margin: 0;
+
+    &:last-of-type {
+      border: 0;
+    }
+  }
+
+  &__header {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 1rem 1rem 0.25rem 1rem;
+
+    i {
+      margin-right: 0.5rem;
+    }
+  }
+
+  &__amount {
+    text-align: right;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 1rem 1rem 0.25rem 1rem;
+
+    i {
+      margin-right: 0.5rem;
+    }
+  }
+
+  &__text {
+    font-size: 14px;
+    font-weight: normal;
+    padding: 0.5rem 1rem;
+    line-height: 1.2rem;
+
+    &--list {
+      margin-left: 2.5rem;
+      position: relative;
+      padding: 0.5rem 1rem 0.5rem 0;
+
+      i {
+        position: absolute;
+        top: 0.5rem;
+        left: -1.4rem;
+      }
+    }
+
+    &--highlight {
+
+    }
+
+    &--lowlight {
+      color: $senex-color-grey;
+      font-style: italic;
+    }
+  }
+
+
+  // Featured links to things like PDF forms templates,
+  // reference websites, etc.
+  &__resource-link {
+
+    padding: 0.5rem 1rem;
+    font-size: 14px;
+    font-weight: normal;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    a {
+      padding: 0;
+      margin: 0;
+    }
+
+    i {
+      margin: 0 0.5rem;
+    }
+  }
+
+  &__item-group {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+
+    &:first-child {
+      padding-top: 1rem;
+    }
+
+    &:last-child {
+      padding-bottom: 1rem;
+    }
+  }
+
+  &__item {
+    flex: 1 1 0;
+    padding: 0.25rem 0.5rem;
+    font-size: 14px;
+
+    &--flex-1 { flex-grow: 1; }
+    &--flex-2 { flex-grow: 2; }
+    &--flex-3 { flex-grow: 3; }
+    &--flex-4 { flex-grow: 4; }
+    &--flex-5 { flex-grow: 5; }
+    &--flex-6 { flex-grow: 6; }
+    &--flex-7 { flex-grow: 7; }
+    &--flex-8 { flex-grow: 8; }
+    &--flex-9 { flex-grow: 9; }
+
+    &:first-child {
+      padding-left: 1rem;
+    }
+    &:last-child {
+      padding-right: 1rem;
+    }
+
+    .senex__form__text {
+      padding: 0;
+
+      &--list {
+        margin-left: 1.5rem;
+
+        i {
+          top: 0.1rem;
+          left: -1.4rem;
+        }
+      }
+    }
+  }
+
+  &__field {
+    display: flex;
+
+    input, select {
+      flex: 1;
+    }
+
+    &--disabled {
+      .senex__form__input {
+        background-color: transparent !important;
+      }
+    }
+
+    &--dirty {
+      .senex__form__field-add-on {
+        background-color: $senex-color-yellow !important;
+        border-color: $senex-color-yellow !important;
+        color: shade($senex-color-yellow, 30%) !important;
+
+        &--button {
+
+        }
+      }
+      .senex__form__input {
+        border-color: $senex-color-yellow !important;
+        background-color: $senex-color-yellow !important;
+      }
+    }
+
+    &--readonly {
+      .senex__form__field-add-on {
+        background-color: transparent !important;
+        border-color: transparent !important;
+
+        &--button {
+          color: transparent !important;
+          &:hover {
+            background-color: inherit !important;
+          }
+        }
+      }
+
+      .senex__form__input {
+        background-color: transparent !important;
+        border-color: transparent !important;
+      }
+    }
+
+    &--readonly + .senex__form__label {
+      display: none;
+    }
+
+    & > *:first-child {
+      border-top-left-radius: 0.25rem;
+      border-bottom-left-radius: 0.25rem;
+    }
+
+    & > *:last-child {
+      border-top-right-radius: 0.25rem;
+      border-bottom-right-radius: 0.25rem;
+    }
+
+  }
+
+
+  &__field-add-on {
+    transition: all 0.5s ease;
+    transition-property: background-color, color, border-color;
+    display: inline-block;
+    padding: 6px 8px;
+    border: 1px solid $senex-color-light-grey-shade;
+    background-color: white;
+    border-right-width: 0;
+    color: $senex-color-grey;
+    font-size: 14px;
+    vertical-align: baseline;
+    height: 28px;
+    font-weight: normal;
+
+    * {
+        vertical-align: top;
+    }
+
+    &--button {
+      color: $senex-color-dark-blue-shade;
+      background-color: $senex-color-light-grey;
+      border-right-width: 1px;
+
+      &:hover {
+        background-color: $senex-color-light-grey-shade;
+      }
+    }
+
+    & + .senex__form__input {
+      border-left: none;
+    }
+  }
+
+  &__label {
+    color: $senex-color-light-grey-shade;
+    font-size: 0.8rem;
+    padding: 0.25rem 0;
+
+    position: relative;
+    transition: all 0.5s ease;
+    transition-property: color;
+    top: 0;
+  }
+
+  &__input {
+
+    transition: all 0.5s ease;
+    transition-property: background-color, color, border-color;
+    height: 28px;
+    font-size: 14px;
+    background-color: white;
+    color: $senex-color-dark-blue-shade;
+    font-weight: bold;
+    border: 1px solid $senex-color-light-grey-shade;
+    padding: 4px 8px;
+    width: 100%;
+
+    &:disabled {
+      background-color: transparent;
+    }
+
+    &--lowlight {
+      color: $senex-color-grey;
+    }
+
+    &--datetimepicker {
+
+    }
+
+    &--currency {
+      text-align: right;
+    }
+
+    &--zero {
+      color: $senex-color-grey;
+    }
+
+    &:invalid {
+      border-color: $senex-color-red;
+    }
+
+    &:placeholder-shown {
+      // border-color: $senex-color-blue;
+    }
+
+    &:placeholder-shown + .senex__form__label {
+      opacity: 0;
+      top: -16px;
+    }
+
+    &:focus + .senex__form__label {
+      color: $senex-color-blue;
+      font-weight: bold;
+    }
+
+    & + .senex__form__field-add-on  {
+      border-left: none;
+    }
+
+  }
+
+  input[type=checkbox] + label {
+
+  }
+
+  input[type=checkbox]:checked + label {
+    font-weight: bold;
+  }
+
+  ::-webkit-input-placeholder {
+    color: $senex-color-light-grey-shade;
+    font-weight: normal;
+    padding: .1rem 0;
+  }
+
+  :-moz-placeholder { /* Firefox 18- */
+    color: $senex-color-light-grey-shade;
+    font-weight: normal;
+    padding: .1rem 0;
+  }
+
+  ::-moz-placeholder {  /* Firefox 19+ */
+    color: $senex-color-light-grey-shade;
+    font-weight: normal;
+    padding: .1rem 0;
+  }
+
+  :-ms-input-placeholder {
+    color: $senex-color-light-grey-shade;
+    font-weight: normal;
+    padding: .1rem 0;
+  }
+
+  &__select {
+    background-color: white;
+    color: $senex-color-dark-blue-shade;
+    border-width: 1px;
+    font-weight: bold;
+    border-color: $senex-color-light-grey-shade;
+    padding: 0.25rem 0.5rem;
+    width: 100%;
+
+    &:disabled {
+      background-color: transparent;
+    }
+
+    &:invalid {
+      border-color: $senex-color-red;
+    }
+
+  }
+
+  &__textarea {
+    background-color: rgba(white, 0.05);
+    color: inherit;
+    border-width: 0;
+    padding: 0.25rem 0.5rem;
+    width: 100%;
+
+    &:disabled {
+      background-color: transparent;
+    }
+  }
+
+
+
+  // Themes
+
+  // Include default theme.
+  @include senex-form-theme();
+
+}

@@ -1,0 +1,124 @@
+// Theme mixin for this module.
+@mixin senex-detail-menu-theme(
+  $background-color: transparent,
+  $color: white
+) {
+  background-color: $background-color;
+  color: $color;
+
+  .senex__detail-menu__item:hover {
+    background-color: $senex-color-dark-blue;
+    color: white;
+  }
+
+  .senex__detail-menu__item--tab {
+    background-color: $senex-color-dark-blue-shade;
+    color: white;
+  }
+
+  .senex__detail-menu__item--active {
+    background-color: $senex-color-light-grey;
+    color: $senex-color-dark-blue;
+
+    &:hover {
+      background-color: $senex-color-light-grey;
+      color: $senex-color-dark-blue;
+    }
+  }
+
+  .senex__detail-menu__sub-menu {
+    background-color: $senex-color-dark-blue;
+    color: white;
+  }
+}
+
+.senex__detail-menu {
+
+  // background-color: inherit;
+  width: 100%;
+
+  padding: 0 0.5rem;
+
+  &__item {
+    position: relative;
+
+    cursor: pointer;
+    display: inline-block;
+    color: inherit;
+    font-size: inherit;
+    font-weight: bold;
+    padding: 0.25rem 0.5rem;
+    white-space: nowrap;
+
+    max-height: 22px;
+
+    background-color: inherit;
+
+    &--right {
+      position: absolute;
+      right: 0;
+
+      .senex__detail-menu__sub-menu {
+        right: 0;
+        left: auto;
+      }
+    }
+
+    &--active {
+
+    }
+
+    &:hover {
+
+    }
+
+    &--tab {
+
+    }
+
+  }
+
+  &__item:hover > .senex__detail-menu__sub-menu {
+    display: block;
+  }
+
+  &__sub-menu {
+    display: none;
+  	position:absolute;
+  	top:100%;
+  	left:0;
+  	background-color: inherit;
+  	padding:0;
+  }
+
+  &__sub-menu-item {
+    display: block;
+    position: relative;
+    width: 200px;
+    padding: 0.6rem 1rem 0.6rem 2rem;
+
+    a {
+      display: block;
+    }
+
+    i {
+      position: absolute;
+      left: 0.5rem;
+    }
+
+    &:hover {
+      background-color: rgba(white, 0.25);
+    }
+
+    &--divider {
+      width:200px;
+      height: 2px;
+      background-color: rgba(0,0,0,0.1);
+    }
+
+  }
+
+  // Default theme.
+  @include senex-detail-menu-theme();
+
+}

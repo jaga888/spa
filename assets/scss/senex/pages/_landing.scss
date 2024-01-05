@@ -1,0 +1,22 @@
+.senex__page__landing {
+
+  .senex__body {
+    display: block;
+
+    background: url("../images/senex-background.jpg");
+    background-size: cover;
+    background-position: center;
+
+    .senex__landing__logo {
+      position: absolute;
+      left: 50px;
+      bottom: 50px;
+
+      img {
+        height: 100px;
+      }
+
+    }
+  }
+
+}
