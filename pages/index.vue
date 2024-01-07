@@ -2,7 +2,6 @@
 definePageMeta({
   layout: 'default',
   middleware: 'auth',
-  title: 'Senex',
 })
 </script>
 
