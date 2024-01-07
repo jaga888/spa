@@ -1,6 +1,6 @@
 /* Fallback Theme */
 .senex__template {
-  background-image: url("../images/backgrounds/senex-background.jpg");
+  background-image: url("/images/backgrounds/senex-background.jpg");
   background-size: cover;
   background-position: center;
 	background-color: $senex-color-light-grey;
@@ -14,7 +14,7 @@
     width: 75px;
     bottom: 50px;
     left: 50px;
-    background-image: url("../images/logos/senex-powered-block-orange.svg");
+    background-image: url("/images/logos/senex-powered-block-orange.svg");
     background-repeat: no-repeat;
   }
 

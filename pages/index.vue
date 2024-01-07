@@ -6,7 +6,4 @@ definePageMeta({
 </script>
 
 <template>
-  <div>
-    <p>This page will be displayed at the /index page.</p>
-  </div>
 </template>

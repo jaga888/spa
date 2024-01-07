@@ -1,4 +1,5 @@
 <style lang="scss">
+@use "/assets/css/tailwind.css";
 @use "/assets/scss/senex.scss";
 </style>
 
@@ -8,7 +9,7 @@
     </div>
 
     <div class="senex__template__body">
-      <slot />
+      <slot/>
     </div>
 
     <div class="high90__marquee senex__theme-only">
