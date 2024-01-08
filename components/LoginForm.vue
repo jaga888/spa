@@ -1,5 +1,5 @@
 <template>
-  <form class="senex__form" method="POST" action="#" @submit.prevent="formSubmit">
+  <form id="form-login" class="senex__form" method="POST" action="#" @submit.prevent="formSubmit">
     <div class="senex__form__block">
       <div class="senex__form__header">Login</div>
 
@@ -100,10 +100,10 @@ const formSubmit = async () => {
 
   if (!v$.value.$error) {
     await authenticateUser(user.value); // call authenticateUser and pass the user object
-
+    console.log('1', authenticated);
     // redirect to homepage if user is authenticated
     if (authenticated) {
-      await router.push('/');
+      router.push('/');
     }
   }
 };
