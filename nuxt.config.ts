@@ -1,5 +1,6 @@
 export default defineNuxtConfig({
     $development: undefined, $env: undefined, $meta: undefined, $production: undefined, $test: undefined,
+    ssr: false,
     app: {
         head: {
             title: 'Senex',
@@ -18,8 +19,25 @@ export default defineNuxtConfig({
     },
     modules: [
         '@pinia/nuxt',
-        '@nuxtjs/tailwindcss'
+        '@nuxtjs/tailwindcss',
+        '@sidebase/nuxt-auth'
     ],
+    auth: {
+        provider: {
+            type: 'local',
+            'sessionDataType': {
+                id: 'number',
+                first_name: 'string',
+                last_name: 'string'
+            },
+            token: {
+                maxAgeInSeconds: 20000,
+            }
+        },
+        baseURL: 'http://localhost:8000/api/admin/',
+        globalAppMiddleware: true
+
+    },
     devtools: {
         enabled: true
     },
