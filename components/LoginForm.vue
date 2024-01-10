@@ -51,9 +51,7 @@
     <div class="senex__form__block">
       <div class="senex__form__item-group">
         <div class="senex__form__item">
-          <button type="submit" class="senex__button--save-fee senex__button senex__button--save">
-            Login
-          </button>
+          <Button>Login</Button>
         </div>
         <div class="senex__form__item" style="text-align: right">
         </div>
@@ -74,23 +72,23 @@ const user = ref({
 const invalidCredentials = ref();
 
 const rules = {
-    email: {
-      required: helpers.withMessage('The email field is required', required),
-      email: helpers.withMessage('Invalid email format', email),
-      $autoDirty: true,
-      $lazy: true,
-    },
-    password: {
-      required: helpers.withMessage('The password field is required', required),
-      minLength: minLength(6),
-      $autoDirty: true,
-      $lazy: true,
-    },
-  };
+  email: {
+    required: helpers.withMessage('The email field is required', required),
+    email: helpers.withMessage('Invalid email format', email),
+    $autoDirty: true,
+    $lazy: true,
+  },
+  password: {
+    required: helpers.withMessage('The password field is required', required),
+    minLength: minLength(6),
+    $autoDirty: true,
+    $lazy: true,
+  },
+};
 
 const v$ = useVuelidate(rules, user);
 
-const { signIn, status,  token } = useAuth();
+const {signIn, token} = useAuth();
 
 const formSubmit = async () => {
   invalidCredentials.value = '';
@@ -98,14 +96,10 @@ const formSubmit = async () => {
   await v$.value.$validate();
 
   if (!v$.value.$error) {
-    try {
-      await signIn(user.value, { callbackUrl: '/'});
-    } catch (error) {
-      invalidCredentials.value = 'Wrong credentials';
-
-      console.log('error', error);
-    }
-
+    await signIn(user.value, {callbackUrl: '/'})
+        .catch(({status, data}) => {
+          console.log(status, data.message)
+        });
   }
 };
 </script>
