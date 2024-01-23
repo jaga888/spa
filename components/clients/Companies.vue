@@ -18,12 +18,12 @@
 </template>
 
 <script setup lang="ts">
-import {companiesServices} from "~/services/companies/companies.service";
-import type {Companies} from "~/services/companies/companies.types";
+import {companyService} from "~/services/company/service";
+import type {Company} from "~/services/company/types";
 
 const api = useNuxtApp().$api;
 
-const companies = ref<Companies[]>([]);
+const companies = ref<Company[]>([]);
 
 const activeCompanyId = ref(0);
 
@@ -31,7 +31,7 @@ const emit = defineEmits(['chosenCompany']);
 
 const fetchCompanies = async () => {
   try {
-    const data = await companiesServices.getCompanies();
+    const data = await companyService.getCompanies();
 
     companies.value = data;
 
