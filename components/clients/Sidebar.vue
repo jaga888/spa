@@ -46,7 +46,7 @@
     </div>
 
     <div class="senex__body">
-      <Companies></Companies>
+      <Companies @chosen-company="companyAssign"></Companies>
     </div>
 
     <div class="senex__footer senex__form senex__strip">
@@ -76,4 +76,10 @@
 
 <script setup lang="ts">
 import Companies from "~/components/clients/Companies.vue";
+
+const emit = defineEmits(['chosenCompany']);
+
+const companyAssign = (id: number) => {
+  emit('chosenCompany', id)
+}
 </script>
