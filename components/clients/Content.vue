@@ -111,14 +111,12 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-  activeCompanyId: {
-    default: 0,
-    type: Number,
-  },
-});
+
+import {useCompaniesStore} from "~/store/company";
 
 const api = useNuxtApp().$api;
+
+const { activeCompanyId } = storeToRefs(useCompaniesStore());
 
 const activeCompany = async (id: number) => {
   if (id) {
@@ -132,8 +130,9 @@ const activeCompany = async (id: number) => {
   }
 };
 
-watchEffect(() => {
-  activeCompany(props.activeCompanyId);
+watch(activeCompanyId, () => {
+  if (activeCompanyId.value) {
+    activeCompany(activeCompanyId.value);
+  }
 });
-
 </script>

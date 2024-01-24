@@ -1,6 +1,4 @@
-export interface Companies{
-    id: number,
-    name: string,
-    legal_name: string,
-    active: boolean,
+export interface User{
+    email: string,
+    password: string,
 }

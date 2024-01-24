@@ -3,10 +3,7 @@ import axios from "axios";
 export default defineNuxtPlugin((nuxtApp) => {
     const defaultUrl = "http://localhost:8000";
 
-
-    const {token} = useAuth();
-
-    console.log(token.value);
+    const { token } = useAuth();
 
     let api = axios.create({
         baseURL: defaultUrl,

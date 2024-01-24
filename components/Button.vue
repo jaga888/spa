@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <button type="submit" class="senex__button--save-fee senex__button senex__button--save">
+  <button type="submit" class="senex__button">
     <slot/>
   </button>
 </template>
@@ -208,5 +208,4 @@
   }
 
 }
-
 </style>

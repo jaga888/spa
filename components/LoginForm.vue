@@ -51,7 +51,7 @@
     <div class="senex__form__block">
       <div class="senex__form__item-group">
         <div class="senex__form__item">
-          <Button>Login</Button>
+          <Button class="senex__button--save-fee senex__button--save">Login</Button>
         </div>
         <div class="senex__form__item" style="text-align: right">
         </div>
@@ -63,10 +63,11 @@
 <script setup lang="ts">
 import {required, email, minLength, helpers} from '@vuelidate/validators';
 import {useVuelidate} from '@vuelidate/core';
+import type {User} from "~/services/user/types";
 
-const user = ref({
+const user = ref<User>({
   email: '',
-  password: ''
+  password: '',
 });
 
 const invalidCredentials = ref();
@@ -100,6 +101,8 @@ const formSubmit = async () => {
         .catch(({status, data}) => {
           console.log(status, data.message)
         });
+
+    useNuxtApp().$api.defaults.headers.common['Authorization'] = token.value
   }
 };
 </script>

@@ -46,7 +46,7 @@
     </div>
 
     <div class="senex__body">
-      <Companies @chosen-company="companyAssign"></Companies>
+      <Companies />
     </div>
 
     <div class="senex__footer senex__form senex__strip">
@@ -57,7 +57,8 @@
                  name="companies-filter"
                  id="companies_filter"
                  class="senex__form__input client-mgmt-company-search"
-                 placeholder="Filter clients..."/>
+                 placeholder="Filter clients..."
+                 @input="setFilter"/>
           <label for="companies_filter"></label>
           <div class="senex__form__field-add-on senex__form__field-add-on--button">
             <a class="senex__clients__remove-search-companies">
@@ -68,18 +69,15 @@
       </div>
 
       <div class="senex__stripright">
-        <button class="senex__button senex__clients__add-company">Add Client</button>
+        <Button class="senex__clients__add-company" @click.prevent="setIsNewCompany">Add Client</Button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import Companies from "~/components/clients/Companies.vue";
+import Companies from "~/components/clients/sidebar/Companies.vue";
+import {useCompaniesStore} from "~/store/company";
 
-const emit = defineEmits(['chosenCompany']);
-
-const companyAssign = (id: number) => {
-  emit('chosenCompany', id)
-}
+const { setFilter, setIsNewCompany } = useCompaniesStore();
 </script>

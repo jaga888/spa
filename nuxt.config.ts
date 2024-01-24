@@ -1,5 +1,9 @@
 export default defineNuxtConfig({
-    $development: undefined, $env: undefined, $meta: undefined, $production: undefined, $test: undefined,
+    $development: undefined,
+    $env: undefined,
+    $meta: undefined,
+    $production: undefined,
+    $test: undefined,
     ssr: false,
     app: {
         head: {
