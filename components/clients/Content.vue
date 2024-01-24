@@ -114,25 +114,25 @@
 
 import {useCompaniesStore} from "~/store/company";
 
-const api = useNuxtApp().$api;
+const api = useNuxtApp().$api
 
-const { activeCompanyId } = storeToRefs(useCompaniesStore());
+const { activeCompanyId } = storeToRefs(useCompaniesStore())
 
 const activeCompany = async (id: number) => {
   if (id) {
     try {
-      const data = (await api.get('/api/admin/companies/' + id)).data;
-      console.log(data);
-      return data;
+      const data = (await api.get('/api/admin/companies/' + id)).data
+      console.log(data)
+      return data
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   }
 };
 
 watch(activeCompanyId, () => {
   if (activeCompanyId.value) {
-    activeCompany(activeCompanyId.value);
+    activeCompany(activeCompanyId.value)
   }
-});
+})
 </script>

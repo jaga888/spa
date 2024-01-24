@@ -31,33 +31,33 @@ import {companyService} from "~/services/company/service";
 import type {Company} from "~/services/company/types";
 import { useCompaniesStore } from "~/store/company";
 
-const { filter } = storeToRefs(useCompaniesStore());
-const { setActiveCompanyId } = useCompaniesStore();
-const { activeCompanyId, isNewCompany } = storeToRefs(useCompaniesStore());
+const { filter } = storeToRefs(useCompaniesStore())
+const { setActiveCompanyId } = useCompaniesStore()
+const { activeCompanyId, isNewCompany } = storeToRefs(useCompaniesStore())
 
-const companies = ref<Company[]>([]);
+const companies = ref<Company[]>([])
 
 watch(filter, async () => {
   if (filter.value) {
     try {
-      companies.value = (await companyService.getCompanies(filter.value)).data;
+      companies.value = (await companyService.getCompanies(filter.value)).data
 
-      console.log(companies.value);
+      console.log(companies.value)
     } catch (response) {
-      console.log(response);
+      console.log(response)
     }
   }
 })
 
 const fetchCompanies = async () => {
   try {
-    companies.value = (await companyService.getCompanies()).data;
+    companies.value = (await companyService.getCompanies()).data
 
-    console.log(companies.value);
+    console.log(companies.value)
   } catch (response) {
-    console.log(response);
+    console.log(response)
   }
 };
 
-fetchCompanies();
+fetchCompanies()
 </script>

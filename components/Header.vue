@@ -70,11 +70,10 @@
 </template>
 
 <script setup lang="ts">
-const { data, signOut, status } = useAuth();// import the auth store we just created
-const router = useRouter();
+const { data, signOut, status } = useAuth()// import the auth store we just created
+const router = useRouter()
 
 const logout = () => {
-  signOut({ callbackUrl: '/login'});
-  // router.push('/login');
+  signOut({ callbackUrl: '/login'})
 };
 </script>

@@ -70,7 +70,7 @@ const user = ref<User>({
   password: '',
 });
 
-const invalidCredentials = ref();
+const invalidCredentials = ref()
 
 const rules = {
   email: {
@@ -87,14 +87,14 @@ const rules = {
   },
 };
 
-const v$ = useVuelidate(rules, user);
+const v$ = useVuelidate(rules, user)
 
-const {signIn, token} = useAuth();
+const {signIn, token} = useAuth()
 
 const formSubmit = async () => {
-  invalidCredentials.value = '';
+  invalidCredentials.value = ''
 
-  await v$.value.$validate();
+  await v$.value.$validate()
 
   if (!v$.value.$error) {
     await signIn(user.value, {callbackUrl: '/'})

@@ -79,5 +79,5 @@
 import Companies from "~/components/clients/sidebar/Companies.vue";
 import {useCompaniesStore} from "~/store/company";
 
-const { setFilter, setIsNewCompany } = useCompaniesStore();
+const { setFilter, setIsNewCompany } = useCompaniesStore()
 </script>

@@ -6,16 +6,16 @@ export const useCompaniesStore = defineStore('companies', () => {
     const filter = ref<string>();
 
     const setActiveCompanyId = (id: number) => {
-        isNewCompany.value = false;
-        activeCompanyId.value = id;
+        isNewCompany.value = false
+        activeCompanyId.value = id
     }
 
     const setIsNewCompany = () => {
-        isNewCompany.value = true;
+        isNewCompany.value = true
     }
 
     const setFilter = (event: { target: { value: string; }; }) => {
-        filter.value = '&filter[name]=' + event.target.value;
+        filter.value = '&filter[name]=' + event.target.value
     }
 
     return {

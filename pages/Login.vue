@@ -20,15 +20,10 @@ definePageMeta({
     unauthenticatedOnly: true,
     navigateAuthenticatedTo: '/',
   }
-});
+})
 
-const { status } = useAuth();
+const { status } = useAuth()
 
-const router = useRouter();
-console.log('status l', status.value);
-
-// if (status.value === 'authenticated') {
-//   console.log('status', status.value);
-//   router.push('/');
-// }
+const router = useRouter()
+console.log('status l', status.value)
 </script>

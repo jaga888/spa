@@ -41,5 +41,5 @@ import Content from "~/components/clients/Content.vue";
 
 definePageMeta({
   layout: 'default',
-});
+})
 </script>
