@@ -37,7 +37,7 @@
 
 <script setup lang="ts">
 import Sidebar from "~/components/clients/sidebar/Sidebar.vue";
-import Content from "~/components/clients/Content.vue";
+import Content from "~/components/clients/content/Content.vue";
 
 definePageMeta({
   layout: 'default',
