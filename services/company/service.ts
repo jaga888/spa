@@ -1,9 +1,10 @@
 import {companyRoutes} from "~/services/company/routes";
 import type {Company} from "~/services/company/types";
 import type {AxiosResponse} from "axios";
+import type {QueryParams} from "~/services/utils/types";
 
 export const companyService = {
-    getCompanies: (filter: string = ''): Promise<AxiosResponse<Company[]>> => {
-        return useNuxtApp().$api.get(companyRoutes.get_companies + filter)
+    getCompanies: (params?: QueryParams) => {
+        return useNuxtApp().$api().get<Company[]>(companyRoutes.get_companies, {params})
     }
 }

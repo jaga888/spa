@@ -15,7 +15,7 @@ export const useCompaniesStore = defineStore('companies', () => {
     }
 
     const setFilter = (event: { target: { value: string; }; }) => {
-        filter.value = '&filter[name]=' + event.target.value
+        filter.value = event.target.value
     }
 
     return {

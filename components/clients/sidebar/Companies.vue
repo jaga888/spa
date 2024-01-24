@@ -29,18 +29,19 @@
 <script setup lang="ts">
 import {companyService} from "~/services/company/service";
 import type {Company} from "~/services/company/types";
-import { useCompaniesStore } from "~/store/company";
+import {useCompaniesStore} from "~/store/company";
+import type {AxiosError} from 'axios';
 
-const { filter } = storeToRefs(useCompaniesStore())
-const { setActiveCompanyId } = useCompaniesStore()
-const { activeCompanyId, isNewCompany } = storeToRefs(useCompaniesStore())
+const {filter} = storeToRefs(useCompaniesStore())
+const {setActiveCompanyId} = useCompaniesStore()
+const {activeCompanyId, isNewCompany} = storeToRefs(useCompaniesStore())
 
 const companies = ref<Company[]>([])
 
 watch(filter, async () => {
   if (filter.value) {
     try {
-      companies.value = (await companyService.getCompanies(filter.value)).data
+      companies.value = (await companyService.getCompanies({sort: 'name', 'filter[name]': filter.value}))
 
       console.log(companies.value)
     } catch (response) {
@@ -51,11 +52,13 @@ watch(filter, async () => {
 
 const fetchCompanies = async () => {
   try {
-    companies.value = (await companyService.getCompanies()).data
+    companies.value = (await companyService.getCompanies({sort: 'name'}))
 
     console.log(companies.value)
-  } catch (response) {
-    console.log(response)
+  } catch (error) {
+    // const response = error as AxiosError;
+
+    console.log(error)
   }
 };
 
