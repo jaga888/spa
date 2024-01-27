@@ -14,8 +14,8 @@
         class="senex__list__item senex__list__item--company senex__files__target company-wrapper"
         data-company-id="808"
         data-company-name="AAA12"
-        :class="{'senex__list__item--active': activeCompanyId === company.id && !isNewCompany}"
-        @click="setActiveCompanyId(company.id)"
+        :class="{'senex__list__item--active': activeCompany?.id === company.id && !isNewCompany}"
+        @click="setActiveCompany(company)"
     >
       <div class="senex__list__item-title">{{ company.name }}</div>
       <div class="senex__list__item-subtitle">{{ company.legal_name }}</div>
@@ -28,25 +28,27 @@
 
 <script setup lang="ts">
 import {companyService} from "~/services/company/service";
-import type {Company} from "~/services/company/types";
-import {useCompaniesStore} from "~/store/company";
-import type {AxiosError} from 'axios';
+import type {CompanyList} from "~/services/company/types";
+import {useCompanyStore} from "~/store/company";
+import { useDebounceFn } from '@vueuse/core'
 
-const {filter} = storeToRefs(useCompaniesStore())
-const {setActiveCompanyId} = useCompaniesStore()
-const {activeCompanyId, isNewCompany} = storeToRefs(useCompaniesStore())
+const {filter} = storeToRefs(useCompanyStore())
+const {setActiveCompany} = useCompanyStore()
+const {activeCompany, isNewCompany} = storeToRefs(useCompanyStore())
 
-const companies = ref<Company[]>([])
+const companies = ref<CompanyList[]>([])
 
-watch(filter, async () => {
-  if (filter.value) {
-    try {
-      companies.value = (await companyService.getCompanies({sort: 'name', 'filter[name]': filter.value}))
+const debouncedFn = useDebounceFn(async () => {
+  companies.value = (await companyService.getCompanies({sort: 'name', 'filter[name]': filter.value}))
 
-      console.log(companies.value)
-    } catch (response) {
-      console.log(response)
-    }
+  console.log(companies.value)
+}, 200)
+
+watch(filter,  () => {
+  try {
+    debouncedFn();
+  } catch (response) {
+    console.log(response)
   }
 })
 

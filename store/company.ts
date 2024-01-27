@@ -1,28 +1,32 @@
 import { defineStore } from "pinia";
+import type {CompanyList} from "~/services/company/types";
 
-export const useCompaniesStore = defineStore('companies', () => {
-    const activeCompanyId = ref<number>();
+export const useCompanyStore = defineStore('company', () => {
+    const activeCompany = ref<CompanyList>();
     const isNewCompany = ref<boolean>(false);
     const filter = ref<string>();
 
-    const setActiveCompanyId = (id: number) => {
+    const setActiveCompany = (company: CompanyList) => {
         isNewCompany.value = false
-        activeCompanyId.value = id
+        activeCompany.value = company
     }
 
     const setIsNewCompany = () => {
+        activeCompany.value = undefined;
         isNewCompany.value = true
     }
 
-    const setFilter = (event: { target: { value: string; }; }) => {
-        filter.value = event.target.value
+    const setFilter = (search: string) => {
+        isNewCompany.value = false
+        activeCompany.value = undefined
+        filter.value = search
     }
 
     return {
-        activeCompanyId,
+        activeCompany,
         filter,
         isNewCompany,
-        setActiveCompanyId,
+        setActiveCompany,
         setIsNewCompany,
         setFilter
     }

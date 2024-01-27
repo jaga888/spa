@@ -1,7 +1,7 @@
 <template>
-  <div class="senex__column senex__column--loading senex__column--blue" v-if="activeCompanyId"></div>
+  <div class="senex__column senex__column--loading senex__column--blue" v-if="activeCompany?.id || isNewCompany"></div>
 
-  <div class="senex__column senex__column--empty">
+  <div class="senex__column senex__column--empty" v-if="activeCompany?.id || isNewCompany">
     <div class="senex__body">
       <div class="senex__sketch">
         <p>Choose a client from the left pane.</p>
@@ -10,11 +10,11 @@
     </div>
   </div>
 
-  <div class="senex__column senex__column--content senex__column--company" style="display: none">
+  <div class="senex__column senex__column--content senex__column--company" v-if="activeCompany?.id || isNewCompany">
     <div class="senex__header">
       <div class="senex__header__top senex__strip">
         <div class="senex__strip__left">
-          <div class="senex__icon is-leftmost-column senex__button__back">
+          <div class="senex__icon is-leftmost-column senex__button__back" style="display: none">
             <i class="fa fa-arrow-left"></i> Back
           </div>
         </div>
@@ -24,7 +24,7 @@
         </div>
 
         <div class="senex__strip__right">
-          <div class="senex__icon is-rightmost-column senex__button__forward">
+          <div class="senex__icon is-rightmost-column senex__button__forward" style="display: none">
             Info <i class="fa fa-arrow-right"></i>
           </div>
         </div>
@@ -32,39 +32,25 @@
 
       <div class="senex__header__middle">
         <div class="senex__header__left">
-          <div class="senex__header__title"></div>
+          <div class="senex__header__title">{{ activeCompany?.name }}</div>
         </div>
       </div>
 
       <div class="senex__header__bottom">
         <div class="senex__header__left">
-          <ul data-company-id=""
-              data-company-name=""
-              data-property-id=""
-              data-user-id=""
-              class="senex__detail-menu">
-            <li
-                class="senex__detail-menu__item senex__detail-menu__item--tab properties-tab senex__detail-menu__item--active">
+          <ul class="senex__detail-menu">
+            <li :class="{'senex__detail-menu__item--active': activeTab === 'properties' || (isNewCompany && activeTab !== 'users')}"
+                @click="setActiveTab('properties')"
+                class="senex__detail-menu__item senex__detail-menu__item--tab">
               Properties
             </li>
-            <li
-                data-scope="users"
-                class="senex__detail-menu__item senex__detail-menu__item--tab users-tab">
+            <li :class="{'senex__detail-menu__item--active': activeTab === 'users'}"
+                @click="setActiveTab('users')"
+                class="senex__detail-menu__item senex__detail-menu__item--tab">
               Users
             </li>
             <li class="senex__detail-menu__item senex__detail-menu__item--right">
-              Export <i class="fa fa-caret-down"></i>
-              <ul class="senex__detail-menu__sub-menu">
-                <li class="senex__detail-menu__sub-menu-item">
-                  <a href="" target="_blank"><i class="fa fa-print"></i>Print</a>
-                </li>
-                <li class="senex__detail-menu__sub-menu-item">
-                  <a href=""><i class="fa fa-file-pdf-o"></i>Save PDF</a>
-                </li>
-                <li class="senex__detail-menu__sub-menu-item">
-                  <a href=""><i class="fa fa-table"></i>Save CSV</a>
-                </li>
-              </ul>
+              <ManageExport/>
             </li>
           </ul>
         </div>
@@ -73,37 +59,47 @@
 
     <div class="senex__body">
       <ul class="senex__list senex__list--selectable list properties-list" id="tab-content-wrapper">
+        <Properties v-if="activeTab === 'properties'"/>
+        <Users v-if="activeTab === 'users'"/>
       </ul>
     </div>
 
     <div class="senex__footer senex__form senex__strip">
       <div class="senex__strip__left">
         <div class="senex__form__field">
-          <div class="senex__form__field-add-on"><i class="fa fa-filter"></i></div>
+          <div class="senex__form__field-add-on">
+            <FilterIcon/>
+          </div>
           <input type="text"
                  class="senex__form__input client-mgmt-property-search"
                  name="properties-filter"
                  id="properties_filter"
+                 v-if="activeTab === 'properties'"
+                 v-model="searchProperty"
+                 @input="setPropertyFilter(searchProperty)"
                  placeholder="Filter properties..."/>
           <input type="text"
                  class="senex__form__input client-mgmt-user-search"
                  id="users_filter"
-                 style="display: none"
+                 v-if="activeTab === 'users'"
+                 v-model="searchUser"
+                 @input="setUserFilter(searchUser)"
                  placeholder="Filter users..."/>
-          <label for="properties_filter"></label>
-          <label for="users_filter"></label>
+          <label for="properties_filter" v-if="activeTab === 'properties'"></label>
+          <label for="users_filter" v-if="activeTab === 'users'"></label>
           <div class="senex__form__field-add-on senex__form__field-add-on--button">
-            <a class="remove_filter_icon senex__clients__remove-search-properties">
-              <i class="fa fa-times"></i>
-            </a>
+            <button class="remove_filter_icon senex__clients__remove-search-properties" @click="clearFilter">
+              <CancelIcon :stroke="color"/>
+            </button>
           </div>
         </div>
       </div>
 
-      <div class="senex__strip__right">
-        <button class="senex__button senex__clients__add-property" data-company-id="1">
+      <div class="senex__strip__right" v-if="activeTab === 'properties'">
+        <Button v-if="activeTab === 'properties'" class="senex__clients__add-property" :disabled="isNewProperty"
+                @click.prevent="setIsNewProperty">
           Add Property
-        </button>
+        </Button>
       </div>
     </div>
   </div>
@@ -111,28 +107,34 @@
 </template>
 
 <script setup lang="ts">
-
-import {useCompaniesStore} from "~/store/company";
+import {useCompanyStore} from "~/store/company";
+import ManageExport from "~/components/blocks/ManageExport.vue";
+import {useClientStore} from "~/store/client";
+import Properties from "~/components/clients/content/Properties.vue";
+import FilterIcon from "~/components/icons/FilterIcon.vue";
+import CancelIcon from "~/components/icons/CancelIcon.vue";
+import {usePropertyStore} from "~/store/property";
+import Users from "~/components/clients/content/Users.vue";
+import {useUserStore} from "~/store/user";
 
 const api = useNuxtApp().$api
+const {activeCompany, isNewCompany} = storeToRefs(useCompanyStore())
+const {activeTab} = storeToRefs(useClientStore())
+const {setActiveTab} = useClientStore()
+const {isNewProperty} = storeToRefs(usePropertyStore())
+const {setPropertyFilter, setIsNewProperty} = usePropertyStore()
+const {setUserFilter} = useUserStore()
+const searchProperty = ref('');
+const searchUser = ref('');
+const color = '#2c3e50';
 
-const { activeCompanyId } = storeToRefs(useCompaniesStore())
-
-const activeCompany = async (id: number) => {
-  if (id) {
-    try {
-      const data = (await api.get('/api/admin/companies/' + id)).data
-      console.log(data)
-      return data
-    } catch (error) {
-      console.log(error)
-    }
-  }
-};
-
-watch(activeCompanyId, () => {
-  if (activeCompanyId.value) {
-    activeCompany(activeCompanyId.value)
-  }
+watch(activeCompany, async () => {
+  setActiveTab('properties')
 })
+
+const clearFilter = () => {
+  activeTab.value === 'properties' ? searchProperty.value = '' : searchUser.value = ''
+
+  activeTab.value === 'properties' ? setPropertyFilter(searchProperty.value) : setUserFilter(searchUser.value)
+}
 </script>

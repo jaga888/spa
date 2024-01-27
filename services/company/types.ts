@@ -1,4 +1,4 @@
-export interface Company{
+export interface CompanyList{
     id: number,
     name: string,
     legal_name: string,

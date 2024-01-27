@@ -1,6 +1,11 @@
 export default defineNuxtConfig({
     $development: undefined,
     $env: undefined,
+    runtimeConfig: {
+        public: {
+            HOST_API: process.env.HOST_API
+        }
+    },
     $meta: undefined,
     $production: undefined,
     $test: undefined,
@@ -24,7 +29,8 @@ export default defineNuxtConfig({
     modules: [
         '@pinia/nuxt',
         '@nuxtjs/tailwindcss',
-        '@sidebase/nuxt-auth'
+        '@sidebase/nuxt-auth',
+        '@vueuse/nuxt',
     ],
     auth: {
         provider: {

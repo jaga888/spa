@@ -26,19 +26,7 @@
           <ul class="senex__detail-menu">
             <li class="senex__detail-menu__item">&nbsp;</li>
             <li class="senex__detail-menu__item senex__detail-menu__item--right">
-              Export
-              <i class="fa fa-caret-down"></i>
-              <ul class="senex__detail-menu__sub-menu">
-                <li class="senex__detail-menu__sub-menu-item">
-                  <a href="#" target="_blank"><i class="fa fa-print"></i>Print</a>
-                </li>
-                <li class="senex__detail-menu__sub-menu-item">
-                  <a href="#"><i class="fa fa-file-pdf-o"></i>Save PDF</a>
-                </li>
-                <li class="senex__detail-menu__sub-menu-item">
-                  <a href="#"><i class="fa fa-table"></i>Save CSV</a>
-                </li>
-              </ul>
+              <ManageExport />
             </li>
           </ul>
         </div>
@@ -52,24 +40,29 @@
     <div class="senex__footer senex__form senex__strip">
       <div class="senex__strip__left">
         <div class="senex__form__field">
-          <div class="senex__form__field-add-on"><i class="fa fa-filter"></i></div>
+          <div class="senex__form__field-add-on">
+            <FilterIcon />
+          </div>
           <input type="text"
+                 v-model="search"
                  name="companies-filter"
                  id="companies_filter"
                  class="senex__form__input client-mgmt-company-search"
                  placeholder="Filter clients..."
-                 @input="setFilter"/>
+                 @input="setFilter(search)"/>
           <label for="companies_filter"></label>
           <div class="senex__form__field-add-on senex__form__field-add-on--button">
-            <a class="senex__clients__remove-search-companies">
-              <i class="fa fa-times" style="color: white"></i>
-            </a>
+            <button class="senex__clients__remove-search-companies" @click="clearFilter">
+              <CancelIcon />
+            </button>
           </div>
         </div>
       </div>
 
       <div class="senex__stripright">
-        <Button class="senex__clients__add-company" @click.prevent="setIsNewCompany">Add Client</Button>
+        <Button class="senex__clients__add-company" :disabled="isNewCompany" @click.prevent="setIsNewCompany">
+          Add Client
+        </Button>
       </div>
     </div>
   </div>
@@ -77,7 +70,20 @@
 
 <script setup lang="ts">
 import Companies from "~/components/clients/sidebar/Companies.vue";
-import {useCompaniesStore} from "~/store/company";
+import {useCompanyStore} from "~/store/company";
+import CancelIcon from "~/components/icons/CancelIcon.vue";
+import ManageExport from "~/components/blocks/ManageExport.vue";
+import FilterIcon from "~/components/icons/FilterIcon.vue";
 
-const { setFilter, setIsNewCompany } = useCompaniesStore()
+const search = ref('');
+
+const { isNewCompany } = storeToRefs(useCompanyStore())
+
+const { setFilter, setIsNewCompany } = useCompanyStore()
+
+const clearFilter = () => {
+  search.value = '';
+
+  setFilter(search.value)
+}
 </script>

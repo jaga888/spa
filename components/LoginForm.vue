@@ -102,7 +102,7 @@ const formSubmit = async () => {
           console.log(status, data.message)
         });
 
-    useNuxtApp().$api.defaults.headers.common['Authorization'] = token.value
+    useNuxtApp().$apiHeaders.common['Authorization'] = token.value
   }
 };
 </script>

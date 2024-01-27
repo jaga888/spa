@@ -1,9 +1,11 @@
 import axios, {type AxiosRequestConfig, type AxiosResponse, type AxiosInstance} from "axios";
 
 export default defineNuxtPlugin((nuxtApp) => {
-    const defaultUrl = "http://localhost:8000";
+    const config = useRuntimeConfig()
 
-    const { token } = useAuth();
+    const defaultUrl = config.public.HOST_API
+
+    const { token } = useAuth()
 
     let api = axios.create({
         baseURL: defaultUrl,
@@ -37,6 +39,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     return {
         provide: {
             api: httpRequest,
+            apiHeaders: api.defaults.headers,
         },
     };
 });

@@ -1,3 +1,3 @@
-export const companyRoutes = {
-    get_companies: '/api/admin/companies'
+export const routes = {
+    get: '/api/admin/companies'
 }
