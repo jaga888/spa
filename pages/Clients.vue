@@ -18,6 +18,7 @@
          class="high90__columns__column"
          data-high90-column="inspector"
          data-high90-column-width="1">
+      <CompanyInspector />
     </div>
 
     <div id="senex-property-inspector"
@@ -38,6 +39,7 @@
 <script setup lang="ts">
 import Sidebar from "~/components/clients/sidebar/Sidebar.vue";
 import Content from "~/components/clients/content/Content.vue";
+import CompanyInspector from "~/components/clients/inspector/company/CompanyInspector.vue";
 
 definePageMeta({
   layout: 'default',

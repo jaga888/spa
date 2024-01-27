@@ -1,10 +1,8 @@
 <template>
-  <div id="companies-wrapper" class="senex__list senex__list--selectable" data-company-id="">
+  <div id="companies-wrapper" class="senex__list senex__list--selectable">
     <div
         v-if="isNewCompany"
         class="senex__list__item senex__list__item--company senex__files__target company-wrapper"
-        data-company-id="808"
-        data-company-name="AAA12"
     >
       <div class="senex__list__item-title">New Client...</div>
       <div class="senex__list__item-subtitle"></div>
@@ -12,8 +10,6 @@
     <div
         v-for="company in companies"
         class="senex__list__item senex__list__item--company senex__files__target company-wrapper"
-        data-company-id="808"
-        data-company-name="AAA12"
         :class="{'senex__list__item--active': activeCompany?.id === company.id && !isNewCompany}"
         @click="setActiveCompany(company)"
     >
