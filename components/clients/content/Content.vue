@@ -1,7 +1,5 @@
 <template>
-  <div class="senex__column senex__column--loading senex__column--blue" v-if="activeCompany?.id || isNewCompany"></div>
-
-  <div class="senex__column senex__column--empty" v-if="activeCompany?.id || isNewCompany">
+  <div class="senex__column senex__column--empty" v-if="!activeCompany?.id && !isNewCompany">
     <div class="senex__body">
       <div class="senex__sketch">
         <p>Choose a client from the left pane.</p>
@@ -49,8 +47,8 @@
                 class="senex__detail-menu__item senex__detail-menu__item--tab">
               Users
             </li>
-            <li class="senex__detail-menu__item senex__detail-menu__item--right">
-              <ManageExport/>
+            <li class="senex__detail-menu__item senex__detail-menu__item--right senex__detail-menu__item--tab">
+              <ManageExport />
             </li>
           </ul>
         </div>
@@ -89,7 +87,7 @@
           <label for="users_filter" v-if="activeTab === 'users'"></label>
           <div class="senex__form__field-add-on senex__form__field-add-on--button">
             <button class="remove_filter_icon senex__clients__remove-search-properties" @click="clearFilter">
-              <CancelIcon :stroke="color"/>
+              <CancelIcon stroke="#2c3e50"/>
             </button>
           </div>
         </div>
@@ -125,7 +123,6 @@ const {setPropertyFilter, setIsNewProperty} = usePropertyStore()
 const {setUserFilter} = useUserStore()
 const searchProperty = ref('');
 const searchUser = ref('');
-const color = '#2c3e50';
 
 watch(activeCompany, async () => {
   setActiveTab('properties')

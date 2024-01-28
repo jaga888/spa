@@ -1,7 +1,5 @@
 <template>
-  <div class="senex__column senex__column--loading senex__column--light-grey" style="display: none"></div>
-
-  <div class="senex__column senex__column--empty">
+  <div class="senex__column senex__column--empty" v-if="!activeCompany?.id && !isNewCompany">
     <div class="senex__body">
       <div class="senex__sketch" style="position: absolute; right: 0;">
         <div class="senex__sketch__arrow  senex__sketch__arrow--purple-straight-up-up-right"></div>
@@ -10,12 +8,12 @@
     </div>
   </div>
 
-  <div class="senex__column senex__column--inspector senex__column--company"
-       id="company-information" style="display: none">
+  <div id="company-information" class="senex__column senex__column--inspector senex__column--company"
+       v-if="activeCompany?.id || isNewCompany">
     <div class="senex__header">
       <div class="senex__header__top senex__strip">
         <div class="senex__strip__left">
-          <div class="senex__icon is-leftmost-column senex__button__back">
+          <div class="senex__icon is-leftmost-column senex__button__back" style="display: none">
             <i class="fa fa-arrow-left"></i> Back
           </div>
         </div>
@@ -26,13 +24,19 @@
       <div class="senex__header__bottom">
         <div class="senex__header__left">
           <ul class="senex__detail-menu">
-            <li class="senex__detail-menu__item senex__detail-menu__item--tab senex__detail-menu__item--active">
+            <li class="senex__detail-menu__item senex__detail-menu__item--tab"
+                :class="{'senex__detail-menu__item--active': activeTab === 'information'}"
+                @click="setActiveTab('information')">
               Information
             </li>
-            <li class="senex__detail-menu__item senex__detail-menu__item--tab">
+            <li class="senex__detail-menu__item senex__detail-menu__item--tab ml-1.5"
+                :class="{'senex__detail-menu__item--active': activeTab === 'fees'}"
+                @click="setActiveTab('fees')">
               Fees
             </li>
-            <li class="senex__detail-menu__item senex__detail-menu__item--tab">
+            <li class="senex__detail-menu__item senex__detail-menu__item--tab ml-1.5"
+                :class="{'senex__detail-menu__item--active': activeTab === 'files'}"
+                @click="setActiveTab('files')">
               Files
             </li>
           </ul>
@@ -40,21 +44,24 @@
       </div>
     </div>
 
+    <Information />
+
     <div class="senex__footer">
       <div class="senex__strip__left">
-        <div class="senex__master-button-group">
-          <div
-              class="senex__master-button senex__master-button--cancel senex__master-button--disabled senex__clients__reset-info">
-            Reset
-          </div>
-          <div
-              class="senex__master-button senex__master-button--save senex__master-button--disabled senex__clients__update-info"></div>
-        </div>
+        <CompanyButton />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import {useCompanyStore} from "~/store/company";
+import Information from "~/components/clients/inspector/company/Information.vue";
 
+const {activeCompany, isNewCompany, activeTab} = storeToRefs(useCompanyStore())
+const {setActiveTab} = useCompanyStore()
+
+watch(activeCompany, async () => {
+  setActiveTab('information')
+})
 </script>

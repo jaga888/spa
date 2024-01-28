@@ -63,9 +63,9 @@
 <script setup lang="ts">
 import {required, email, minLength, helpers} from '@vuelidate/validators';
 import {useVuelidate} from '@vuelidate/core';
-import type {User} from "~/services/user/types";
+import type {UserLogin} from "~/services/user/types";
 
-const user = ref<User>({
+const user = ref<UserLogin>({
   email: '',
   password: '',
 });
