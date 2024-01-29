@@ -12,7 +12,6 @@
                    :class="{
                       'border-red-500 focus:border-red-500': v$.email.$error,
                       'border-[rgb(189, 195, 199)] ': !v$.email.$invalid,
-                      'aaaa': v$.email.$dirty,
                     }"
                    name="email"
                    placeholder="email"

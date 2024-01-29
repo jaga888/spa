@@ -19,7 +19,9 @@
                        @keyup="setDirty(v$.legal_name)"
                        required/>
               </div>
-              <span class="error" style="color: red; display: none"></span>
+              <span class="error" style="color: red" v-if="v$.legal_name.required.$invalid">
+                {{ v$.legal_name.required.$message }}
+              </span><br  v-if="v$.legal_name.required.$invalid">
               <label class="senex__form__label" for="form_company_legal_name">Legal Name</label>
             </div>
           </div>
@@ -43,7 +45,9 @@
                     required
                 />
               </div>
-              <span class="error" style="color: red; display: none"></span>
+              <span class="error" style="color: red" v-if="v$.name.required.$invalid">
+                {{ v$.name.required.$message }}
+              </span><br  v-if="v$.name.required.$invalid">
               <label class="senex__form__label" for="form_company_name">Name</label>
             </div>
           </div>
@@ -66,7 +70,9 @@
                     required
                 />
               </div>
-              <span class="error" style="color: red; display: none"></span>
+              <span class="error" style="color: red" v-if="v$.short_name.required.$invalid">
+                {{ v$.short_name.required.$message }}
+              </span><br  v-if="v$.short_name.required.$invalid">
               <label class="senex__form__label" for="form_company_short_name">Identifier</label>
             </div>
           </div>
@@ -90,7 +96,6 @@
                     autocomplete="off"
                 />
               </div>
-              <span class="error" style="color: red; display: none"></span>
               <label class="senex__form__label" for="form_company_address">Address</label>
             </div>
           </div>
@@ -108,7 +113,9 @@
                     @keyup="setDirty(v$.city)"
                 />
               </div>
-              <span class="error" style="color: red; display: none"></span>
+              <span class="error" style="color: red" v-if="v$.city.required.$invalid">
+                {{ v$.city.required.$message }}
+              </span><br  v-if="v$.city.required.$invalid">
               <label class="senex__form__label" for="form_company_city">City</label>
             </div>
 
@@ -124,7 +131,9 @@
                     @keyup="setDirty(v$.state)"
                 />
               </div>
-              <span class="error" style="color: red; display: none"></span>
+              <span class="error" style="color: red" v-if="v$.state.required.$invalid">
+                {{ v$.state.required.$message }}
+              </span><br  v-if="v$.state.required.$invalid">
               <label class="senex__form__label" for="form_company_state">ST</label>
             </div>
 
@@ -140,7 +149,9 @@
                     @keyup="setDirty(v$.zip)"
                 />
               </div>
-              <span class="error" style="color: red; display: none; font-size: 13px"></span>
+              <span class="error" style="color: red" v-if="v$.zip.required.$invalid">
+                {{ v$.zip.required.$message }}
+              </span><br  v-if="v$.zip.required.$invalid">
               <label class="senex__form__label" for="form_company_zip">Zip</label>
             </div>
           </div>
@@ -358,7 +369,7 @@
       <fieldset class="senex__form__fieldset">
         <legend class="senex__form__legend">Other Information</legend>
         <div class="senex__form__block">
-          <div class="senex__form__header">Property Mangement Software</div>
+          <div class="senex__form__header">Property Management Software</div>
           <div class="senex__form__item-group">
             <div class="senex__form__item">
               <div class="senex__form__field">
@@ -409,9 +420,7 @@
               <label class="senex__form__label" for="form_company_ud_filing_threshold">UD Filing Threshold</label>
             </div>
           </div>
-
         </div>
-
       </fieldset>
 
       <fieldset class="senex__form__fieldset">
@@ -453,7 +462,7 @@ import type {PmSoftwareList} from "~/services/pm_software/types";
 import {pmSoftwareService} from "~/services/pm_software/service";
 import {policyService} from "~/services/policy/service";
 import type {PolicyList} from "~/services/policy/types";
-import {required} from "@vuelidate/validators";
+import {helpers, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
 
 const {activeCompany, saveCompany, isDirty} = storeToRefs(useCompanyStore())
@@ -489,24 +498,27 @@ const policies = ref<PolicyList[]>([])
 
 const rules = {
   legal_name: {
-    required
+    required: helpers.withMessage('The legal name field is required', required)
   },
   name: {
-    required
+    required: helpers.withMessage('The name field is required', required)
   },
   short_name: {
-    required
+    required: helpers.withMessage('The short name field is required', required)
   },
   address: {
     dirty: false
   },
   city: {
+    required: helpers.withMessage('The city field is required', required),
     dirty: false
   },
   state: {
+    required: helpers.withMessage('Required', required),
     dirty: false
   },
   zip: {
+    required: helpers.withMessage('The field is required', required),
     dirty: false
   },
   invoice_address: {
