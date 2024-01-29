@@ -1,15 +1,20 @@
 import { defineStore } from "pinia";
-import type {Company, CompanyList} from "~/services/company/types";
+import type {CompanyList} from "~/services/company/types";
 
 export const useCompanyStore = defineStore('company', () => {
     const activeCompany = ref<CompanyList>();
     const saveCompany = ref<boolean>(false);
+    const isDirty = ref<boolean>(false);
     const isNewCompany = ref<boolean>(false);
     const filter = ref<string>();
     const activeTab = ref<string>('');
 
     const setActiveTab = (tab: string) => {
         activeTab.value = tab
+    }
+
+    const setIsDirty = (value:boolean = true) => {
+        isDirty.value = value
     }
 
     const setSaveCompany = () => {
@@ -38,6 +43,8 @@ export const useCompanyStore = defineStore('company', () => {
         isNewCompany,
         activeTab,
         saveCompany,
+        isDirty,
+        setIsDirty,
         setSaveCompany,
         setActiveTab,
         setActiveCompany,

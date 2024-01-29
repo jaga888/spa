@@ -24,7 +24,7 @@ export interface Company{
     invoice_state: string,
     invoice_zip: string,
     pm_software_id: 0,
-    policies: PolicyList[],
+    policy_ids: number[],
     short_name: string,
     state: string,
     ud_filing_threshold: number,
