@@ -1,4 +1,5 @@
-import type {PolicyList} from "~/services/policy/types";
+import type {ProcessingTypeAvailabilityList} from "~/services/processing_type_availability/types";
+import type {Firm} from "~/services/firm/types";
 
 export interface CompanyList{
     id: number,
@@ -29,7 +30,8 @@ export interface Company{
     state: string,
     ud_filing_threshold: number,
     url: string,
+    firm: Firm|null,
     zip: string,
-    processing_type_availabilities: [],
+    processing_type_availabilities: ProcessingTypeAvailabilityList[],
     files: []
 }

@@ -45,6 +45,7 @@
     </div>
 
     <Information />
+    <Fees />
 
     <div class="senex__footer">
       <div class="senex__strip__left">
@@ -57,6 +58,7 @@
 <script setup lang="ts">
 import {useCompanyStore} from "~/store/company";
 import Information from "~/components/clients/inspector/company/Information.vue";
+import Fees from "~/components/clients/inspector/company/Fees.vue";
 
 const {activeCompany, isNewCompany, activeTab} = storeToRefs(useCompanyStore())
 const {setActiveTab} = useCompanyStore()
