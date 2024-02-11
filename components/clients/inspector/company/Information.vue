@@ -1,5 +1,5 @@
 <template>
-  <div class="senex__body company-information" v-if="activeTab === 'information'">
+  <div class="senex__body company-information" v-if="activeTab === activeTabInformation">
     <form class="senex__form senex__clients__info-form" method="post">
       <BaseFieldset
           v-model:legalName="company.legal_name"
@@ -53,7 +53,7 @@ import ContactFieldset from "~/components/clients/inspector/company/fieldset/Con
 import OtherFieldset from "~/components/clients/inspector/company/fieldset/OtherFieldset.vue";
 import PoliciesFieldset from "~/components/clients/inspector/company/fieldset/PoliciesFieldset.vue";
 import ActivateFieldset from "~/components/clients/inspector/company/fieldset/ActivateFieldset.vue";
-import {helpers, required} from "@vuelidate/validators";
+import {helpers, minValue, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
 
 const {activeCompany, saveCompany, isDirty, activeTab} = storeToRefs(useCompanyStore())
@@ -81,8 +81,6 @@ const company = ref<Company>({
   ud_filing_threshold: 0,
   url: '',
   zip: '',
-  processing_type_availabilities: [],
-  files: []
 })
 
 const rules = {
@@ -144,6 +142,8 @@ const rules = {
     dirty: false
   },
   ud_filing_threshold: {
+    required: helpers.withMessage('The field ud filing threshold is required', required),
+    minValue: helpers.withMessage('The field must have a min value 0', minValue(0)),
     dirty: false
   },
 };
@@ -152,6 +152,8 @@ const validation = useVuelidate(
     rules,
     company
 )
+
+const activeTabInformation: string = 'information'
 
 watch(activeCompany, async () => {
   if (activeCompany.value?.id) {
@@ -200,6 +202,18 @@ watch(isDirty, async () => {
     console.log(company.value)
 
     validation.value.$reset()
+  }
+})
+
+watch(activeTab, async () => {
+  if (activeTab.value === activeTabInformation && !!activeCompany.value) {
+    try {
+      company.value = (await companyService.getCompany(activeCompany.value.id, {tab: 'info'}))
+
+      console.log(company.value)
+    } catch (error) {
+      console.log(error)
+    }
   }
 })
 </script>

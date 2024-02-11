@@ -59,48 +59,48 @@
 </template>
 
 <script setup lang="ts">
-  import {useCompanyStore} from "~/store/company";
-  import {policyService} from "~/services/policy/service";
-  import type {PolicyList} from "~/services/policy/types";
+import {useCompanyStore} from "~/store/company";
+import {policyService} from "~/services/policy/service";
+import type {PolicyList} from "~/services/policy/types";
 
-  const props = defineProps({
-    policyIds: {
-      type: Array<Number>,
-      default: []
-    },
-  })
+const props = defineProps({
+  policyIds: {
+    type: Array<Number>,
+    default: []
+  },
+})
 
-  const {setIsDirty} = useCompanyStore();
+const {setIsDirty} = useCompanyStore();
 
-  const setDirty = ($event: any, $emit: any, element: { $touch: any; }|undefined = undefined) => {
-    if (element) {
-      element.$touch();
-    }
-
-    if ($event.currentTarget) {
-      let policyId = parseInt($event.target.value)
-
-      if ($event.currentTarget.checked) {
-        props.policyIds.push(policyId);
-      } else {
-        props.policyIds.splice(props.policyIds.indexOf(policyId), 1);
-      }
-    }
-
-    setIsDirty(true)
+const setDirty = ($event: any, $emit: any, element: { $touch: any; } | undefined = undefined) => {
+  if (element) {
+    element.$touch();
   }
 
-  const {activeCompany} = storeToRefs(useCompanyStore())
+  if ($event.currentTarget) {
+    let policyId = parseInt($event.target.value)
 
-  const policies = ref<PolicyList[]>([])
-
-  if (activeCompany.value?.id) {
-    try {
-      policies.value = (await policyService.getPolicies({'filter[is_published]': 1, sort: 'sort'}))
-
-      console.log(policies.value)
-    } catch (error) {
-      console.log(error)
+    if ($event.currentTarget.checked) {
+      props.policyIds.push(policyId);
+    } else {
+      props.policyIds.splice(props.policyIds.indexOf(policyId), 1);
     }
   }
+
+  setIsDirty(true)
+}
+
+const {activeCompany} = storeToRefs(useCompanyStore())
+
+const policies = ref<PolicyList[]>([])
+
+if (activeCompany.value?.id) {
+  try {
+    policies.value = (await policyService.getPolicies({'filter[is_published]': 1, sort: 'sort'}))
+
+    console.log(policies.value)
+  } catch (error) {
+    console.log(error)
+  }
+}
 </script>

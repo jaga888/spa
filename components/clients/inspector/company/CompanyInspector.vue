@@ -47,7 +47,7 @@
     <Information />
     <Fees />
 
-    <div class="senex__footer">
+    <div class="senex__footer"  v-if="activeTab === activeTabInformation">
       <div class="senex__strip__left">
         <CompanyButton />
       </div>
@@ -62,6 +62,7 @@ import Fees from "~/components/clients/inspector/company/Fees.vue";
 
 const {activeCompany, isNewCompany, activeTab} = storeToRefs(useCompanyStore())
 const {setActiveTab} = useCompanyStore()
+const activeTabInformation: string = 'information'
 
 watch(activeCompany, async () => {
   setActiveTab('information')

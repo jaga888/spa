@@ -1,5 +1,5 @@
 import {routes} from "~/services/company/routes";
-import type {Company, CompanyList} from "~/services/company/types";
+import type {Company, CompanyFee, CompanyList} from "~/services/company/types";
 import type {QueryParams} from "~/services/utils/types";
 
 export const companyService = {
@@ -8,6 +8,9 @@ export const companyService = {
     },
     getCompany: (id: number, params?: QueryParams) => {
         return useNuxtApp().$api().get<Company>(routes.getById(id), {params})
+    },
+    getCompanyFees: (id: number, params?: QueryParams) => {
+        return useNuxtApp().$api().get<CompanyFee>(routes.getById(id), {params})
     }
 
 }

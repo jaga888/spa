@@ -23,7 +23,7 @@
 
       <div class="senex__form__item-group">
         <div class="senex__form__item">
-          <div class="senex__form__field" :class="{'senex__form__field--dirty': validation?.url.$dirty}">
+          <div class="senex__form__field" :class="{'senex__form__field--dirty': validation.url.$dirty}">
             <input
                 id="form_company_url"
                 type="text"
@@ -32,7 +32,7 @@
                 placeholder="Website URL..."
                 @input="$emit('update:url', $event.target.value)"
                 :value="url"
-                @keyup="setDirty(validation?.url)"
+                @keyup="setDirty(validation.url)"
             />
           </div>
           <label class="senex__form__label" for="form_company_url">Website URL</label>
@@ -43,7 +43,7 @@
 
       <div class="senex__form__item-group">
         <div class="senex__form__item">
-          <div class="senex__form__field" :class="{'senex__form__field--dirty': validation?.ud_filing_threshold.$dirty}">
+          <div class="senex__form__field" :class="{'senex__form__field--dirty': validation.ud_filing_threshold.$dirty}">
             <input
                 id="form_company_ud_filing_threshold"
                 type="number"
@@ -53,9 +53,15 @@
                 class="senex__form__input"
                 placeholder="UD Filing Threshold..."
                 min="0"
-                @keyup="setDirty(validation?.ud_filing_threshold)"
+                @keyup="setDirty(validation.ud_filing_threshold)"
             />
           </div>
+          <span class="error" style="color: red" v-if="validation.ud_filing_threshold.required.$invalid">
+            {{ validation.ud_filing_threshold.required.$message }}
+          </span><br v-if="validation.ud_filing_threshold.required.$invalid">
+          <span class="error" style="color: red" v-if="validation.ud_filing_threshold.minValue.$invalid">
+            {{ validation.ud_filing_threshold.minValue.$message }}
+          </span><br v-if="validation.ud_filing_threshold.minValue.$invalid">
           <label class="senex__form__label" for="form_company_ud_filing_threshold">UD Filing Threshold</label>
         </div>
       </div>
@@ -83,7 +89,8 @@ defineProps({
     default: 500
   },
   validation: {
-    type: Object as PropType<Validation<Company>>
+    type: Object as PropType<Validation<Company>>,
+    default: <Validation<Company>>{}
   },
 })
 

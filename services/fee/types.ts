@@ -6,5 +6,6 @@ export interface FeeList{
     charge_type: ChargeType,
     description: string,
     processing_type_id: number,
-    scoped_type_id: string
+    scoped_type_id: number,
+    scoped_type: string
 }

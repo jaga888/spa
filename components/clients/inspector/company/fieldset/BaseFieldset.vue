@@ -9,7 +9,7 @@
 
       <div class="senex__form__item-group">
         <div class="senex__form__item">
-          <div class="senex__form__field" :class="{'senex__form__field--dirty': validation?.legal_name.$dirty}">
+          <div class="senex__form__field" :class="{'senex__form__field--dirty': validation.legal_name.$dirty}">
             <input id="form_company_legal_name"
                    type="text"
                    name="legal_name"
@@ -17,13 +17,13 @@
                    placeholder="Legal Name..."
                    @input="$emit('update:legalName', $event.target.value)"
                    :value="legalName"
-                   @keyup="setDirty(validation?.legal_name)"
+                   @keyup="setDirty(validation.legal_name)"
             />
           </div>
 
-          <span class="error" style="color: red" v-if="validation?.legal_name.required.$invalid">
-                {{ validation.legal_name.required.$message }}
-          </span><br v-if="validation?.legal_name.required.$invalid">
+          <span class="error" style="color: red" v-if="validation.legal_name.required.$invalid">
+            {{ validation.legal_name.required.$message }}
+          </span><br v-if="validation.legal_name.required.$invalid">
           <label class="senex__form__label" for="form_company_legal_name">Legal Name</label>
         </div>
       </div>
@@ -36,7 +36,7 @@
 
       <div class="senex__form__item-group">
         <div class="senex__form__item">
-          <div class="senex__form__field" :class="{'senex__form__field--dirty': validation?.name.$dirty}">
+          <div class="senex__form__field" :class="{'senex__form__field--dirty': validation.name.$dirty}">
             <input
                 id="form_company_name"
                 type="text"
@@ -45,13 +45,13 @@
                 placeholder="Name..."
                 @input="$emit('update:name', $event.target.value)"
                 :value="name"
-                @keyup="setDirty(validation?.name)"
+                @keyup="setDirty(validation.name)"
                 autocomplete="off"
             />
           </div>
-          <span class="error" style="color: red" v-if="validation?.name.required.$invalid">
-                {{ validation.name.required.$message }}
-              </span><br v-if="validation?.name.required.$invalid">
+          <span class="error" style="color: red" v-if="validation.name.required.$invalid">
+            {{ validation.name.required.$message }}
+          </span><br v-if="validation.name.required.$invalid">
           <label class="senex__form__label" for="form_company_name">Name</label>
         </div>
       </div>
@@ -62,7 +62,7 @@
       </div>
       <div class="senex__form__item-group">
         <div class="senex__form__item">
-          <div class="senex__form__field" :class="{'senex__form__field--dirty': validation?.short_name.$dirty}">
+          <div class="senex__form__field" :class="{'senex__form__field--dirty': validation.short_name.$dirty}">
             <input
                 id="form_company_short_name"
                 type="text"
@@ -71,13 +71,13 @@
                 placeholder="Short Name..."
                 @input="$emit('update:shortName', $event.target.value)"
                 :value="shortName"
-                @keyup="setDirty(validation?.short_name)"
+                @keyup="setDirty(validation.short_name)"
                 required
             />
           </div>
-          <span class="error" style="color: red" v-if="validation?.short_name.required.$invalid">
-                {{ validation.short_name.required.$message }}
-              </span><br v-if="validation?.short_name.required.$invalid">
+          <span class="error" style="color: red" v-if="validation.short_name.required.$invalid">
+            {{ validation.short_name.required.$message }}
+          </span><br v-if="validation.short_name.required.$invalid">
           <label class="senex__form__label" for="form_company_short_name">Identifier</label>
         </div>
       </div>
@@ -104,7 +104,8 @@ defineProps({
     default: ""
   },
   validation: {
-    type: Object as PropType<Validation<Company>>
+    type: Object as PropType<Validation<Company>>,
+    default: <Validation<Company>>{}
   },
 })
 
