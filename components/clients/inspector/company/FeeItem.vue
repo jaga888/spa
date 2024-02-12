@@ -10,6 +10,7 @@
         Disable
       </a>
     </legend>
+
     <div class="senex__form__block" v-if="!processingTypeAvailability.available">
       <div class="senex__form__header"><i class="fa fa-minus-circle"></i> Not Available</div>
 
@@ -47,19 +48,80 @@
         {{ processingTypeAvailability.processing_type.plural_name }}
       </div>
 
-      <div class="senex__form__block">
+      <div class="senex__form__block  wrapper-form" v-if="showForm">
+        <form class="senex__clients__add-fee-form">
+          <input type="hidden"
+                 name="processing_type_availability_id"
+                 id="form_fee_processing_type_availability_id_2852"
+                 value="2852">
+          <div class="senex__form__header">Add New Fee</div>
+          <div class="senex__form__text"></div>
+          <div class="senex__form__item-group">
+            <div class="senex__form__item senex__form__item--flex-2">
+              <select class="senex__form__select"
+                      name="charge_type_id"
+                      placeholder="Charge Type...">
+                <option :value="chargeType.id" v-for="chargeType in chargeTypes">{{ chargeType.name }}</option>
+              </select>
+              <label class="senex__form__label" for="form_fee_charge_type_id_2852">Charge Type</label>
+            </div>
+            <div class="senex__form__item">
+              <div class="senex__form__field">
+                <div class="senex__form__field-add-on">$</div>
+                <input class="senex__form__input senex__form__input--currency"
+                       type="text"
+                       name="base_amount"
+                       placeholder="Fee amount..."
+                />
+              </div>
+              <span class="error" style="color: red; display: none"></span>
+              <label class="senex__form__label">Fee</label>
+            </div>
+          </div>
+          <div class="senex__form__text">An optional description may be added for clarity.</div>
+          <div class="senex__form__item-group">
+            <div class="senex__form__item">
+              <div class="senex__form__field">
+                <input class="senex__form__input"
+                       type="text"
+                       name="description"
+                       placeholder="Description...">
+              </div>
+              <label class="senex__form__label" for="form_fee_description_2852">Description</label>
+            </div>
+          </div>
+          <div class="senex__form__item-group">
+            <div class="senex__form__item" style="text-align: right">
+              <Button class="senex__clients__cancel-fee senex__button--cancel" @click="showForm = !showForm">
+                Cancel
+              </Button>
+              <Button class="senex__clients__save-fee senex__button senex__button--save">
+                Save
+              </Button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="senex__form__block" v-if="!showForm">
         <div class="senex__form__text"
-             v-if="(processingTypeAvailability.fees & feesOverridden) === feesOverridden && !getFees.length"
+             v-if="(processingTypeAvailability.fees & feesOverridden) === feesOverridden && !getFees.length && !customFee"
         >
           <em>
             However, no custom fees have been added. This will result in no charges
             being applied for this processing type. If this is not intended, please
-            <a class="senex__link--button senex__clients__add-fee">add a custom fee</a>, or
-            <a class="senex__link--button senex__clients__remove-override-fees">stop using custom fees</a>.
+            <a href="#" class="senex__link--button senex__clients__add-fee" @click="showForm = !showForm">
+              add a custom fee
+            </a>, or
+            <a href="#"
+               class="senex__link--button senex__clients__remove-override-fees"
+               @click="customFee = !customFee">
+              stop using custom fees
+            </a>.
           </em>
         </div>
 
-        <div class="senex__form__item-group" v-if="getFees.length">
+        <div class="senex__form__item-group" v-if="getFees.length && customFee">
           <div class="senex__form__item senex__form__item--flex-2">
             <div class="senex__form__text senex__form__text--list">
               <BriefcaseIcon class="absolute -left-6"/>
@@ -82,29 +144,28 @@
                      :disabled="getFee?.scoped_type === scopeFirm"
               />
               <div class="senex__form__field-add-on senex__form__field-add-on--button">
-                <a href="#"
-                   class="senex__clients__remove-fee"
-                   v-if="getFee?.scoped_type === scopeCompany"
-                >
+                <a href="#" class="senex__clients__remove-fee" v-if="getFee?.scoped_type === scopeCompany">
                   <i class="fa fa-times"></i>
                 </a>
                 <i class="fa fa-times"></i>
               </div>
             </div>
-            <label class="senex__form__label">
-              {{ getFee?.charge_type.name }}
-            </label>
+            <label class="senex__form__label">{{ getFee?.charge_type.name }}</label>
           </div>
         </div>
       </div>
-      <div class="senex__form__block">
-        <div class="senex__form__text" v-if="(processingTypeAvailability.fees & feesOverridden) === feesOverridden">
-          <a href="#" class="senex__clients__add-fee">Add custom fee</a>
-          <a href="#" class="senex__clients__remove-override-fees" style="float: right;">Stop using custom fees</a>
+      <div class="senex__form__block" v-if="!showForm">
+        <div class="senex__form__text" v-if="(processingTypeAvailability.fees & feesOverridden) === feesOverridden && !customFee">
+          <a href="#" class="senex__clients__add-fee" @click="showForm = !showForm">Add custom fee</a>
+          <a href="#"
+             class="senex__clients__remove-override-fees"
+             style="float: right;"
+             @click="customFee = !customFee">
+            Stop using custom fees
+          </a>
         </div>
-        <div class="senex__form__text" v-else>
-          <a class="senex__clients__override-fees">
-            Setup custom fees</a>
+        <div class="senex__form__text" v-else >
+          <a class="senex__clients__override-fees" @click="customFee = !customFee">Setup custom fees</a>
         </div>
       </div>
     </div>
@@ -118,6 +179,7 @@ import type {FeeList} from "~/services/fee/types";
 import type {ProcessingTypeAvailabilityList} from "~/services/processing_type_availability/types";
 import BriefcaseIcon from "~/components/icons/BriefcaseIcon.vue";
 import type {PropType} from "vue";
+import type {ChargeType} from "~/services/charge_type/types";
 
 const props = defineProps({
   processingTypeAvailability: {
@@ -128,9 +190,11 @@ const props = defineProps({
     type: Object as PropType<CompanyFee>,
     default: <CompanyFee>{}
   },
+  chargeTypes: {
+    type: Array<ChargeType[]>
+  }
 })
-const {activeCompany, activeTab} = storeToRefs(useCompanyStore())
-const activeTabFees: string = 'fees'
+const {activeCompany} = storeToRefs(useCompanyStore())
 const feesOverridden: number = 1;
 const feesComplicated: number = 2;
 const scopeFirm: string = 'firm';
@@ -147,4 +211,6 @@ const getFees = computed((): FeeList[] => {
 const getFee = computed((): FeeList | null => {
   return getFees.value[0] ?? null
 })
+const showForm = ref(false)
+const customFee = ref(false)
 </script>

@@ -11,8 +11,10 @@
       </div>
       <div id="company-processing-types">
         <FeeItem v-for="processingTypeAvailability in company.processing_type_availabilities"
-          :processingTypeAvailability="processingTypeAvailability"
-          :company="company"/>
+                 :processingTypeAvailability="processingTypeAvailability"
+                 :company="company"
+                 :chargeTypes="chargeTypes"
+        />
       </div>
     </form>
   </div>
@@ -25,6 +27,8 @@ import type {CompanyFee} from "~/services/company/types";
 import type {FeeList} from "~/services/fee/types";
 import type {Firm} from "~/services/firm/types";
 import FeeItem from "~/components/clients/inspector/company/FeeItem.vue";
+import type {ChargeType} from "~/services/charge_type/types";
+import {chargeTypeService} from "~/services/charge_type/service";
 
 const {activeCompany, activeTab} = storeToRefs(useCompanyStore())
 const company = ref<CompanyFee>({
@@ -37,6 +41,7 @@ const company = ref<CompanyFee>({
   fees: <FeeList[]>[]
 })
 const activeTabFees: string = 'fees'
+const chargeTypes = ref<ChargeType[]>([])
 
 watch(activeTab, async () => {
   console.log(activeTab.value)
@@ -45,6 +50,10 @@ watch(activeTab, async () => {
       company.value = (await companyService.getCompanyFees(activeCompany.value.id, {tab: 'fees'}))
 
       console.log(company.value)
+
+      chargeTypes.value = (await chargeTypeService.getChargeTypes({'filter[fee]': 1, sort: 'name'}))
+
+      console.log(chargeTypes.value)
     } catch (error) {
       console.log(error)
     }
