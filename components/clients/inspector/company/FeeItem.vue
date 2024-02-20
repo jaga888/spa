@@ -50,20 +50,24 @@
 
       <div class="senex__form__block  wrapper-form" v-if="showForm">
         <form class="senex__clients__add-fee-form">
-          <input type="hidden"
-                 name="processing_type_availability_id"
-                 id="form_fee_processing_type_availability_id_2852"
-                 value="2852">
           <div class="senex__form__header">Add New Fee</div>
           <div class="senex__form__text"></div>
           <div class="senex__form__item-group">
             <div class="senex__form__item senex__form__item--flex-2">
               <select class="senex__form__select"
                       name="charge_type_id"
-                      placeholder="Charge Type...">
-                <option :value="chargeType.id" v-for="chargeType in chargeTypes">{{ chargeType.name }}</option>
+                      v-model="fee.charge_type_id"
+                      placeholder="Charge Type..."
+                      :id="`form_fee_charge_type_id_${processingTypeAvailability.id}`"
+              >
+                <option :value="chargeType.id"
+                        v-for="chargeType in chargeTypes">
+                  {{ chargeType.name }}
+                </option>
               </select>
-              <label class="senex__form__label" for="form_fee_charge_type_id_2852">Charge Type</label>
+              <label class="senex__form__label"  :for="`form_fee_charge_type_id_${processingTypeAvailability.id}`">
+                Charge Type
+              </label>
             </div>
             <div class="senex__form__item">
               <div class="senex__form__field">
@@ -72,10 +76,14 @@
                        type="text"
                        name="base_amount"
                        placeholder="Fee amount..."
+                       v-model="fee.base_amount"
+                       :id="`form_fee_base_amount_${processingTypeAvailability.id}`"
                 />
               </div>
               <span class="error" style="color: red; display: none"></span>
-              <label class="senex__form__label">Fee</label>
+              <label class="senex__form__label" :for="`form_fee_base_amount_${processingTypeAvailability.id}`">
+                Fee
+              </label>
             </div>
           </div>
           <div class="senex__form__text">An optional description may be added for clarity.</div>
@@ -85,17 +93,22 @@
                 <input class="senex__form__input"
                        type="text"
                        name="description"
-                       placeholder="Description...">
+                       placeholder="Description..."
+                       v-model="fee.description"
+                       :id="`form_fee_description_${processingTypeAvailability.id}`"
+                />
               </div>
-              <label class="senex__form__label" for="form_fee_description_2852">Description</label>
+              <label class="senex__form__label" :for="`form_fee_description_${processingTypeAvailability.id}`">
+                Description
+              </label>
             </div>
           </div>
           <div class="senex__form__item-group">
             <div class="senex__form__item" style="text-align: right">
-              <Button class="senex__clients__cancel-fee senex__button--cancel" @click="showForm = !showForm">
+              <Button class="senex__clients__cancel-fee senex__button--cancel" @click.prevent="showForm = !showForm">
                 Cancel
               </Button>
-              <Button class="senex__clients__save-fee senex__button senex__button--save">
+              <Button class="senex__clients__save-fee senex__button senex__button--save" @click.prevent="saveFee">
                 Save
               </Button>
             </div>
@@ -105,30 +118,30 @@
 
       <div class="senex__form__block" v-if="!showForm">
         <div class="senex__form__text"
-             v-if="(processingTypeAvailability.fees & feesOverridden) === feesOverridden && !getFees.length && !customFee"
+             v-if="(processingTypeAvailability.fees & feesOverridden) === feesOverridden && !getFees.length"
         >
           <em>
             However, no custom fees have been added. This will result in no charges
             being applied for this processing type. If this is not intended, please
-            <a href="#" class="senex__link--button senex__clients__add-fee" @click="showForm = !showForm">
+            <a href="#" class="senex__link--button senex__clients__add-fee" @click.prevent="showForm = !showForm">
               add a custom fee
             </a>, or
             <a href="#"
                class="senex__link--button senex__clients__remove-override-fees"
-               @click="customFee = !customFee">
+               @click.prevent="setCustomFee(0)">
               stop using custom fees
             </a>.
           </em>
         </div>
 
-        <div class="senex__form__item-group" v-if="getFees.length && customFee">
+        <div class="senex__form__item-group" v-if="getFees.length">
           <div class="senex__form__item senex__form__item--flex-2">
             <div class="senex__form__text senex__form__text--list">
               <BriefcaseIcon class="absolute -left-6"/>
               <strong>{{ getFee?.charge_type.name }}</strong>
-              ({{ getFee?.scoped_type === scopeFirm ? '' + company.firm.name + '' : '' }})
+              {{ getFee?.scoped_type === scopeFirm ? "(" + company.firm.name + ")" : "" }}
               <br v-if="getFee?.description">
-              {{ getFee?.description ?? '' }}
+              {{ getFee?.description ?? "" }}
             </div>
           </div>
 
@@ -144,10 +157,12 @@
                      :disabled="getFee?.scoped_type === scopeFirm"
               />
               <div class="senex__form__field-add-on senex__form__field-add-on--button">
-                <a href="#" class="senex__clients__remove-fee" v-if="getFee?.scoped_type === scopeCompany">
-                  <i class="fa fa-times"></i>
+                <a href="#" class="senex__clients__remove-fee"
+                   v-if="getFee?.scoped_type === scopeCompany"
+                   @click.prevent="deleteFee"
+                >
+                  <CancelIcon stroke="#2c3e50" width="12" height="12"/>
                 </a>
-                <i class="fa fa-times"></i>
               </div>
             </div>
             <label class="senex__form__label">{{ getFee?.charge_type.name }}</label>
@@ -155,17 +170,18 @@
         </div>
       </div>
       <div class="senex__form__block" v-if="!showForm">
-        <div class="senex__form__text" v-if="(processingTypeAvailability.fees & feesOverridden) === feesOverridden && !customFee">
-          <a href="#" class="senex__clients__add-fee" @click="showForm = !showForm">Add custom fee</a>
+        <div class="senex__form__text" v-if="(processingTypeAvailability.fees & feesOverridden) === feesOverridden">
+          <a href="#" class="senex__clients__add-fee" @click.prevent="showForm = !showForm">Add custom fee</a>
           <a href="#"
              class="senex__clients__remove-override-fees"
              style="float: right;"
-             @click="customFee = !customFee">
+             @click.prevent="setCustomFee(0)"
+          >
             Stop using custom fees
           </a>
         </div>
-        <div class="senex__form__text" v-else >
-          <a class="senex__clients__override-fees" @click="customFee = !customFee">Setup custom fees</a>
+        <div class="senex__form__text" v-else>
+          <a class="senex__clients__override-fees" @click.prevent="setCustomFee(1)">Setup custom fees</a>
         </div>
       </div>
     </div>
@@ -173,13 +189,15 @@
 </template>
 
 <script setup lang="ts">
-import {useCompanyStore} from "~/store/company";
 import type {CompanyFee} from "~/services/company/types";
-import type {FeeList} from "~/services/fee/types";
+import type {Fee, FeeList} from "~/services/fee/types";
 import type {ProcessingTypeAvailabilityList} from "~/services/processing_type_availability/types";
 import BriefcaseIcon from "~/components/icons/BriefcaseIcon.vue";
 import type {PropType} from "vue";
 import type {ChargeType} from "~/services/charge_type/types";
+import {processingTypeAvailabilityService} from "~/services/processing_type_availability/service";
+import {feeService} from "~/services/fee/service";
+import CancelIcon from "~/components/icons/CancelIcon.vue";
 
 const props = defineProps({
   processingTypeAvailability: {
@@ -191,14 +209,13 @@ const props = defineProps({
     default: <CompanyFee>{}
   },
   chargeTypes: {
-    type: Array<ChargeType[]>
+    type: Array as PropType<ChargeType[]>
   }
-})
-const {activeCompany} = storeToRefs(useCompanyStore())
+});
 const feesOverridden: number = 1;
 const feesComplicated: number = 2;
-const scopeFirm: string = 'firm';
-const scopeCompany: string = 'company';
+const scopeFirm: string = "firm";
+const scopeCompany: string = "company";
 const getFees = computed((): FeeList[] => {
   return (props.processingTypeAvailability.fees & feesOverridden) !== feesOverridden
       ? props.company.firm.fees.filter(
@@ -207,10 +224,35 @@ const getFees = computed((): FeeList[] => {
       : props.company.fees.filter(
           (fee) => fee.processing_type_id === props.processingTypeAvailability.processing_type_id
       );
-})
+});
 const getFee = computed((): FeeList | null => {
-  return getFees.value[0] ?? null
-})
-const showForm = ref(false)
-const customFee = ref(false)
+  return getFees.value[0] ?? null;
+});
+const showForm = ref(false);
+const emit = defineEmits(["feeWasUpdated"]);
+const setCustomFee = async (fees: number) => {
+  await processingTypeAvailabilityService.updateProcessingTypeAvailability(props.processingTypeAvailability.id, {fees: fees});
+
+  showForm.value = false;
+  emit("feeWasUpdated");
+};
+const fee = ref<Fee>({
+  base_amount: 0,
+  charge_type_id: 1,
+  description: "",
+  processing_type_availability_id: props.processingTypeAvailability.id
+});
+const saveFee = async () => {
+  await feeService.createFee(fee.value);
+
+  showForm.value = false;
+  emit("feeWasUpdated");
+};
+const deleteFee = async () => {
+  if (getFee.value) {
+    await feeService.deleteFee(getFee.value.id);
+  }
+  showForm.value = false;
+  emit("feeWasUpdated");
+};
 </script>

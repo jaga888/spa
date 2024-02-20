@@ -1,4 +1,4 @@
 export const routes = {
-    get: '/api/admin/companies',
-    getById: (id: number) => '/api/admin/companies/' + id,
+    get: '/companies',
+    getById: (id: number) => '/companies/' + id,
 }

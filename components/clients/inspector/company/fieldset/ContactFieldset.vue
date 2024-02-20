@@ -11,7 +11,7 @@
                 name="contact_name"
                 class="senex__form__input"
                 placeholder="Name..."
-                @input="$emit('update:contactName', $event.target.value)"
+                @input="$emit('update:contactName', ($event.target as HTMLInputElement).value)"
                 :value="contactName"
                 @keyup="setDirty(validation.contact_name)"
             />
@@ -28,7 +28,7 @@
                 type="tel"
                 name="contact_phone"
                 class="senex__form__input"
-                @input="$emit('update:contactPhone', $event.target.value)"
+                @input="$emit('update:contactPhone', ($event.target as HTMLInputElement).value)"
                 :value="contactPhone"
                 @change="setDirty(validation.contact_phone)"
             />
@@ -46,7 +46,7 @@
                 name="contact_email"
                 class="senex__form__input"
                 placeholder="Email..."
-                @input="$emit('update:contactEmail', $event.target.value)"
+                @input="$emit('update:contactEmail', ($event.target as HTMLInputElement).value)"
                 :value="contactEmail"
                 @keyup="setDirty(validation.contact_email)"
             />

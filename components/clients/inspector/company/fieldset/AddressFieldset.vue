@@ -11,7 +11,7 @@
                 name="address"
                 class="senex__form__input"
                 placeholder="Address..."
-                @input="$emit('update:address', $event.target.value)"
+                @input="$emit('update:address', ($event.target as HTMLInputElement).value)"
                 :value="address"
                 @keyup="setDirty(validation.address)"
                 autocomplete="off"
@@ -30,7 +30,7 @@
                 name="city"
                 class="senex__form__input"
                 placeholder="City..."
-                @input="$emit('update:city', $event.target.value)"
+                @input="$emit('update:city', ($event.target as HTMLInputElement).value)"
                 :value="city"
                 @keyup="setDirty(validation.city)"
             />
@@ -49,7 +49,7 @@
                 name="state"
                 class="senex__form__input"
                 placeholder="ST..."
-                @input="$emit('update:state', $event.target.value)"
+                @input="$emit('update:state', ($event.target as HTMLInputElement).value)"
                 :value="state"
                 @keyup="setDirty(validation.state)"
             />
@@ -68,7 +68,7 @@
                 name="zip"
                 class="senex__form__input"
                 placeholder="Zip..."
-                @input="$emit('update:zip', $event.target.value)"
+                @input="$emit('update:zip', ($event.target as HTMLInputElement).value)"
                 :value="zip"
                 @keyup="setDirty(validation.zip)"
             />
@@ -96,7 +96,7 @@
                 name="invoice_address"
                 class="senex__form__input"
                 placeholder="Address Line 1..."
-                @input="$emit('update:invoiceAddress', $event.target.value)"
+                @input="$emit('update:invoiceAddress', ($event.target as HTMLInputElement).value)"
                 :value="invoiceAddress"
                 @keyup="setDirty(validation.invoice_address)"
             />
@@ -114,7 +114,7 @@
                 name="invoice_address2"
                 class="senex__form__input"
                 placeholder="Address Line 2..."
-                @input="$emit('update:invoiceAddress2', $event.target.value)"
+                @input="$emit('update:invoiceAddress2', ($event.target as HTMLInputElement).value)"
                 :value="invoiceAddress2"
                 @keyup="setDirty(validation.invoice_address2)"
             />
@@ -132,7 +132,7 @@
                 name="invoice_city"
                 class="senex__form__input"
                 placeholder="City..."
-                @input="$emit('update:invoiceCity', $event.target.value)"
+                @input="$emit('update:invoiceCity', ($event.target as HTMLInputElement).value)"
                 :value="invoiceCity"
                 @keyup="setDirty(validation.invoice_city)"
             />
@@ -148,7 +148,7 @@
                 name="invoice_state"
                 class="senex__form__input"
                 placeholder="ST..."
-                @input="$emit('update:invoiceState', $event.target.value)"
+                @input="$emit('update:invoiceState', ($event.target as HTMLInputElement).value)"
                 :value="invoiceState"
                 @change="setDirty(validation.invoice_state)"
             />
@@ -164,7 +164,7 @@
                 name="invoice_zip"
                 class="senex__form__input"
                 placeholder="Zip..."
-                @input="$emit('update:invoiceZip', $event.target.value)"
+                @input="$emit('update:invoiceZip', ($event.target as HTMLInputElement).value)"
                 :value="invoiceZip"
                 @keyup="setDirty(validation.invoice_zip)"
             />
@@ -182,7 +182,7 @@
                 name="invoice_email"
                 class="senex__form__input"
                 placeholder="Email..."
-                @input="$emit('update:invoiceEmail', $event.target.value)"
+                @input="$emit('update:invoiceEmail', ($event.target as HTMLInputElement).value)"
                 :value="invoiceEmail"
                 @keyup="setDirty(validation.invoice_email)"
             />

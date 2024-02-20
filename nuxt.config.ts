@@ -12,40 +12,39 @@ export default defineNuxtConfig({
     ssr: false,
     app: {
         head: {
-            title: 'Senex',
-            charset: 'utf-8',
-            viewport: 'width=device-width, initial-scale=1',
+            title: "Senex",
+            charset: "utf-8",
+            viewport: "width=device-width, initial-scale=1",
         },
     },
     vite: {
         css: {
             preprocessorOptions: {
                 scss: {
-                    additionalData: '@use "/assets/scss/senex.scss" as *;'
+                    additionalData: "@use \"/assets/scss/senex.scss\" as *;"
                 }
             }
         }
     },
     modules: [
-        '@pinia/nuxt',
-        '@nuxtjs/tailwindcss',
-        '@sidebase/nuxt-auth',
-        '@vueuse/nuxt',
-        // '@nuxtjs/eslint-module',
+        "@pinia/nuxt",
+        "@nuxtjs/tailwindcss",
+        "@sidebase/nuxt-auth",
+        "@vueuse/nuxt",
     ],
     auth: {
         provider: {
-            type: 'local',
-            'sessionDataType': {
-                id: 'number',
-                first_name: 'string',
-                last_name: 'string'
+            type: "local",
+            "sessionDataType": {
+                id: "number",
+                first_name: "string",
+                last_name: "string"
             },
             token: {
                 maxAgeInSeconds: 20000,
             }
         },
-        baseURL: 'http://localhost:8000/api/admin/',
+        baseURL: "http://localhost:8000/api/admin/",
         globalAppMiddleware: true
 
     },
@@ -53,8 +52,8 @@ export default defineNuxtConfig({
         enabled: true
     },
     tailwindcss: {
-        configPath: 'tailwind.config.js',
+        configPath: "tailwind.config.js",
         exposeConfig: false,
         injectPosition: 0,
     }
-})
+});

@@ -36,7 +36,6 @@ import {usePropertyStore} from "~/store/property";
 import {useDebounceFn} from "@vueuse/core";
 
 const {activeCompany, isNewCompany} = storeToRefs(useCompanyStore())
-const api = useNuxtApp().$api
 const properties = ref<PropertyList[]>([])
 const {filter, activeProperty, isNewProperty} = storeToRefs(usePropertyStore())
 const {setActiveProperty, setIsNewProperty} = usePropertyStore()

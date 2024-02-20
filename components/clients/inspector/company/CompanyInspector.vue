@@ -46,6 +46,7 @@
 
     <Information />
     <Fees />
+    <Files />
 
     <div class="senex__footer"  v-if="activeTab === activeTabInformation">
       <div class="senex__strip__left">
@@ -59,6 +60,7 @@
 import {useCompanyStore} from "~/store/company";
 import Information from "~/components/clients/inspector/company/Information.vue";
 import Fees from "~/components/clients/inspector/company/Fees.vue";
+import Files from "~/components/clients/inspector/company/Files.vue";
 
 const {activeCompany, isNewCompany, activeTab} = storeToRefs(useCompanyStore())
 const {setActiveTab} = useCompanyStore()

@@ -14,6 +14,7 @@
                  :processingTypeAvailability="processingTypeAvailability"
                  :company="company"
                  :chargeTypes="chargeTypes"
+                 @fee-was-updated="refreshCompanies"
         />
       </div>
     </form>
@@ -59,4 +60,23 @@ watch(activeTab, async () => {
     }
   }
 })
+
+const refreshCompanies = async () => {
+  if (activeTab.value === activeTabFees && !!activeCompany.value) {
+    try {
+      company.value = (await companyService.getCompanyFees(activeCompany.value.id, {tab: 'fees'}))
+
+      console.log(company.value)
+
+      chargeTypes.value = (await chargeTypeService.getChargeTypes({
+        'filter[fee]': 1,
+        sort: 'name'
+      }))
+
+      console.log(chargeTypes.value)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
 </script>

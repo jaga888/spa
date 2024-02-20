@@ -1,3 +1,3 @@
 export const routes = {
-    get: '/api/admin/users'
+    get: '/users'
 }

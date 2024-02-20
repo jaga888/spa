@@ -9,3 +9,10 @@ export interface FeeList{
     scoped_type_id: number,
     scoped_type: string
 }
+
+export interface Fee{
+    base_amount: number,
+    charge_type_id: number,
+    description: string,
+    processing_type_availability_id: number,
+}

@@ -1,3 +1,3 @@
 export const routes = {
-    get: '/api/admin/pm-softwares',
+    get: '/pm-softwares',
 }

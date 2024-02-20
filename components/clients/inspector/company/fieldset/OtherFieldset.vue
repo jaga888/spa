@@ -9,7 +9,7 @@
             <select name="pm_software_id"
                     id="form_company_pm_software_id"
                     class="senex__form__select"
-                    @input="$emit('update:pmSoftwareId', parseInt($event.target.value))"
+                    @input="$emit('update:pmSoftwareId', parseInt(($event.target as HTMLInputElement).value))"
                     :value="pmSoftwareId"
                     @change="setDirty(validation?.pm_software_id)">
               <option :value="pmSoftware.id" v-for="pmSoftware in pmSoftwares">{{ pmSoftware.name }}</option>
@@ -30,7 +30,7 @@
                 name="url"
                 class="senex__form__input"
                 placeholder="Website URL..."
-                @input="$emit('update:url', $event.target.value)"
+                @input="$emit('update:url', ($event.target as HTMLInputElement).value)"
                 :value="url"
                 @keyup="setDirty(validation.url)"
             />
@@ -48,7 +48,7 @@
                 id="form_company_ud_filing_threshold"
                 type="number"
                 name="ud_filing_threshold"
-                @input="$emit('update:udFilingThreshold', $event.target.value)"
+                @input="$emit('update:udFilingThreshold', ($event.target as HTMLInputElement).value)"
                 :value="udFilingThreshold"
                 class="senex__form__input"
                 placeholder="UD Filing Threshold..."

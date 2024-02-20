@@ -114,7 +114,6 @@ import {usePropertyStore} from "~/store/property";
 import Users from "~/components/clients/content/Users.vue";
 import {useUserStore} from "~/store/user";
 
-const api = useNuxtApp().$api
 const {activeCompany, isNewCompany} = storeToRefs(useCompanyStore())
 const {activeTab} = storeToRefs(useClientStore())
 const {setActiveTab} = useClientStore()

@@ -14,10 +14,9 @@ import {userService} from "~/services/user/service";
 import type {UserList} from "~/services/user/types";
 import {useCompanyStore} from "~/store/company";
 import {useDebounceFn} from "@vueuse/core";
-import {useUserStore} from "~/store/user";
+import {useUserStore} from "~/store/user"
 
 const {activeCompany, isNewCompany} = storeToRefs(useCompanyStore())
-const api = useNuxtApp().$api
 const users = ref<UserList[]>([])
 const {filter, activeUser} = storeToRefs(useUserStore())
 const {setActiveUser} = useUserStore()

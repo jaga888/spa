@@ -15,7 +15,7 @@
                    name="legal_name"
                    class="senex__form__input"
                    placeholder="Legal Name..."
-                   @input="$emit('update:legalName', $event.target.value)"
+                   @input="$emit('update:legalName', ($event.target as HTMLInputElement).value)"
                    :value="legalName"
                    @keyup="setDirty(validation.legal_name)"
             />
@@ -43,7 +43,7 @@
                 name="name"
                 class="senex__form__input"
                 placeholder="Name..."
-                @input="$emit('update:name', $event.target.value)"
+                @input="$emit('update:name', ($event.target as HTMLInputElement).value)"
                 :value="name"
                 @keyup="setDirty(validation.name)"
                 autocomplete="off"
@@ -69,7 +69,7 @@
                 name="short_name"
                 class="senex__form__input"
                 placeholder="Short Name..."
-                @input="$emit('update:shortName', $event.target.value)"
+                @input="$emit('update:shortName', ($event.target as HTMLInputElement).value)"
                 :value="shortName"
                 @keyup="setDirty(validation.short_name)"
                 required
