@@ -141,7 +141,7 @@
               <strong>{{ getFee?.charge_type.name }}</strong>
               {{ getFee?.scoped_type === scopeFirm ? "(" + company.firm.name + ")" : "" }}
               <br v-if="getFee?.description">
-              {{ getFee?.description ?? "" }}
+              {{ getFee?.description ? getFee?.description : "" }}
             </div>
           </div>
 
@@ -226,7 +226,7 @@ const getFees = computed((): FeeList[] => {
       );
 });
 const getFee = computed((): FeeList | null => {
-  return getFees.value[0] ?? null;
+  return getFees.value[0] ? getFees.value[0] : null;
 });
 const showForm = ref(false);
 const emit = defineEmits(["feeWasUpdated"]);

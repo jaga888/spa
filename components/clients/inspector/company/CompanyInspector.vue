@@ -25,18 +25,18 @@
         <div class="senex__header__left">
           <ul class="senex__detail-menu">
             <li class="senex__detail-menu__item senex__detail-menu__item--tab"
-                :class="{'senex__detail-menu__item--active': activeTab === 'information'}"
-                @click="setActiveTab('information')">
+                :class="{'senex__detail-menu__item--active': activeTab === activeTabInformation}"
+                @click="activeTab = activeTabInformation">
               Information
             </li>
             <li class="senex__detail-menu__item senex__detail-menu__item--tab ml-1.5"
-                :class="{'senex__detail-menu__item--active': activeTab === 'fees'}"
-                @click="setActiveTab('fees')">
+                :class="{'senex__detail-menu__item--active': activeTab === activeTabFees}"
+                @click="activeTab = activeTabFees">
               Fees
             </li>
             <li class="senex__detail-menu__item senex__detail-menu__item--tab ml-1.5"
-                :class="{'senex__detail-menu__item--active': activeTab === 'files'}"
-                @click="setActiveTab('files')">
+                :class="{'senex__detail-menu__item--active': activeTab === activeTabFiles}"
+                @click="activeTab = activeTabFiles">
               Files
             </li>
           </ul>
@@ -44,13 +44,13 @@
       </div>
     </div>
 
-    <Information />
-    <Fees />
-    <Files />
+    <Information v-if="activeTab === activeTabInformation"/>
+    <Fees v-if="activeTab === activeTabFees"/>
+    <Files v-if="activeTab === activeTabFiles"/>
 
-    <div class="senex__footer"  v-if="activeTab === activeTabInformation">
+    <div class="senex__footer" v-if="activeTab === activeTabInformation">
       <div class="senex__strip__left">
-        <CompanyButton />
+        <CompanyButton/>
       </div>
     </div>
   </div>
@@ -62,11 +62,18 @@ import Information from "~/components/clients/inspector/company/Information.vue"
 import Fees from "~/components/clients/inspector/company/Fees.vue";
 import Files from "~/components/clients/inspector/company/Files.vue";
 
-const {activeCompany, isNewCompany, activeTab} = storeToRefs(useCompanyStore())
-const {setActiveTab} = useCompanyStore()
-const activeTabInformation: string = 'information'
+const {
+  activeCompany,
+  isNewCompany,
+} = storeToRefs(useCompanyStore());
+
+const activeTabInformation: string = "information";
+const activeTabFees: string = "fees";
+const activeTabFiles: string = "files";
+
+const activeTab = ref(activeTabInformation)
 
 watch(activeCompany, async () => {
-  setActiveTab('information')
-})
+  activeTab.value = activeTabInformation;
+});
 </script>

@@ -34,9 +34,11 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/tailwindcss": "^6.10.3",
+    "@types/dropzone": "^5.7.8",
     "@vuelidate/core": "^2.0.3",
     "@vuelidate/validators": "^2.0.4",
     "defu": "^6.1.4",
+    "dropzone": "^6.0.0-beta.2",
     "font-awesome": "^4.7.0",
     "nuxt-icon": "^0.6.8",
     "sass": "^1.69.7",

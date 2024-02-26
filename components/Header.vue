@@ -71,7 +71,6 @@
 
 <script setup lang="ts">
 const { data, signOut, status } = useAuth()// import the auth store we just created
-const router = useRouter()
 
 const logout = () => {
   signOut({ callbackUrl: '/login'})

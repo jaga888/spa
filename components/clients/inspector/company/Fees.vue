@@ -1,5 +1,5 @@
 <template>
-  <div class="senex__body company-fees" v-if="activeTab === activeTabFees">
+  <div class="senex__body company-fees">
     <form class="senex__form">
       <div class="senex__form__fieldset">
         <div class="senex__form__header">{{ company.name }} Fees</div>
@@ -31,7 +31,7 @@ import FeeItem from "~/components/clients/inspector/company/FeeItem.vue";
 import type {ChargeType} from "~/services/charge_type/types";
 import {chargeTypeService} from "~/services/charge_type/service";
 
-const {activeCompany, activeTab} = storeToRefs(useCompanyStore())
+const {activeCompany} = storeToRefs(useCompanyStore())
 const company = ref<CompanyFee>({
   id: 0,
   name: '',
@@ -41,28 +41,27 @@ const company = ref<CompanyFee>({
   firm: <Firm>{},
   fees: <FeeList[]>[]
 })
-const activeTabFees: string = 'fees'
 const chargeTypes = ref<ChargeType[]>([])
 
-watch(activeTab, async () => {
-  console.log(activeTab.value)
-  if (activeTab.value === activeTabFees && !!activeCompany.value) {
-    try {
-      company.value = (await companyService.getCompanyFees(activeCompany.value.id, {tab: 'fees'}))
+if (activeCompany.value) {
+  try {
+    company.value = (await companyService.getCompanyFees(activeCompany.value.id, {tab: 'fees'}))
 
-      console.log(company.value)
+    console.log(company.value)
 
-      chargeTypes.value = (await chargeTypeService.getChargeTypes({'filter[fee]': 1, sort: 'name'}))
+    chargeTypes.value = (await chargeTypeService.getChargeTypes({
+      'filter[fee]': 1,
+      sort: 'name'
+    }))
 
-      console.log(chargeTypes.value)
-    } catch (error) {
-      console.log(error)
-    }
+    console.log(chargeTypes.value)
+  } catch (error) {
+    console.log(error)
   }
-})
+}
 
 const refreshCompanies = async () => {
-  if (activeTab.value === activeTabFees && !!activeCompany.value) {
+  if (activeCompany.value) {
     try {
       company.value = (await companyService.getCompanyFees(activeCompany.value.id, {tab: 'fees'}))
 

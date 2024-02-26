@@ -1,5 +1,5 @@
 <template>
-  <div class="senex__body company-information" v-if="activeTab === activeTabInformation">
+  <div class="senex__body company-information">
     <form class="senex__form senex__clients__info-form" method="post">
       <BaseFieldset
           v-model:legalName="company.legal_name"
@@ -56,56 +56,63 @@ import ActivateFieldset from "~/components/clients/inspector/company/fieldset/Ac
 import {helpers, minValue, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
 
-const {activeCompany, saveCompany, isDirty, activeTab} = storeToRefs(useCompanyStore())
-const {setSaveCompany, setIsDirty} = useCompanyStore();
+const {
+  activeCompany,
+  saveCompany,
+  isDirty
+} = storeToRefs(useCompanyStore());
+const {
+  setSaveCompany,
+  setIsDirty
+} = useCompanyStore();
 const company = ref<Company>({
   id: undefined,
-  name: '',
-  legal_name: '',
+  name: "",
+  legal_name: "",
   active: false,
-  address: '',
-  city: '',
-  contact_email: '',
-  contact_name: '',
-  contact_phone: '',
-  invoice_address: '',
-  invoice_address2: '',
-  invoice_city: '',
-  invoice_email: '',
-  invoice_state: '',
-  invoice_zip: '',
+  address: "",
+  city: "",
+  contact_email: "",
+  contact_name: "",
+  contact_phone: "",
+  invoice_address: "",
+  invoice_address2: "",
+  invoice_city: "",
+  invoice_email: "",
+  invoice_state: "",
+  invoice_zip: "",
   pm_software_id: 0,
   policy_ids: [],
-  short_name: '',
-  state: '',
+  short_name: "",
+  state: "",
   ud_filing_threshold: 0,
-  url: '',
-  zip: '',
-})
+  url: "",
+  zip: "",
+});
 
 const rules = {
   legal_name: {
-    required: helpers.withMessage('The legal name field is required', required)
+    required: helpers.withMessage("The legal name field is required", required)
   },
   name: {
-    required: helpers.withMessage('The name field is required', required)
+    required: helpers.withMessage("The name field is required", required)
   },
   short_name: {
-    required: helpers.withMessage('The short name field is required', required)
+    required: helpers.withMessage("The short name field is required", required)
   },
   address: {
     dirty: false
   },
   city: {
-    required: helpers.withMessage('The city field is required', required),
+    required: helpers.withMessage("The city field is required", required),
     dirty: false
   },
   state: {
-    required: helpers.withMessage('Required', required),
+    required: helpers.withMessage("Required", required),
     dirty: false
   },
   zip: {
-    required: helpers.withMessage('The field is required', required),
+    required: helpers.withMessage("The field is required", required),
     dirty: false
   },
   invoice_address: {
@@ -142,8 +149,8 @@ const rules = {
     dirty: false
   },
   ud_filing_threshold: {
-    required: helpers.withMessage('The field ud filing threshold is required', required),
-    minValue: helpers.withMessage('The field must have a min value 0', minValue(0)),
+    required: helpers.withMessage("The field ud filing threshold is required", required),
+    minValue: helpers.withMessage("The field must have a min value 0", minValue(0)),
     dirty: false
   },
 };
@@ -151,69 +158,55 @@ const rules = {
 const validation = useVuelidate(
     rules,
     company
-)
+);
 
-const activeTabInformation: string = 'information'
-
-watch(activeCompany, async () => {
-  if (activeCompany.value?.id) {
-    try {
-      if (!isDirty.value) {
-        company.value = (await companyService.getCompany(activeCompany.value.id, {tab: 'info'}))
-
-        validation.value.$reset()
-
-        console.log(company.value)
-      } else {
-        setIsDirty(false)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-})
+// watch(activeCompany, async () => {
+//   if (activeCompany.value?.id) {
+//     try {
+//       if (!isDirty.value) {
+//         company.value = (await companyService.getCompany(activeCompany.value.id, {tab: "info"}));
+//
+//         validation.value.$reset();
+//
+//         console.log(company.value);
+//       } else {
+//         setIsDirty(false);
+//       }
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   }
+// });
 
 if (activeCompany.value?.id) {
   try {
     if (!isDirty.value) {
-      company.value = (await companyService.getCompany(activeCompany.value.id, {tab: 'info'}))
+      company.value = (await companyService.getCompany(activeCompany.value.id, {tab: "info"}));
 
-      console.log(company.value)
+      console.log(company.value);
     } else {
-      setIsDirty(false)
+      setIsDirty(false);
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 }
 
 watch(saveCompany, async () => {
   if (saveCompany.value) {
-    console.log(company.value.policy_ids)
-    setSaveCompany(false)
+    console.log(company.value.policy_ids);
+    setSaveCompany(false);
   }
-})
+});
 
 watch(isDirty, async () => {
   console.log(isDirty.value);
   if (!isDirty.value && activeCompany.value) {
-    company.value = (await companyService.getCompany(activeCompany.value.id, {tab: 'info'}))
+    company.value = (await companyService.getCompany(activeCompany.value.id, {tab: "info"}));
 
-    console.log(company.value)
+    console.log(company.value);
 
-    validation.value.$reset()
+    validation.value.$reset();
   }
-})
-
-watch(activeTab, async () => {
-  if (activeTab.value === activeTabInformation && !!activeCompany.value) {
-    try {
-      company.value = (await companyService.getCompany(activeCompany.value.id, {tab: 'info'}))
-
-      console.log(company.value)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-})
+});
 </script>

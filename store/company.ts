@@ -7,11 +7,6 @@ export const useCompanyStore = defineStore('company', () => {
     const isDirty = ref<boolean>(false);
     const isNewCompany = ref<boolean>(false);
     const filter = ref<string>();
-    const activeTab = ref<string>('information');
-
-    const setActiveTab = (tab: string) => {
-        activeTab.value = tab
-    }
 
     const setIsDirty = (value:boolean = true) => {
         isDirty.value = value
@@ -41,12 +36,10 @@ export const useCompanyStore = defineStore('company', () => {
         activeCompany,
         filter,
         isNewCompany,
-        activeTab,
         saveCompany,
         isDirty,
         setIsDirty,
         setSaveCompany,
-        setActiveTab,
         setActiveCompany,
         setIsNewCompany,
         setFilter
