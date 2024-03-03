@@ -26,7 +26,7 @@
           <ul class="senex__detail-menu">
             <li class="senex__detail-menu__item">&nbsp;</li>
             <li class="senex__detail-menu__item senex__detail-menu__item--right">
-              <ManageExport />
+              <ManageExport/>
             </li>
           </ul>
         </div>
@@ -34,14 +34,14 @@
     </div>
 
     <div class="senex__body">
-      <Companies />
+      <Companies/>
     </div>
 
     <div class="senex__footer senex__form senex__strip">
       <div class="senex__strip__left">
         <div class="senex__form__field">
           <div class="senex__form__field-add-on">
-            <FilterIcon />
+            <FilterIcon/>
           </div>
           <input type="text"
                  v-model="search"
@@ -52,8 +52,10 @@
                  @input="setFilter(search)"/>
           <label for="companies_filter"></label>
           <div class="senex__form__field-add-on senex__form__field-add-on--button">
-            <button class="senex__clients__remove-search-companies" @click="clearFilter">
-              <CancelIcon />
+            <button class="senex__clients__remove-search-companies"
+                    :disabled="search === ''"
+                    @click.prevent="clearFilter">
+              <CancelIcon/>
             </button>
           </div>
         </div>
@@ -75,15 +77,18 @@ import CancelIcon from "~/components/icons/CancelIcon.vue";
 import ManageExport from "~/components/blocks/ManageExport.vue";
 import FilterIcon from "~/components/icons/FilterIcon.vue";
 
-const search = ref('');
+const search = ref("");
 
-const { isNewCompany } = storeToRefs(useCompanyStore())
+const {isNewCompany} = storeToRefs(useCompanyStore());
 
-const { setFilter, setIsNewCompany } = useCompanyStore()
+const {
+  setFilter,
+  setIsNewCompany
+} = useCompanyStore();
 
 const clearFilter = () => {
-  search.value = '';
+  search.value = "";
 
-  setFilter(search.value)
-}
+  setFilter(search.value);
+};
 </script>

@@ -9,11 +9,28 @@
     <div
         class="senex__master-button senex__master-button--save senex__clients__update-info"
         :class="{'senex__master-button--disabled': isDisabled}"
-        @click.prevent="setSaveCompany">
+        @click.prevent="setSaveCompany()">
       Save
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import {useCompanyStore} from "~/store/company";
+
+const {isDirty} = storeToRefs(useCompanyStore());
+const {
+  setSaveCompany,
+  setIsDirty
+} = useCompanyStore();
+
+const isDisabled = ref<boolean>(true);
+
+watch(isDirty, async () => {
+  console.log(isDirty.value);
+  isDisabled.value = !isDirty.value;
+});
+</script>
 
 <style scoped lang="scss">
 .senex__button {
@@ -46,7 +63,7 @@
     padding: 2px 0.5rem;
     font-size: 0.8rem;
     // text-transform: capitalize;
-    letter-spacing: 0rem;
+    letter-spacing: 0;
   }
 
   &--blue {
@@ -216,17 +233,3 @@
 
 }
 </style>
-
-<script setup lang="ts">
-import {useCompanyStore} from "~/store/company";
-
-const {isDirty} = storeToRefs(useCompanyStore())
-const {setSaveCompany, setIsDirty} = useCompanyStore()
-
-const isDisabled = ref<boolean>(true);
-
-watch(isDirty, async () => {
-  console.log(isDirty.value);
-  isDisabled.value = !isDirty.value;
-})
-</script>

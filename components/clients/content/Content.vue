@@ -86,7 +86,9 @@
           <label for="properties_filter" v-if="activeTab === 'properties'"></label>
           <label for="users_filter" v-if="activeTab === 'users'"></label>
           <div class="senex__form__field-add-on senex__form__field-add-on--button">
-            <button class="remove_filter_icon senex__clients__remove-search-properties" @click="clearFilter">
+            <button class="remove_filter_icon senex__clients__remove-search-properties"
+                    :disabled="(activeTab === 'properties' && searchProperty === '') || (activeTab === 'users' && searchUser === '')"
+                    @click="clearFilter">
               <CancelIcon stroke="#2c3e50"/>
             </button>
           </div>

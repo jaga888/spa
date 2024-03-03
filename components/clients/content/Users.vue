@@ -2,11 +2,7 @@
   <li class="senex__list__item senex__list__item--no-users" v-if="!users.length || isNewCompany">
     <div class="senex__list__item-text">No users.</div>
   </li>
-  <li class="senex__list__item" v-for="user in users" v-if="!isNewCompany"
-      @click="setActiveUser(user)"
-      :class="{'senex__list__item--active': activeUser?.id === user.id}">
-    <div class="senex__list__item-title">{{ user.first_name }} {{ user.last_name }}</div>
-  </li>
+  <User v-for="user in users" :user="user" />
 </template>
 
 <script setup lang="ts">
@@ -15,17 +11,18 @@ import type {UserList} from "~/services/user/types";
 import {useCompanyStore} from "~/store/company";
 import {useDebounceFn} from "@vueuse/core";
 import {useUserStore} from "~/store/user"
+import User from "./User.vue"
 
 const {activeCompany, isNewCompany} = storeToRefs(useCompanyStore())
 const users = ref<UserList[]>([])
-const {filter, activeUser} = storeToRefs(useUserStore())
-const {setActiveUser} = useUserStore()
+const {filter} = storeToRefs(useUserStore())
 
 if (activeCompany.value?.id) {
   try {
     users.value = (await userService.getUsers({
       sort: 'first_name,last_name',
-      'filter[company_id]': activeCompany.value?.id
+      'filter[company_id]': activeCompany.value?.id,
+      'filter[full_name]': filter.value,
     }))
 
     console.log(users.value)
