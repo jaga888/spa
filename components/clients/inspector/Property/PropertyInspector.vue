@@ -1,5 +1,5 @@
 <template>
-  <div class="senex__column senex__column--empty" v-if="!activeCompany?.id && !isNewCompany">
+  <div class="senex__column senex__column--empty" v-if="!activeProperty?.id && !isNewProperty">
     <div class="senex__body">
       <div class="senex__sketch" style="position: absolute; right: 0;">
         <div class="senex__sketch__arrow  senex__sketch__arrow--purple-straight-up-up-right"></div>
@@ -8,9 +8,9 @@
     </div>
   </div>
 
-  <div id="company-information"
-       class="senex__column senex__column--inspector senex__column--company"
-       v-if="activeCompany?.id || isNewCompany"
+  <div id="property-information"
+       class="senex__column senex__column--inspector senex__column--property"
+       v-if="activeProperty?.id || isNewProperty"
   >
     <div class="senex__header">
       <div class="senex__header__top senex__strip">
@@ -19,9 +19,23 @@
             <i class="fa fa-arrow-left"></i> Back
           </div>
         </div>
+        <div class="senex__strip__center">
+          <div class="senex__text">Property</div>
+        </div>
+        <div class="senex__strip__right">
+          <div class="senex__icon senex__icon--close senex-clients-close-property">
+            <i class="fa fa-close"></i>
+          </div>
+        </div>
       </div>
 
-      <div class="senex__header__middle"></div>
+      <div class="senex__header__middle">
+        <div class="senex__header__left">
+          <div class="senex__header__title">
+            {{ activeProperty?.short_name }}
+          </div>
+        </div>
+      </div>
 
       <div class="senex__header__bottom">
         <div class="senex__header__left">
@@ -29,7 +43,7 @@
             <li class="senex__detail-menu__item senex__detail-menu__item--tab"
                 :class="{'senex__detail-menu__item--active': activeTab === activeTabInformation}"
                 @click="activeTab = activeTabInformation">
-              Information
+              Info
             </li>
             <li class="senex__detail-menu__item senex__detail-menu__item--tab ml-1.5"
                 :class="{'senex__detail-menu__item--active': activeTab === activeTabFees}"
@@ -59,15 +73,15 @@
 </template>
 
 <script setup lang="ts">
-import {useCompanyStore} from "~/store/company";
-import Information from "~/components/clients/inspector/company/Information.vue";
+import {usePropertyStore} from "~/store/property";
+import Information from "~/components/clients/inspector/Property/Information.vue";
 import Fees from "~/components/clients/inspector/company/Fees.vue";
 import Files from "~/components/clients/inspector/company/Files.vue";
 
 const {
-  activeCompany,
-  isNewCompany,
-} = storeToRefs(useCompanyStore());
+  activeProperty,
+  isNewProperty,
+} = storeToRefs(usePropertyStore());
 
 const activeTabInformation: string = "information";
 const activeTabFees: string = "fees";
@@ -75,7 +89,7 @@ const activeTabFiles: string = "files";
 
 const activeTab = ref(activeTabInformation)
 
-watch(activeCompany, async () => {
+watch(activeProperty, async () => {
   activeTab.value = activeTabInformation;
 });
 </script>

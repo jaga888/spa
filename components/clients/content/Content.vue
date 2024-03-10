@@ -37,18 +37,20 @@
       <div class="senex__header__bottom">
         <div class="senex__header__left">
           <ul class="senex__detail-menu">
-            <li :class="{'senex__detail-menu__item--active': activeTab === 'properties' || (isNewCompany && activeTab !== 'users')}"
-                @click="setActiveTab('properties')"
+            <li :class="{
+                  'senex__detail-menu__item--active': activeContentTab === activeContentTabProperties || (isNewCompany && activeContentTab !== activeContentTabUsers)
+                }"
+                @click="setActiveContentTab(activeContentTabProperties)"
                 class="senex__detail-menu__item senex__detail-menu__item--tab">
               Properties
             </li>
-            <li :class="{'senex__detail-menu__item--active': activeTab === 'users'}"
-                @click="setActiveTab('users')"
+            <li :class="{'senex__detail-menu__item--active': activeContentTab === activeContentTabUsers}"
+                @click="setActiveContentTab('users')"
                 class="senex__detail-menu__item senex__detail-menu__item--tab">
               Users
             </li>
             <li class="senex__detail-menu__item senex__detail-menu__item--right senex__detail-menu__item--tab">
-              <ManageExport />
+              <ManageExport/>
             </li>
           </ul>
         </div>
@@ -57,8 +59,8 @@
 
     <div class="senex__body">
       <ul class="senex__list senex__list--selectable list properties-list" id="tab-content-wrapper">
-        <Properties v-if="activeTab === 'properties'"/>
-        <Users v-if="activeTab === 'users'"/>
+        <Properties v-if="activeContentTab === activeContentTabProperties"/>
+        <Users v-if="activeContentTab === activeContentTabUsers"/>
       </ul>
     </div>
 
@@ -72,22 +74,24 @@
                  class="senex__form__input client-mgmt-property-search"
                  name="properties-filter"
                  id="properties_filter"
-                 v-if="activeTab === 'properties'"
+                 v-if="activeContentTab === activeContentTabProperties"
                  v-model="searchProperty"
                  @input="setPropertyFilter(searchProperty)"
                  placeholder="Filter properties..."/>
           <input type="text"
                  class="senex__form__input client-mgmt-user-search"
                  id="users_filter"
-                 v-if="activeTab === 'users'"
+                 v-if="activeContentTab === activeContentTabUsers"
                  v-model="searchUser"
                  @input="setUserFilter(searchUser)"
                  placeholder="Filter users..."/>
-          <label for="properties_filter" v-if="activeTab === 'properties'"></label>
-          <label for="users_filter" v-if="activeTab === 'users'"></label>
+          <label for="properties_filter" v-if="activeContentTab === activeContentTabProperties"></label>
+          <label for="users_filter" v-if="activeContentTab === activeContentTabUsers"></label>
           <div class="senex__form__field-add-on senex__form__field-add-on--button">
             <button class="remove_filter_icon senex__clients__remove-search-properties"
-                    :disabled="(activeTab === 'properties' && searchProperty === '') || (activeTab === 'users' && searchUser === '')"
+                    :disabled="
+                      (activeContentTab === activeContentTabProperties && searchProperty === '') || (activeContentTab === activeContentTabUsers && searchUser === '')
+                    "
                     @click="clearFilter">
               <CancelIcon stroke="#2c3e50"/>
             </button>
@@ -95,8 +99,9 @@
         </div>
       </div>
 
-      <div class="senex__strip__right" v-if="activeTab === 'properties'">
-        <Button v-if="activeTab === 'properties'" class="senex__clients__add-property" :disabled="isNewProperty"
+      <div class="senex__strip__right" v-if="activeContentTab === activeContentTabProperties">
+        <Button v-if="activeContentTab === activeContentTabProperties" class="senex__clients__add-property"
+                :disabled="isNewProperty"
                 @click.prevent="setIsNewProperty">
           Add Property
         </Button>
@@ -116,22 +121,34 @@ import {usePropertyStore} from "~/store/property";
 import Users from "~/components/clients/content/Users.vue";
 import {useUserStore} from "~/store/user";
 
-const {activeCompany, isNewCompany} = storeToRefs(useCompanyStore())
-const {activeTab} = storeToRefs(useClientStore())
-const {setActiveTab} = useClientStore()
-const {isNewProperty} = storeToRefs(usePropertyStore())
-const {setPropertyFilter, setIsNewProperty} = usePropertyStore()
-const {setUserFilter} = useUserStore()
-const searchProperty = ref('');
-const searchUser = ref('');
+const {
+  activeCompany,
+  isNewCompany
+} = storeToRefs(useCompanyStore());
+const {
+  activeContentTab,
+  activeContentTabProperties,
+  activeContentTabUsers
+} = storeToRefs(useClientStore());
+const {setActiveContentTab} = useClientStore();
+const {isNewProperty} = storeToRefs(usePropertyStore());
+const {
+  setPropertyFilter,
+  setIsNewProperty
+} = usePropertyStore();
+const {setUserFilter} = useUserStore();
+const searchProperty = ref("");
+const searchUser = ref("");
 
 watch(activeCompany, async () => {
-  setActiveTab('properties')
-})
+  setActiveContentTab(activeContentTabProperties.value);
+});
 
 const clearFilter = () => {
-  activeTab.value === 'properties' ? searchProperty.value = '' : searchUser.value = ''
+  activeContentTab.value === activeContentTabProperties.value ? searchProperty.value = "" : searchUser.value = "";
 
-  activeTab.value === 'properties' ? setPropertyFilter(searchProperty.value) : setUserFilter(searchUser.value)
-}
+  activeContentTab.value === activeContentTabProperties.value
+      ? setPropertyFilter(searchProperty.value)
+      : setUserFilter(searchUser.value);
+};
 </script>

@@ -5,6 +5,8 @@ export const usePropertyStore = defineStore('property', () => {
     const activeProperty = ref<PropertyList>();
     const isNewProperty = ref<boolean>(false);
     const filter = ref<string>();
+    const isDirty = ref<boolean>(false);
+    const saveProperty = ref<boolean>(false);
 
     const setActiveProperty = (property: PropertyList) => {
         isNewProperty.value = false
@@ -22,10 +24,22 @@ export const usePropertyStore = defineStore('property', () => {
         activeProperty.value = undefined
     }
 
+    const setIsDirty = (value:boolean = true) => {
+        isDirty.value = value
+    }
+
+    const setSaveProperty= ($value:boolean = true) => {
+        saveProperty.value = $value
+    }
+
     return {
         activeProperty,
         filter,
         isNewProperty,
+        saveProperty,
+        isDirty,
+        setIsDirty,
+        setSaveProperty,
         setActiveProperty,
         setIsNewProperty,
         setPropertyFilter

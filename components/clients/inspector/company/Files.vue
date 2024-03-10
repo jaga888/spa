@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import DropzoneComponent from "~/components/clients/inspector/company/DropzoneComponent.vue";
+import DropzoneComponent from "~/components/clients/inspector/DropzoneComponent.vue";
 import type {FileList} from "~/services/file/types";
 import {fileService} from "~/services/file/service";
 import {useCompanyStore} from "~/store/company";

@@ -1,3 +1,4 @@
 export const routes = {
-    get: '/properties'
+    get: '/properties',
+    getById: (id: number) => '/properties/' + id,
 }

@@ -37,7 +37,8 @@ const props = defineProps({
   },
 });
 
-const dropRef = ref(null);
+const dropRef = ref<HTMLDivElement>(<HTMLDivElement>{});
+// const dropRef = ref();
 const customPreview = `
   <div class="senex__template">
         <div class="senex__list__item">
@@ -58,14 +59,14 @@ const {token} = useAuth();
 const config = useRuntimeConfig();
 
 onMounted(() => {
-  if (dropRef.value !== null && token.value !== null) {
+  if (token.value !== null) {
     new Dropzone(dropRef.value, {
       url: config.public.HOST_API + "/files/",
       headers: {
         Authorization: token.value
       },
       previewTemplate: customPreview,
-      previewsContainer: dropRef.value.parentElement.querySelector("#" + props.entity + "-files"),
+      previewsContainer: dropRef.value.parentElement?.querySelector("#" + props.entity + "-files"),
       sending: (file, xhr, formData) => {
         formData.append("scoped_type", props.entity);
         formData.append("scoped_id", props.id + "");
@@ -107,6 +108,9 @@ const sortedFiles = computed(() => {
 
 <style>
 #company-zone-files {
+  cursor: pointer;
+}
+#property-zone-files {
   cursor: pointer;
 }
 </style>

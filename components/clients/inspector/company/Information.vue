@@ -59,7 +59,8 @@ import {useVuelidate} from "@vuelidate/core";
 const {
   activeCompany,
   saveCompany,
-  isDirty
+  isDirty,
+  isNewCompany,
 } = storeToRefs(useCompanyStore());
 const {
   setSaveCompany,
@@ -92,28 +93,37 @@ const company = ref<Company>({
 
 const rules = {
   legal_name: {
-    required: helpers.withMessage("The legal name field is required", required)
+    required: helpers.withMessage("The legal name field is required", required),
+    $autoDirty: true,
+    $lazy: true,
   },
   name: {
-    required: helpers.withMessage("The name field is required", required)
+    required: helpers.withMessage("The name field is required", required),
+    $autoDirty: true,
+    $lazy: true,
   },
   short_name: {
-    required: helpers.withMessage("The short name field is required", required)
+    required: helpers.withMessage("The short name field is required", required),
+    $autoDirty: true,
+    $lazy: true,
   },
   address: {
     dirty: false
   },
   city: {
     required: helpers.withMessage("The city field is required", required),
-    dirty: false
+    $autoDirty: true,
+    $lazy: true,
   },
   state: {
     required: helpers.withMessage("Required", required),
-    dirty: false
+    $autoDirty: true,
+    $lazy: true,
   },
   zip: {
     required: helpers.withMessage("The field is required", required),
-    dirty: false
+    $autoDirty: true,
+    $lazy: true,
   },
   invoice_address: {
     dirty: false
@@ -160,23 +170,54 @@ const validation = useVuelidate(
     company
 );
 
-// watch(activeCompany, async () => {
-//   if (activeCompany.value?.id) {
-//     try {
-//       if (!isDirty.value) {
-//         company.value = (await companyService.getCompany(activeCompany.value.id, {tab: "info"}));
-//
-//         validation.value.$reset();
-//
-//         console.log(company.value);
-//       } else {
-//         setIsDirty(false);
-//       }
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   }
-// });
+watch(activeCompany, async () => {
+  if (activeCompany.value?.id) {
+    try {
+      if (!isDirty.value) {
+        company.value = (await companyService.getCompany(activeCompany.value.id, {tab: "info"}));
+
+        validation.value.$reset();
+
+        console.log(company.value);
+      } else {
+        setIsDirty(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+});
+
+watch(isNewCompany, async () => {
+  if (isNewCompany.value) {
+    company.value = {
+      id: undefined,
+      name: "",
+      legal_name: "",
+      active: false,
+      address: "",
+      city: "",
+      contact_email: "",
+      contact_name: "",
+      contact_phone: "",
+      invoice_address: "",
+      invoice_address2: "",
+      invoice_city: "",
+      invoice_email: "",
+      invoice_state: "",
+      invoice_zip: "",
+      pm_software_id: 0,
+      policy_ids: [],
+      short_name: "",
+      state: "",
+      ud_filing_threshold: 0,
+      url: "",
+      zip: "",
+    };
+
+    validation.value.$reset();
+  }
+});
 
 if (activeCompany.value?.id) {
   try {
@@ -184,6 +225,8 @@ if (activeCompany.value?.id) {
       company.value = (await companyService.getCompany(activeCompany.value.id, {tab: "info"}));
 
       console.log(company.value);
+
+      validation.value.$reset();
     } else {
       setIsDirty(false);
     }
