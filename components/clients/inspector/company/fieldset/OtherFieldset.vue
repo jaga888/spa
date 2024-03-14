@@ -11,8 +11,9 @@
                     class="senex__form__select"
                     @input="$emit('update:pmSoftwareId', parseInt(($event.target as HTMLInputElement).value))"
                     :value="pmSoftwareId"
-                    @change="setDirty(validation?.pm_software_id)">
-              <option :value="pmSoftware.id" v-for="pmSoftware in pmSoftwares">{{ pmSoftware.name }}</option>
+                    @change="setDirty(validation?.pm_software_id)"
+            >
+              <PmSoftware v-for="pmSoftware in pmSoftwares" :pmSoftware="pmSoftware"/>
             </select>
           </div>
           <label class="senex__form__label" for="form_company_pm_software_id">PM Software</label>
@@ -75,6 +76,7 @@ import {useCompanyStore} from "~/store/company";
 import type {PmSoftwareList} from "~/services/pm_software/types";
 import {pmSoftwareService} from "~/services/pm_software/service";
 import type {Company} from "~/services/company/types";
+import PmSoftware from "~/components/clients/inspector/company/fieldset/PmSoftware.vue";
 
 defineProps({
   pmSoftwareId: {

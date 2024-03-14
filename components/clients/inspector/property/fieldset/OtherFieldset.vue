@@ -71,10 +71,10 @@
 
 <script setup lang="ts">
 import {type Validation} from "@vuelidate/core";
-import {useCompanyStore} from "~/store/company";
+import {usePropertyStore} from "~/store/property";
 import type {PmSoftwareList} from "~/services/pm_software/types";
 import {pmSoftwareService} from "~/services/pm_software/service";
-import type {Company} from "~/services/company/types";
+import type {Property} from "~/services/property/types";
 
 defineProps({
   pmSoftwareId: {
@@ -89,12 +89,12 @@ defineProps({
     default: 500
   },
   validation: {
-    type: Object as PropType<Validation<Company>>,
-    default: <Validation<Company>>{}
+    type: Object as PropType<Validation<Property>>,
+    default: <Validation<Property>>{}
   },
 })
 
-const {setIsDirty} = useCompanyStore();
+const {setIsDirty} = usePropertyStore();
 
 const setDirty = (element: { $touch: any; } | undefined = undefined) => {
   if (element) {
@@ -104,17 +104,13 @@ const setDirty = (element: { $touch: any; } | undefined = undefined) => {
   setIsDirty(true)
 }
 
-const {activeCompany} = storeToRefs(useCompanyStore())
-
 const pmSoftwares = ref<PmSoftwareList[]>([])
 
-if (activeCompany.value?.id) {
-  try {
-    pmSoftwares.value = (await pmSoftwareService.getPmSoftwares({sort: 'order'}))
+try {
+  pmSoftwares.value = (await pmSoftwareService.getPmSoftwares({sort: 'order'}))
 
-    console.log(pmSoftwares.value)
-  } catch (error) {
-    console.log(error)
-  }
+  console.log(pmSoftwares.value)
+} catch (error) {
+  console.log(error)
 }
 </script>

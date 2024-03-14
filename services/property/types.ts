@@ -1,5 +1,6 @@
 import type {CompanyList} from "~/services/company/types";
 import type {Firm} from "~/services/firm/types";
+import type {PolicyList} from "~/services/policy/types";
 
 export interface PropertyList{
     id: number,
@@ -53,4 +54,5 @@ export interface Property{
     state: string,
     ud_filing_threshold: number,
     zip: string,
+    policies: Array<PolicyList>
 }

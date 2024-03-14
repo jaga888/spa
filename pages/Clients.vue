@@ -51,7 +51,7 @@ import {useClientStore} from "~/store/client";
 import {usePropertyStore} from "~/store/property";
 import {useCompanyStore} from "~/store/company";
 import {useUserStore} from "~/store/user";
-import PropertyInspector from "~/components/clients/inspector/Property/PropertyInspector.vue";
+import PropertyInspector from "~/components/clients/inspector/property/PropertyInspector.vue";
 
 const {
   activeInspector,

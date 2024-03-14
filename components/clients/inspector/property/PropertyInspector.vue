@@ -61,8 +61,8 @@
     </div>
 
     <Information v-if="activeTab === activeTabInformation"/>
-    <Fees v-if="activeTab === activeTabFees"/>
-    <Files v-if="activeTab === activeTabFiles"/>
+<!--    <Fees v-if="activeTab === activeTabFees"/>-->
+<!--    <Files v-if="activeTab === activeTabFiles"/>-->
 
     <div class="senex__footer" v-if="activeTab === activeTabInformation">
       <div class="senex__strip__left">
@@ -74,9 +74,9 @@
 
 <script setup lang="ts">
 import {usePropertyStore} from "~/store/property";
-import Information from "~/components/clients/inspector/Property/Information.vue";
-import Fees from "~/components/clients/inspector/company/Fees.vue";
-import Files from "~/components/clients/inspector/company/Files.vue";
+import Information from "~/components/clients/inspector/property/Information.vue";
+// import Fees from "~/components/clients/inspector/property/Fees.vue";
+// import Files from "~/components/clients/inspector/property/Files.vue";
 
 const {
   activeProperty,

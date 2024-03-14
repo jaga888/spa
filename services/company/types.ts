@@ -1,6 +1,7 @@
 import type {ProcessingTypeAvailabilityList} from "~/services/processing_type_availability/types";
 import type {Firm} from "~/services/firm/types";
 import type {FeeList} from "~/services/fee/types";
+import type {PolicyList} from "~/services/policy/types";
 
 export interface CompanyList{
     id: number,
@@ -32,6 +33,7 @@ export interface Company{
     ud_filing_threshold: number,
     url: string,
     zip: string,
+    policies?: Array<PolicyList>
 }
 
 export interface CompanyFee{
