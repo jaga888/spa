@@ -237,7 +237,7 @@ if (activeCompany.value?.id) {
 
 watch(saveCompany, async () => {
   if (saveCompany.value) {
-    console.log(company.value.policy_ids);
+    console.log(company.value);
     setSaveCompany(false);
   }
 });

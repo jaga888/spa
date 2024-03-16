@@ -51,19 +51,30 @@
 
       <PropertyManagerFieldset
           v-model:managerName="property.manager_name"
-          v-model:managerEame="property.manager_cell"
+          v-model:managerCell="property.manager_cell"
           v-model:managerEmail="property.manager_email"
           :validation="validation"
       />
 
-      <PoliciesFieldset v-model:policyIds="property.policy_ids" :propertyPolicies="property.policies"/>
+      <PoliciesFieldset
+          v-model:policyIds="property.policy_ids"
+          v-model:lateAfterDom="property.late_after_dom"
+          v-model:noticeRentTrigger="property.notice_rent_trigger"
+          v-model:useCompanyFilingThreshold="property.use_company_filing_threshold"
+          v-model:udFilingThreshold="property.ud_filing_threshold"
+          :propertyPolicies="property.policies"
+          :companyPolicies="property.company.policies"
+          :companyudFilingThreshold="property.company.ud_filing_threshold"
+          :excludedPolicyIds="excludedPolicyIds"
+          :validation="validation"
+      />
 
-<!--      <OtherFieldset-->
-<!--          v-model:pmSoftwareId="property.pm_software_id"-->
-<!--          v-model:url="property.url"-->
-<!--          v-model:udFilingThreshold="property.ud_filing_threshold"-->
-<!--          :validation="validation"-->
-<!--      />-->
+      <OtherFieldset
+          v-model:pmSoftwareId="property.pm_software_id"
+          v-model:url="property.url"
+          v-model:udFilingThreshold="property.ud_filing_threshold"
+          :validation="validation"
+      />
 
       <ActivateFieldset :active="property.active"/>
     </form>
@@ -81,12 +92,13 @@ import EmailFieldset from "~/components/clients/inspector/property/fieldset/Emai
 import OtherFieldset from "~/components/clients/inspector/property/fieldset/OtherFieldset.vue";
 import PoliciesFieldset from "~/components/clients/inspector/property/fieldset/PoliciesFieldset.vue";
 import ActivateFieldset from "~/components/clients/inspector/property/fieldset/ActivateFieldset.vue";
-import {helpers, required} from "@vuelidate/validators";
+import {helpers, maxValue, minValue, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
 import type {CompanyList} from "~/services/company/types";
 import type {Firm} from "~/services/firm/types";
 import LocationFieldset from "~/components/clients/inspector/property/fieldset/LocationFieldset.vue";
 import PropertyManagerFieldset from "~/components/clients/inspector/property/fieldset/PropertyManagerFieldset.vue";
+import type {PolicyList} from "~/services/policy/types";
 
 const {
   activeProperty,
@@ -94,6 +106,7 @@ const {
   isDirty,
   isNewProperty,
 } = storeToRefs(usePropertyStore());
+
 const {
   setSaveProperty,
   setIsDirty
@@ -163,6 +176,18 @@ const rules = {
   email: {
     dirty: false
   },
+  payment_address: {
+    dirty: false
+  },
+  payment_city: {
+    dirty: false
+  },
+  payment_state: {
+    dirty: false
+  },
+  payment_zip: {
+    dirty: false
+  },
   invoice_address: {
     dirty: false
   },
@@ -196,20 +221,39 @@ const rules = {
   manager_email: {
     dirty: false
   },
+  late_after_dom: {
+    required: helpers.withMessage("The field is required", required),
+    maxValue: helpers.withMessage("The field must have a max value 15", maxValue(15)),
+    minValue: helpers.withMessage("The field must have a min value 0", minValue(0)),
+    $autoDirty: true,
+    $lazy: true,
+  },
+  notice_rent_trigger: {
+    required: helpers.withMessage("The field is required", required),
+    minValue: helpers.withMessage("The field must have a min value 0", minValue(0)),
+    $autoDirty: true,
+    $lazy: true,
+  },
+  use_company_filing_threshold: {
+    dirty: false
+  },
   // pm_software_id: {
   //   dirty: false
   // },
-  // ud_filing_threshold: {
-  //   required: helpers.withMessage("The field ud filing threshold is required", required),
-  //   minValue: helpers.withMessage("The field must have a min value 0", minValue(0)),
-  //   dirty: false
-  // },
+  ud_filing_threshold: {
+    required: helpers.withMessage("The field ud filing threshold is required", required),
+    minValue: helpers.withMessage("The field must have a min value 0", minValue(0)),
+    $autoDirty: true,
+    $lazy: true,
+  },
 };
 
 const validation = useVuelidate(
     rules,
     property
 );
+
+const excludedPolicyIds = ref<Array<Number>>([]);
 
 watch(activeProperty, async () => {
   console.log(activeProperty.value);
@@ -271,8 +315,10 @@ watch(isNewProperty, async () => {
       policy_ids: [],
       short_name: "",
       state: "",
+      use_company_filing_threshold: false,
       ud_filing_threshold: 0,
       zip: "",
+      policies: []
     };
 
     validation.value.$reset();
@@ -297,7 +343,8 @@ if (activeProperty.value?.id) {
 
 watch(saveProperty, async () => {
   if (saveProperty.value) {
-    console.log(property.value.policy_ids);
+    console.log(property.value);
+    console.log(excludedPolicyIds.value);
     setSaveProperty(false);
   }
 });
@@ -311,5 +358,13 @@ watch(isDirty, async () => {
 
     validation.value.$reset();
   }
+});
+
+onMounted(() => {
+  property.value.policies.forEach((currentPolicy) => {
+    if (currentPolicy.pivot?.exclude) {
+      excludedPolicyIds.value.push(currentPolicy.id);
+    }
+  });
 });
 </script>

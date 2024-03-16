@@ -21,7 +21,7 @@ export interface Property{
     address: string,
     city: string,
     client_property_id: string,
-    company: CompanyList
+    company: CompanyList,
     company_id: number,
     court_id: number,
     default_unit_city: string,
@@ -52,6 +52,7 @@ export interface Property{
     policy_ids: number[],
     short_name: string,
     state: string,
+    use_company_filing_threshold: boolean,
     ud_filing_threshold: number,
     zip: string,
     policies: Array<PolicyList>

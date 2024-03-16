@@ -1,17 +1,19 @@
 <template>
   <span>
     <div class="wrap-policies-svg">
-        <ApproveIcon v-if="!isExcluded"/>
+        <ApproveIcon v-if="!excludedPolicyIds.includes(policy.id)" @click="excludePolicy(true)" />
 
-        <RejectIcon v-if="isExcluded"/>
+        <RejectIcon v-if="excludedPolicyIds.includes(policy.id)" @click="excludePolicy(false)" />
     </div>
     <input type="checkbox"
            name="policies[]"
            class="senex__form__checkbox"
            :id="'form_company_policy_' + policy.id"
-           :checked="policyIds.includes(policy.id)"
+           :checked="policyIds.includes(policy.id) || isDisabled"
+           :disabled="isDisabled"
            :value="policy.id"
-           @change="setDirty($event)">
+           @change="setDirty($event)"
+    />
     <label :for="'form_company_policy_' + policy.id" :title="policy.description">
       {{
         policy.name
@@ -27,14 +29,22 @@
 </template>
 
 <script setup lang="ts">
-import {useCompanyStore} from "~/store/company";
+import {usePropertyStore} from "~/store/property";
 import type {PolicyList} from "~/services/policy/types";
 import type {PropType} from "vue";
 import ApproveIcon from "~/components/icons/ApproveIcon.vue";
 import RejectIcon from "~/components/icons/RejectIcon.vue";
 
 const props = defineProps({
+  companyPolicies: {
+    type: Array<PolicyList>,
+    default: []
+  },
   policyIds: {
+    type: Array<Number>,
+    default: []
+  },
+  excludedPolicyIds: {
     type: Array<Number>,
     default: []
   },
@@ -44,11 +54,11 @@ const props = defineProps({
   },
   policies: {
     type: Array<PolicyList>,
-    default: {}
+    default: []
   },
 });
 
-const {setIsDirty} = useCompanyStore();
+const {setIsDirty} = usePropertyStore();
 
 const setDirty = ($event: any, element: { $touch: any; } | undefined = undefined) => {
   if (element) {
@@ -68,12 +78,31 @@ const setDirty = ($event: any, element: { $touch: any; } | undefined = undefined
   setIsDirty(true);
 };
 
-const policyFilter = ref<Array<PolicyList>>([])
+const companyPolicyFilter = ref<Array<PolicyList>>([]);
 
-const isExcluded = computed((): boolean => {
-  policyFilter.value = props.policies.filter(
-      (currentPolicy) => props.policy.identifier === currentPolicy.identifier
-  );
-  return policyFilter.value.length > 0 && policyFilter.value[0].pivot?.exclude;
+const isDisabled = computed((): boolean => {
+  if (props.companyPolicies) {
+    companyPolicyFilter.value = props.companyPolicies.filter(
+        (currentPolicy) => props.policy.identifier === currentPolicy.identifier
+    );
+    return companyPolicyFilter.value.length > 0;
+  } else {
+    return false;
+  }
 });
+
+const excludePolicy = (exclude: boolean) => {
+  console.log(exclude);
+  if (exclude) {
+    props.excludedPolicyIds.push(props.policy.id);
+  } else {
+    const index = props.excludedPolicyIds.indexOf(props.policy.id);
+
+    if (index > -1) {
+      props.excludedPolicyIds.splice(index, 1);
+    }
+  }
+
+  setIsDirty(true);
+}
 </script>

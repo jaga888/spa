@@ -14,9 +14,10 @@
                 @input="$emit('update:phone', ($event.target as HTMLInputElement).value)"
                 :value="phone"
                 @keyup="setDirty(validation.phone)"
+                autocomplete="true"
             />
           </div>
-          <label class="senex__form__label" for="form_property_contact_name">Phone</label>
+          <label class="senex__form__label" for="form_property_phone">Phone</label>
         </div>
       </div>
 
@@ -33,7 +34,7 @@
                 @change="setDirty(validation.fax)"
             />
           </div>
-          <label class="senex__form__label" for="form_property_contact_phone">Fax</label>
+          <label class="senex__form__label" for="form_property_fax">Fax</label>
         </div>
       </div>
 
@@ -45,13 +46,14 @@
                 type="email"
                 name="email"
                 class="senex__form__input"
+                autocomplete="true"
                 placeholder="Email..."
                 @input="$emit('update:email', ($event.target as HTMLInputElement).value)"
                 :value="email"
                 @keyup="setDirty(validation.email)"
             />
           </div>
-          <label class="senex__form__label" for="form_property_contact_email">Email</label>
+          <label class="senex__form__label" for="form_property_email">Email</label>
         </div>
       </div>
     </div>

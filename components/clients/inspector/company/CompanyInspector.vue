@@ -52,7 +52,7 @@
 
     <div class="senex__footer" v-if="activeTab === activeTabInformation">
       <div class="senex__strip__left">
-        <CompanyButton/>
+        <CompanyButton />
       </div>
     </div>
   </div>
@@ -63,6 +63,7 @@ import {useCompanyStore} from "~/store/company";
 import Information from "~/components/clients/inspector/company/Information.vue";
 import Fees from "~/components/clients/inspector/company/Fees.vue";
 import Files from "~/components/clients/inspector/company/Files.vue";
+import CompanyButton from "~/components/clients/inspector/company/CompanyButton.vue"
 
 const {
   activeCompany,

@@ -66,7 +66,7 @@
 
     <div class="senex__footer" v-if="activeTab === activeTabInformation">
       <div class="senex__strip__left">
-        <CompanyButton/>
+        <PropertyButton />
       </div>
     </div>
   </div>
@@ -75,6 +75,7 @@
 <script setup lang="ts">
 import {usePropertyStore} from "~/store/property";
 import Information from "~/components/clients/inspector/property/Information.vue";
+import PropertyButton from "~/components/clients/inspector/property/PropertyButton.vue"
 // import Fees from "~/components/clients/inspector/property/Fees.vue";
 // import Files from "~/components/clients/inspector/property/Files.vue";
 

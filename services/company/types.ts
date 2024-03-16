@@ -8,6 +8,8 @@ export interface CompanyList{
     name: string,
     legal_name: string,
     active: boolean,
+    policies?: Array<PolicyList>
+    ud_filing_threshold?: number,
 }
 
 export interface Company{
@@ -33,7 +35,6 @@ export interface Company{
     ud_filing_threshold: number,
     url: string,
     zip: string,
-    policies?: Array<PolicyList>
 }
 
 export interface CompanyFee{

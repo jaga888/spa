@@ -116,7 +116,7 @@
 
       <div class="senex__form__item-group">
         <div class="senex__form__item senex__form__item--flex-5">
-          <div class="senex__form__field">
+          <div class="senex__form__field" :class="{'senex__form__field--dirty': validation.default_unit_city.$dirty}">
             <input id="form_property_default_unit_city"
                    type="text"
                    name="default_unit_city"
@@ -124,13 +124,14 @@
                    placeholder="City..."
                    @input="$emit('update:defaultUnitCity', ($event.target as HTMLInputElement).value)"
                    :value="defaultUnitCity"
+                   @keyup="setDirty(validation.default_unit_city)"
             />
           </div>
           <label class="senex__form__label" for="form_property_default_unit_city">City</label>
         </div>
 
         <div class="senex__form__item senex__form__item--flex-1">
-          <div class="senex__form__field">
+          <div class="senex__form__field" :class="{'senex__form__field--dirty': validation.default_unit_state.$dirty}">
             <input id="form_property_default_unit_state"
                    type="text"
                    name="default_unit_state"
@@ -138,13 +139,14 @@
                    placeholder="ST..."
                    @input="$emit('update:defaultUnitState', ($event.target as HTMLInputElement).value)"
                    :value="defaultUnitState"
+                   @keyup="setDirty(validation.default_unit_state)"
             />
           </div>
           <label class="senex__form__label" for="form_property_default_unit_state">ST</label>
         </div>
 
         <div class="senex__form__item senex__form__item--flex-2">
-          <div class="senex__form__field">
+          <div class="senex__form__field" :class="{'senex__form__field--dirty': validation.default_unit_zip.$dirty}">
             <input id="form_property_default_unit_zip"
                    type="text"
                    name="default_unit_zip"
@@ -152,6 +154,7 @@
                    placeholder="Zip..."
                    @input="$emit('update:defaultUnitZip', ($event.target as HTMLInputElement).value)"
                    :value="defaultUnitZip"
+                   @keyup="setDirty(validation.default_unit_zip)"
             />
           </div>
           <label class="senex__form__label" for="form_property_default_unit_zip">Zip</label>
