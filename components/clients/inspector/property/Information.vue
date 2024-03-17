@@ -71,8 +71,7 @@
 
       <OtherFieldset
           v-model:pmSoftwareId="property.pm_software_id"
-          v-model:url="property.url"
-          v-model:udFilingThreshold="property.ud_filing_threshold"
+          :unitCount="property.unit_count"
           :validation="validation"
       />
 
@@ -98,7 +97,6 @@ import type {CompanyList} from "~/services/company/types";
 import type {Firm} from "~/services/firm/types";
 import LocationFieldset from "~/components/clients/inspector/property/fieldset/LocationFieldset.vue";
 import PropertyManagerFieldset from "~/components/clients/inspector/property/fieldset/PropertyManagerFieldset.vue";
-import type {PolicyList} from "~/services/policy/types";
 
 const {
   activeProperty,
@@ -304,7 +302,7 @@ watch(isNewProperty, async () => {
       manager_cell: "",
       manager_email: "",
       manager_name: "",
-      notice_rent_trigger: 0,
+      notice_rent_trigger: 100,
       notification_email: "",
       payment_address: "",
       payment_city: "",
@@ -316,9 +314,10 @@ watch(isNewProperty, async () => {
       short_name: "",
       state: "",
       use_company_filing_threshold: false,
-      ud_filing_threshold: 0,
+      ud_filing_threshold: 500,
       zip: "",
-      policies: []
+      policies: [],
+      unit_count: 0,
     };
 
     validation.value.$reset();

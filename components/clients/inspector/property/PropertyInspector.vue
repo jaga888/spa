@@ -51,6 +51,11 @@
               Fees
             </li>
             <li class="senex__detail-menu__item senex__detail-menu__item--tab ml-1.5"
+                :class="{'senex__detail-menu__item--active': activeTab === activeTabDocs}"
+                @click="activeTab = activeTabDocs">
+              Docs
+            </li>
+            <li class="senex__detail-menu__item senex__detail-menu__item--tab ml-1.5"
                 :class="{'senex__detail-menu__item--active': activeTab === activeTabFiles}"
                 @click="activeTab = activeTabFiles">
               Files
@@ -60,8 +65,9 @@
       </div>
     </div>
 
-    <Information v-if="activeTab === activeTabInformation"/>
-<!--    <Fees v-if="activeTab === activeTabFees"/>-->
+    <Information v-if="activeTab === activeTabInformation" />
+    <Fees v-if="activeTab === activeTabFees" />
+    <Docs v-if="activeTab === activeTabDocs" />
 <!--    <Files v-if="activeTab === activeTabFiles"/>-->
 
     <div class="senex__footer" v-if="activeTab === activeTabInformation">
@@ -76,7 +82,8 @@
 import {usePropertyStore} from "~/store/property";
 import Information from "~/components/clients/inspector/property/Information.vue";
 import PropertyButton from "~/components/clients/inspector/property/PropertyButton.vue"
-// import Fees from "~/components/clients/inspector/property/Fees.vue";
+import Fees from "~/components/clients/inspector/property/Fees.vue";
+import Docs from "~/components/clients/inspector/property/Docs.vue";
 // import Files from "~/components/clients/inspector/property/Files.vue";
 
 const {
@@ -86,6 +93,7 @@ const {
 
 const activeTabInformation: string = "information";
 const activeTabFees: string = "fees";
+const activeTabDocs: string = "docs";
 const activeTabFiles: string = "files";
 
 const activeTab = ref(activeTabInformation)

@@ -1,6 +1,8 @@
 import type {CompanyList} from "~/services/company/types";
 import type {Firm} from "~/services/firm/types";
 import type {PolicyList} from "~/services/policy/types";
+import type {FeeList} from "~/services/fee/types";
+import type {ProcessingTypeAvailabilityList} from "~/services/processing_type_availability/types";
 
 export interface PropertyList{
     id: number,
@@ -55,5 +57,37 @@ export interface Property{
     use_company_filing_threshold: boolean,
     ud_filing_threshold: number,
     zip: string,
-    policies: Array<PolicyList>
+    policies: Array<PolicyList>,
+    unit_count: number,
+}
+
+export interface PropertyFee{
+    id: number,
+    court_id: number,
+    data_availability: number,
+    document_email: string,
+    name: string,
+    legal_name: string,
+    manager_name: string,
+    active: boolean,
+    fees: FeeList[]
+    firm: Firm,
+    processing_type_availabilities: ProcessingTypeAvailabilityList[],
+    short_name: string,
+    sort_name: string,
+    company: CompanyList,
+}
+
+export interface PropertyDoc{
+    id: number,
+    court_id: number,
+    data_availability: number,
+    document_email: string,
+    name: string,
+    legal_name: string,
+    manager_name: string,
+    active: boolean,
+    processing_type_availabilities: ProcessingTypeAvailabilityList[],
+    short_name: string,
+    sort_name: string,
 }

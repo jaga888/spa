@@ -8,7 +8,12 @@
           <div class="senex__form__field">
             <select id="form_property_pm_software_id"
                     name="pm_software_id"
-                    class="senex__form__select">
+                    class="senex__form__select"
+                    @input="$emit('update:pmSoftwareId', parseInt(($event.target as HTMLInputElement).value))"
+                    :value="pmSoftwareId"
+                    @change="setDirty(validation?.pm_software_id)"
+            >
+              <PmSoftware v-for="pmSoftware in pmSoftwares" :pmSoftware="pmSoftware"/>
             </select>
           </div>
           <label class="senex__form__label" for="form_property_pm_software_id">PM Software</label>
@@ -23,7 +28,8 @@
                    name="unit_count"
                    class="senex__form__input"
                    placeholder="Unit Count..."
-                   value=""
+                   :value="unitCount"
+                   readonly
             />
           </div>
           <label class="senex__form__label" for="form_property_unit_count">Unit Count</label>
@@ -39,18 +45,15 @@ import {usePropertyStore} from "~/store/property";
 import type {PmSoftwareList} from "~/services/pm_software/types";
 import {pmSoftwareService} from "~/services/pm_software/service";
 import type {Property} from "~/services/property/types";
+import PmSoftware from "~/components/clients/inspector/property/fieldset/PmSoftware.vue";
 
 defineProps({
   pmSoftwareId: {
     type: Number,
   },
-  url: {
-    type: String,
-    default: ""
-  },
-  udFilingThreshold: {
+  unitCount: {
     type: Number,
-    default: 500
+    default: 0
   },
   validation: {
     type: Object as PropType<Validation<Property>>,
