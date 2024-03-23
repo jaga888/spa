@@ -18,7 +18,7 @@
           v-model:defaultUnitCity="property.default_unit_city"
           v-model:defaultUnitState="property.default_unit_state"
           v-model:defaultUnitZip="property.default_unit_zip"
-          :courts="property.firm.courts"
+          :courts="courts"
           :validation="validation"
       />
 
@@ -84,19 +84,21 @@
 import {propertyService} from "~/services/property/service";
 import {usePropertyStore} from "~/store/property";
 import type {Property} from "~/services/property/types";
-import BaseFieldset from "~/components/clients/inspector/property/fieldset/BaseFieldset.vue";
-import AddressFieldset from "~/components/clients/inspector/property/fieldset/AddressFieldset.vue";
-import ContactFieldset from "~/components/clients/inspector/property/fieldset/ContactFieldset.vue";
-import EmailFieldset from "~/components/clients/inspector/property/fieldset/EmailFieldset.vue";
-import OtherFieldset from "~/components/clients/inspector/property/fieldset/OtherFieldset.vue";
-import PoliciesFieldset from "~/components/clients/inspector/property/fieldset/PoliciesFieldset.vue";
-import ActivateFieldset from "~/components/clients/inspector/property/fieldset/ActivateFieldset.vue";
+import BaseFieldset from "~/components/clients/inspector/property/Tabs/Information/fieldset/BaseFieldset.vue";
+import AddressFieldset from "~/components/clients/inspector/property/Tabs/Information/fieldset/AddressFieldset.vue";
+import ContactFieldset from "~/components/clients/inspector/property/Tabs/Information/fieldset/ContactFieldset.vue";
+import EmailFieldset from "~/components/clients/inspector/property/Tabs/Information/fieldset/EmailFieldset.vue";
+import OtherFieldset from "~/components/clients/inspector/property/Tabs/Information/fieldset/OtherFieldset.vue";
+import PoliciesFieldset from "~/components/clients/inspector/property/Tabs/Information/fieldset/PoliciesFieldset.vue";
+import ActivateFieldset from "~/components/clients/inspector/property/Tabs/Information/fieldset/ActivateFieldset.vue";
 import {helpers, maxValue, minValue, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
 import type {CompanyList} from "~/services/company/types";
 import type {Firm} from "~/services/firm/types";
-import LocationFieldset from "~/components/clients/inspector/property/fieldset/LocationFieldset.vue";
-import PropertyManagerFieldset from "~/components/clients/inspector/property/fieldset/PropertyManagerFieldset.vue";
+import LocationFieldset from "~/components/clients/inspector/property/Tabs/Information/fieldset/LocationFieldset.vue";
+import PropertyManagerFieldset from "~/components/clients/inspector/property/Tabs/Information/fieldset/PropertyManagerFieldset.vue";
+import type {Court} from "~/services/court/types";
+import {courtService} from "~/services/court/service";
 
 const {
   activeProperty,
@@ -109,7 +111,9 @@ const {
   setSaveProperty,
   setIsDirty
 } = usePropertyStore();
+
 const property = ref<Property>(<Property>{});
+const courts = ref<Array<Court>>([]);
 
 const rules = {
   legal_name: {
@@ -235,9 +239,9 @@ const rules = {
   use_company_filing_threshold: {
     dirty: false
   },
-  // pm_software_id: {
-  //   dirty: false
-  // },
+  pm_software_id: {
+    dirty: false
+  },
   ud_filing_threshold: {
     required: helpers.withMessage("The field ud filing threshold is required", required),
     minValue: helpers.withMessage("The field must have a min value 0", minValue(0)),
@@ -260,9 +264,9 @@ watch(activeProperty, async () => {
       if (!isDirty.value) {
         property.value = (await propertyService.getProperty(activeProperty.value.id, {tab: "info"}));
 
-        validation.value.$reset();
-
         console.log(property.value);
+
+        validation.value.$reset();
       } else {
         setIsDirty(false);
       }
@@ -321,6 +325,10 @@ watch(isNewProperty, async () => {
     };
 
     validation.value.$reset();
+
+    courts.value = (await courtService.getCourts());
+
+    console.log(courts.value);
   }
 });
 
@@ -332,6 +340,10 @@ if (activeProperty.value?.id) {
       console.log(property.value);
 
       validation.value.$reset();
+
+      courts.value = (await courtService.getCourts());
+
+      console.log(courts.value);
     } else {
       setIsDirty(false);
     }

@@ -40,34 +40,20 @@
       <div class="senex__header__bottom">
         <div class="senex__header__left">
           <ul class="senex__detail-menu">
-            <li class="senex__detail-menu__item senex__detail-menu__item--tab"
-                :class="{'senex__detail-menu__item--active': activeTab === activeTabInformation}"
-                @click="activeTab = activeTabInformation">
-              Info
-            </li>
-            <li class="senex__detail-menu__item senex__detail-menu__item--tab ml-1.5"
-                :class="{'senex__detail-menu__item--active': activeTab === activeTabFees}"
-                @click="activeTab = activeTabFees">
-              Fees
-            </li>
-            <li class="senex__detail-menu__item senex__detail-menu__item--tab ml-1.5"
-                :class="{'senex__detail-menu__item--active': activeTab === activeTabDocs}"
-                @click="activeTab = activeTabDocs">
-              Docs
-            </li>
-            <li class="senex__detail-menu__item senex__detail-menu__item--tab ml-1.5"
-                :class="{'senex__detail-menu__item--active': activeTab === activeTabFiles}"
-                @click="activeTab = activeTabFiles">
-              Files
-            </li>
+            <Tab v-for="(tab, index) in tabs"
+                 :class="{'senex__detail-menu__item--active': activeTab === tab.slug, 'ml-1.5': index !== 0}"
+                 @click="activeTab = tab.slug"
+            >{{ tab.label }}</Tab>
           </ul>
         </div>
       </div>
     </div>
 
-    <Information v-if="activeTab === activeTabInformation" />
-    <Fees v-if="activeTab === activeTabFees" />
-    <Docs v-if="activeTab === activeTabDocs" />
+    <InformationTab v-if="activeTab === activeTabInformation" />
+    <FeesTab v-if="activeTab === activeTabFees" />
+    <DocsTab v-if="activeTab === activeTabDocs" />
+    <UnitsTab v-if="activeTab === activeTabUnits" />
+    <NotesTab v-if="activeTab === activeTabNotes" />
 <!--    <Files v-if="activeTab === activeTabFiles"/>-->
 
     <div class="senex__footer" v-if="activeTab === activeTabInformation">
@@ -80,11 +66,15 @@
 
 <script setup lang="ts">
 import {usePropertyStore} from "~/store/property";
-import Information from "~/components/clients/inspector/property/Information.vue";
+import InformationTab from "~/components/clients/inspector/property/Tabs/Information/InformationTab.vue";
 import PropertyButton from "~/components/clients/inspector/property/PropertyButton.vue"
-import Fees from "~/components/clients/inspector/property/Fees.vue";
-import Docs from "~/components/clients/inspector/property/Docs.vue";
-// import Files from "~/components/clients/inspector/property/Files.vue";
+import FeesTab from "~/components/clients/inspector/property/Tabs/Fees/FeesTab.vue";
+import DocsTab from "~/components/clients/inspector/property/Tabs/Docs/DocsTab.vue";
+import UnitsTab from "~/components/clients/inspector/property/Tabs/Units/UnitsTab.vue";
+import NotesTab from "~/components/clients/inspector/property/Tabs/Notes/NotesTab.vue";
+import type {Tab as TabType} from "~/services/tab/types";
+import Tab from "~/components/clients/Tab.vue";
+// import FilesTab from "~/components/clients/inspector/property/Files.vue";
 
 const {
   activeProperty,
@@ -94,6 +84,8 @@ const {
 const activeTabInformation: string = "information";
 const activeTabFees: string = "fees";
 const activeTabDocs: string = "docs";
+const activeTabUnits: string = "units";
+const activeTabNotes: string = "notes";
 const activeTabFiles: string = "files";
 
 const activeTab = ref(activeTabInformation)
@@ -101,4 +93,31 @@ const activeTab = ref(activeTabInformation)
 watch(activeProperty, async () => {
   activeTab.value = activeTabInformation;
 });
+
+const tabs = ref<TabType[]>([
+  {
+    label: "Information",
+    slug: "information",
+  },
+  {
+    label: "Fees",
+    slug: "fees",
+  },
+  {
+    label: "Docs",
+    slug: "docs",
+  },
+  {
+    label: "Units",
+    slug: "units",
+  },
+  {
+    label: "Notes",
+    slug: "notes",
+  },
+  {
+    label: "Files",
+    slug: "files",
+  },
+]);
 </script>

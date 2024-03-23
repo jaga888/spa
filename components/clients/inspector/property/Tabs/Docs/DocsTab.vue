@@ -20,7 +20,7 @@
 import {propertyService} from "~/services/property/service";
 import {usePropertyStore} from "~/store/property";
 import type {PropertyDoc} from "~/services/property/types";
-import Doc from "~/components/clients/inspector/property/Doc.vue";
+import Doc from "~/components/clients/inspector/property/Tabs/Docs/Doc.vue";
 
 const {activeProperty} = storeToRefs(usePropertyStore())
 const property = ref<PropertyDoc>({
@@ -39,7 +39,7 @@ const property = ref<PropertyDoc>({
 
 if (activeProperty.value) {
   try {
-    property.value = (await propertyService.getPropertyDocs(activeProperty.value.id, {tab: 'fees'}))
+    property.value = (await propertyService.getPropertyDocs(activeProperty.value.id, {tab: 'docs'}))
 
     console.log(property.value)
   } catch (error) {

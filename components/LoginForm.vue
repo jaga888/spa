@@ -51,7 +51,7 @@
     <div class="senex__form__block">
       <div class="senex__form__item-group">
         <div class="senex__form__item">
-          <Button class="senex__button--save-fee senex__button--save">Login</Button>
+          <Button type="submit" class="senex__button--save-fee senex__button senex__button--save">Login</Button>
         </div>
         <div class="senex__form__item" style="text-align: right">
         </div>

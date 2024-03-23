@@ -132,7 +132,7 @@
 <script setup lang="ts">
 import {policyService} from "~/services/policy/service";
 import type {PolicyList} from "~/services/policy/types";
-import Policy from "~/components/clients/inspector/property/fieldset/Policy.vue";
+import Policy from "~/components/clients/inspector/property/Tabs/Information/fieldset/Policy.vue";
 import type {Validation} from "@vuelidate/core";
 import type {Property} from "~/services/property/types";
 import {usePropertyStore} from "~/store/property";

@@ -37,7 +37,7 @@ watch(activeCompany, async () => {
     try {
       properties.value = (await propertyService.getProperties({
         sort: 'name',
-        'filter[company_id]': activeCompany.value?.id
+        'filter[company_id]': activeCompany.value.id
       }))
 
       console.log(properties.value)
@@ -53,7 +53,7 @@ if (activeCompany.value?.id) {
   try {
     properties.value = (await propertyService.getProperties({
       sort: 'name',
-      'filter[company_id]': activeCompany.value?.id,
+      'filter[company_id]': activeCompany.value.id,
       'filter[full_name]': filter.value,
     }))
 

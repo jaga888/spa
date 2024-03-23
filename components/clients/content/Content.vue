@@ -37,18 +37,10 @@
       <div class="senex__header__bottom">
         <div class="senex__header__left">
           <ul class="senex__detail-menu">
-            <li :class="{
-                  'senex__detail-menu__item--active': activeContentTab === activeContentTabProperties || (isNewCompany && activeContentTab !== activeContentTabUsers)
-                }"
-                @click="setActiveContentTab(activeContentTabProperties)"
-                class="senex__detail-menu__item senex__detail-menu__item--tab">
-              Properties
-            </li>
-            <li :class="{'senex__detail-menu__item--active': activeContentTab === activeContentTabUsers}"
-                @click="setActiveContentTab('users')"
-                class="senex__detail-menu__item senex__detail-menu__item--tab">
-              Users
-            </li>
+            <Tab v-for="tab in tabs"
+                 :class="{'senex__detail-menu__item--active': activeContentTab === tab.slug}"
+                 @click="setActiveContentTab(tab.slug)"
+            >{{ tab.label }}</Tab>
             <li class="senex__detail-menu__item senex__detail-menu__item--right senex__detail-menu__item--tab">
               <ManageExport/>
             </li>
@@ -100,9 +92,11 @@
       </div>
 
       <div class="senex__strip__right" v-if="activeContentTab === activeContentTabProperties">
-        <Button v-if="activeContentTab === activeContentTabProperties" class="senex__clients__add-property"
+        <Button type="submit"
+                v-if="activeContentTab === activeContentTabProperties" class="senex__clients__add-property"
                 :disabled="isNewProperty"
-                @click.prevent="setIsNewProperty">
+                @click.prevent="setIsNewProperty"
+        >
           Add Property
         </Button>
       </div>
@@ -113,6 +107,7 @@
 <script setup lang="ts">
 import {useCompanyStore} from "~/store/company";
 import ManageExport from "~/components/blocks/ManageExport.vue";
+import Tab from "~/components/clients/Tab.vue";
 import {useClientStore} from "~/store/client";
 import Properties from "~/components/clients/content/Properties.vue";
 import FilterIcon from "~/components/icons/FilterIcon.vue";
@@ -120,6 +115,7 @@ import CancelIcon from "~/components/icons/CancelIcon.vue";
 import {usePropertyStore} from "~/store/property";
 import Users from "~/components/clients/content/Users.vue";
 import {useUserStore} from "~/store/user";
+import type {Tab as TabType} from "~/services/tab/types";
 
 const {
   activeCompany,
@@ -151,4 +147,15 @@ const clearFilter = () => {
       ? setPropertyFilter(searchProperty.value)
       : setUserFilter(searchUser.value);
 };
+
+const tabs = ref<TabType[]>([
+  {
+    label: "Properties",
+    slug: "properties",
+  },
+  {
+    label: "Users",
+    slug: "users",
+  },
+]);
 </script>

@@ -169,7 +169,7 @@ import {type Validation} from "@vuelidate/core";
 import {usePropertyStore} from "~/store/property";
 import type {Property} from "~/services/property/types";
 import type {Court as CourtType} from "~/services/court/types";
-import Court from "~/components/clients/inspector/property/fieldset/Court.vue";
+import Court from "~/components/clients/inspector/property/Tabs/Information/fieldset/Court.vue";
 
 defineProps({
   address: {

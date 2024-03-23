@@ -13,7 +13,7 @@
                     :value="pmSoftwareId"
                     @change="setDirty(validation?.pm_software_id)"
             >
-              <PmSoftware v-for="pmSoftware in pmSoftwares" :pmSoftware="pmSoftware"/>
+              <PmSoftware v-for="pmSoftware in pmSoftwares" :pmSoftware="pmSoftware" />
             </select>
           </div>
           <label class="senex__form__label" for="form_property_pm_software_id">PM Software</label>
@@ -45,7 +45,7 @@ import {usePropertyStore} from "~/store/property";
 import type {PmSoftwareList} from "~/services/pm_software/types";
 import {pmSoftwareService} from "~/services/pm_software/service";
 import type {Property} from "~/services/property/types";
-import PmSoftware from "~/components/clients/inspector/property/fieldset/PmSoftware.vue";
+import PmSoftware from "~/components/clients/inspector/property/Tabs/Information/fieldset/PmSoftware.vue";
 
 defineProps({
   pmSoftwareId: {

@@ -31,6 +31,7 @@ export default defineNuxtConfig({
         "@nuxtjs/tailwindcss",
         "@sidebase/nuxt-auth",
         "@vueuse/nuxt",
+        "@nuxtjs/mdc",
     ],
     auth: {
         provider: {

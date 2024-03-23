@@ -105,10 +105,16 @@
           </div>
           <div class="senex__form__item-group">
             <div class="senex__form__item" style="text-align: right">
-              <Button class="senex__clients__cancel-fee senex__button--cancel" @click.prevent="showForm = !showForm">
+              <Button type="submit"
+                      class="senex__clients__cancel-fee senex__button--cancel"
+                      @click.prevent="showForm = !showForm"
+              >
                 Cancel
               </Button>
-              <Button class="senex__clients__save-fee senex__button senex__button--save" @click.prevent="saveFee">
+              <Button type="submit"
+                      class="senex__clients__save-fee senex__button senex__button--save"
+                      @click.prevent="saveFee"
+              >
                 Save
               </Button>
             </div>

@@ -62,7 +62,11 @@
       </div>
 
       <div class="senex__stripright">
-        <Button class="senex__clients__add-company" :disabled="isNewCompany" @click.prevent="setIsNewCompany">
+        <Button type="submit"
+                class="senex__clients__add-company"
+                :disabled="isNewCompany"
+                @click.prevent="setIsNewCompany"
+        >
           Add Client
         </Button>
       </div>

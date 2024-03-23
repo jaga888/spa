@@ -19,7 +19,8 @@
                   :class="{
                     'senex__button--danger senex__clients__deactivate-company': active,
                     'senex__button--save senex__clients__activate-company': !active
-                  }">
+                  }"
+          >
             {{ active ? 'Deactivate' : 'Activate' }}
           </Button>
         </div>

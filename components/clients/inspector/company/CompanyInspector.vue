@@ -26,21 +26,10 @@
       <div class="senex__header__bottom">
         <div class="senex__header__left">
           <ul class="senex__detail-menu">
-            <li class="senex__detail-menu__item senex__detail-menu__item--tab"
-                :class="{'senex__detail-menu__item--active': activeTab === activeTabInformation}"
-                @click="activeTab = activeTabInformation">
-              Information
-            </li>
-            <li class="senex__detail-menu__item senex__detail-menu__item--tab ml-1.5"
-                :class="{'senex__detail-menu__item--active': activeTab === activeTabFees}"
-                @click="activeTab = activeTabFees">
-              Fees
-            </li>
-            <li class="senex__detail-menu__item senex__detail-menu__item--tab ml-1.5"
-                :class="{'senex__detail-menu__item--active': activeTab === activeTabFiles}"
-                @click="activeTab = activeTabFiles">
-              Files
-            </li>
+            <Tab v-for="(tab, index) in tabs"
+                 :class="{'senex__detail-menu__item--active': activeTab === tab.slug, 'ml-1.5': index !== 0}"
+                 @click="activeTab = tab.slug"
+            >{{ tab.label }}</Tab>
           </ul>
         </div>
       </div>
@@ -64,6 +53,8 @@ import Information from "~/components/clients/inspector/company/Information.vue"
 import Fees from "~/components/clients/inspector/company/Fees.vue";
 import Files from "~/components/clients/inspector/company/Files.vue";
 import CompanyButton from "~/components/clients/inspector/company/CompanyButton.vue"
+import type {Tab as TabType} from "~/services/tab/types";
+import Tab from "~/components/clients/Tab.vue";
 
 const {
   activeCompany,
@@ -79,4 +70,19 @@ const activeTab = ref(activeTabInformation)
 watch(activeCompany, async () => {
   activeTab.value = activeTabInformation;
 });
+
+const tabs = ref<TabType[]>([
+  {
+    label: "Information",
+    slug: "information",
+  },
+  {
+    label: "Fees",
+    slug: "fees",
+  },
+  {
+    label: "Files",
+    slug: "files",
+  },
+]);
 </script>

@@ -1,4 +1,70 @@
-.senex__form__item .senex__button {
+<template>
+  <div id="divfrmimport">
+    <form
+        id="importForm"
+        class="senex__form senex__import__form"
+        method="post"
+        action="/public"
+        enctype="multipart/form-data"
+    >
+      <fieldset class="senex__form__fieldset">
+        <div class="senex__form__fieldset">
+          <div class="senex__form__header">Select File for Import</div>
+          <div class="senex__form__text">
+
+          </div>
+        </div>
+        <div class="senex__form__item-group">
+          <div class="senex__form__item">
+            Import form
+          </div>
+        </div>
+        <input type="hidden" name="property_id" id="property_id" :value="activePropertyId">
+
+        <div class="senex__form__item-group">
+          <div class="senex__form__item">
+            <div class="senex__form__field">
+              <input
+                  type="file"
+                  name="uploaded_file" id="uploaded_file"
+                  class="senex__form__input"
+                  accept=".csv"
+              />
+            </div>
+            <label class="senex__form__label">Select File</label>
+          </div>
+        </div>
+      </fieldset>
+      <div class="senex__footer senex__strip">
+        <div class="senex__strip__left">
+          <div class="senex__master-button-group">
+            <div
+                class="senex__clients__cancel-import senex__master-button senex__master-button--cancel"
+                @click="$emit('update:importUnit', false)"
+            >
+              Cancel
+            </div>
+            <div class="senex__clients__save-import senex__master-button senex__master-button--save">Save</div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</template>
+
+<script setup lang="ts">
+defineProps({
+  activePropertyId: {
+    type: Number
+  },
+  importUnit: {
+    type: Boolean
+  },
+})
+</script>
+
+<style scoped lang="scss">
+.senex__button {
   background-color: $senex-color-blue;
   color: white;
   border-radius: 0.25rem;
@@ -25,103 +91,10 @@
   }
 
   &--small {
-      padding: 2px 0.5rem;
-      font-size: 0.8rem;
-      // text-transform: capitalize;
-      letter-spacing: 0rem;
-  }
-
-  &--blue {
-    border-color: $senex-color-blue;
-    background-color: $senex-color-blue;
-    color: white;
-  }
-
-  &--red {
-    border-color: $senex-color-red;
-    background-color: $senex-color-red;
-    color: white;
-  }
-
-  &--grey {
-    border-color: $senex-color-grey;
-    background-color: $senex-color-grey;
-    color: white;
-  }
-
-  &--green {
-    border-color: $senex-color-green;
-    background-color: $senex-color-green;
-    color: white;
-  }
-
-  &--orange {
-    border-color: $senex-color-orange;
-    background-color: $senex-color-orange;
-    color: white;
-  }
-
-  &--light-grey {
-     background-color: rgba(0,0,0,0.05);
-     color: $senex-color-grey;
-  }
-
-  &--cancel {
-    background-color: rgba(0,0,0,0.05);
-    color: $senex-color-grey;
-
-    &:hover {
-    }
-  }
-
-  &--danger {
-    background-color: $senex-color-red;
-    color: white;
-
-    &:hover {
-    }
-  }
-
-
-  &--go, &--save {
-    border-color: $senex_color_green;
-    background-color: $senex_color_green;
-    color: white;
-
-    &:hover {
-
-    }
-  }
-
-}
-
-.senex__stripright .senex__button, .senex__strip__right .senex__button {
-  background-color: $senex-color-blue;
-  color: white;
-  border-radius: 0.25rem;
-  padding: 7px 1rem;
-  display: inline-block;
-  cursor: pointer;
-  letter-spacing: 0.05rem;
-  text-transform: uppercase;
-  font-weight: 600;
-  margin-right: 1rem;
-  font-size: 0.9rem;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: none;
-  }
-
-  &--full {
-    width: 100%;
-  }
-
-  &--small {
     padding: 2px 0.5rem;
     font-size: 0.8rem;
     // text-transform: capitalize;
-    letter-spacing: 0rem;
+    letter-spacing: 0;
   }
 
   &--blue {
@@ -155,12 +128,12 @@
   }
 
   &--light-grey {
-    background-color: rgba(0,0,0,0.05);
+    background-color: rgba(0, 0, 0, 0.05);
     color: $senex-color-grey;
   }
 
   &--cancel {
-    background-color: rgba(0,0,0,0.05);
+    background-color: rgba(0, 0, 0, 0.05);
     color: $senex-color-grey;
 
     &:hover {
@@ -190,9 +163,9 @@
 
 // Toggle
 .senex__button--toggle-inactive {
-    background-color: transparent;
-    border-width: 2px;
-    border-style: solid;
+  background-color: transparent;
+  border-width: 2px;
+  border-style: solid;
 }
 
 .senex__button--toggle-active {
@@ -290,3 +263,4 @@
   }
 
 }
+</style>

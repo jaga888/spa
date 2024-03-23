@@ -38,7 +38,6 @@ const props = defineProps({
 });
 
 const dropRef = ref<HTMLDivElement>(<HTMLDivElement>{});
-// const dropRef = ref();
 const customPreview = `
   <div class="senex__template">
         <div class="senex__list__item">
