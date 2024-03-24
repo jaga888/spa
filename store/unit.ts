@@ -14,9 +14,9 @@ export const useUnitStore = defineStore('unit', () => {
         activeUnitId.value = id
     }
 
-    const setActiveUnit = (unit: ActiveUnit) => {
+    const setActiveUnit = (unit?: ActiveUnit) => {
         isNewUnit.value = false
-        activeUnit.value = unit
+        activeUnit.value = unit ?? undefined
     }
 
     const setIsNewUnit = (value: boolean = true) => {

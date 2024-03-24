@@ -27,7 +27,7 @@
 <script setup lang="ts">
 import {policyService} from "~/services/policy/service";
 import type {PolicyList} from "~/services/policy/types";
-import Policy from "~/components/clients/inspector/company/fieldset/Policy.vue";
+import Policy from "~/components/clients/inspector/company/Tabs/Information/fieldset/Policy.vue";
 
 defineProps({
   policyIds: {

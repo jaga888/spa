@@ -232,6 +232,18 @@ watch(activeUnit, async () => {
   }
 });
 
+if (activeUnit.value) {
+  try {
+    unit.value = (await unitService.getUnit(activeUnit.value.id));
+
+    console.log(unit.value);
+
+    validation.value.$reset();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 const {setIsDirty} = useUnitStore();
 
 const setDirty = (element: { $touch: any; } | undefined = undefined) => {

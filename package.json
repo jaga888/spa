@@ -42,6 +42,7 @@
     "defu": "^6.1.4",
     "dropzone": "^6.0.0-beta.2",
     "font-awesome": "^4.7.0",
+    "md-editor-v3": "^4.12.2",
     "nuxt-icon": "^0.6.8",
     "sass": "^1.69.7",
     "select2": "^4.1.0-rc.0"

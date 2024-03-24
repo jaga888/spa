@@ -27,7 +27,7 @@ import {useCompanyStore} from "~/store/company";
 import type {CompanyFee} from "~/services/company/types";
 import type {FeeList} from "~/services/fee/types";
 import type {Firm} from "~/services/firm/types";
-import FeeItem from "~/components/clients/inspector/company/FeeItem.vue";
+import FeeItem from "~/components/clients/inspector/company/Tabs/Fees/FeeItem.vue";
 import type {ChargeType} from "~/services/charge_type/types";
 import {chargeTypeService} from "~/services/charge_type/service";
 

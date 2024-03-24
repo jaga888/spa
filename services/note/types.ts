@@ -20,5 +20,5 @@ export interface Note{
     content: string,
     is_published: boolean,
     processing_type_id: number,
-    title: number,
+    title: string,
 }

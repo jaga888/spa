@@ -54,7 +54,7 @@
     <DocsTab v-if="activeTab === activeTabDocs" />
     <UnitsTab v-if="activeTab === activeTabUnits" />
     <NotesTab v-if="activeTab === activeTabNotes" />
-<!--    <Files v-if="activeTab === activeTabFiles"/>-->
+    <Files v-if="activeTab === activeTabFiles"/>
 
     <div class="senex__footer" v-if="activeTab === activeTabInformation">
       <div class="senex__strip__left">
@@ -74,7 +74,7 @@ import UnitsTab from "~/components/clients/inspector/property/Tabs/Units/UnitsTa
 import NotesTab from "~/components/clients/inspector/property/Tabs/Notes/NotesTab.vue";
 import type {Tab as TabType} from "~/services/tab/types";
 import Tab from "~/components/clients/Tab.vue";
-// import FilesTab from "~/components/clients/inspector/property/Files.vue";
+import Files from "~/components/clients/inspector/property/Tabs/Files/Files.vue";
 
 const {
   activeProperty,

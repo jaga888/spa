@@ -49,9 +49,9 @@
 
 <script setup lang="ts">
 import {useCompanyStore} from "~/store/company";
-import Information from "~/components/clients/inspector/company/Information.vue";
-import Fees from "~/components/clients/inspector/company/Fees.vue";
-import Files from "~/components/clients/inspector/company/Files.vue";
+import Information from "~/components/clients/inspector/company/Tabs/Information/Information.vue";
+import Fees from "~/components/clients/inspector/company/Tabs/Fees/Fees.vue";
+import Files from "~/components/clients/inspector/company/Tabs/Files/Files.vue";
 import CompanyButton from "~/components/clients/inspector/company/CompanyButton.vue"
 import type {Tab as TabType} from "~/services/tab/types";
 import Tab from "~/components/clients/Tab.vue";

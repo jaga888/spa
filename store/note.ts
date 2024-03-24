@@ -14,9 +14,9 @@ export const useNoteStore = defineStore('note', () => {
         activeNoteId.value = id
     }
 
-    const setActiveNote = (note: ActiveNote) => {
+    const setActiveNote = (note?: ActiveNote) => {
         isNewNote.value = false
-        activeNote.value = note
+        activeNote.value = note ?? undefined
     }
 
     const setIsNewNote = (value: boolean = true) => {

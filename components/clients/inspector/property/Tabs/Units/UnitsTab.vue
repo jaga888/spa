@@ -20,7 +20,7 @@
                 v-model="selectedUnitId"
                 @change="setActiveUnit({id: selectedUnitId})"
             >
-              <option :value="0">Select Unit</option>
+              <Unit :unit="{id: 0, address: 'Select Unit', active: true}"/>
               <Unit v-for="unit in units" :unit="unit"/>
             </select>
           </div>
@@ -65,6 +65,7 @@ const units = ref<Array<UnitList>>(<Array<UnitList>>[]);
 const importUnit = ref<boolean>(false);
 
 const {setActiveUnit, setIsNewUnit} = useUnitStore();
+const selectedUnitId = ref(0);
 
 if (activeProperty.value) {
   try {
@@ -79,5 +80,6 @@ if (activeProperty.value) {
   }
 }
 
-const selectedUnitId = ref(0);
+setActiveUnit(undefined)
+
 </script>

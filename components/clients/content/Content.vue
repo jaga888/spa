@@ -109,11 +109,11 @@ import {useCompanyStore} from "~/store/company";
 import ManageExport from "~/components/blocks/ManageExport.vue";
 import Tab from "~/components/clients/Tab.vue";
 import {useClientStore} from "~/store/client";
-import Properties from "~/components/clients/content/Properties.vue";
+import Properties from "~/components/clients/content/Tabs/Properties/Properties.vue";
 import FilterIcon from "~/components/icons/FilterIcon.vue";
 import CancelIcon from "~/components/icons/CancelIcon.vue";
 import {usePropertyStore} from "~/store/property";
-import Users from "~/components/clients/content/Users.vue";
+import Users from "~/components/clients/content/Tabs/Users/Users.vue";
 import {useUserStore} from "~/store/user";
 import type {Tab as TabType} from "~/services/tab/types";
 

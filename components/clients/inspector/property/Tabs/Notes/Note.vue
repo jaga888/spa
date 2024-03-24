@@ -7,7 +7,9 @@
 
     <div class="senex__form__block">
       <div class="senex__form__text">
-        <a class="senex__link senex__clients__edit-note">Edit Note</a>
+        <a class="senex__link senex__clients__edit-note" @click.prevent="setActiveNote({id: note.id ?? 0})">
+          Edit Note
+        </a>
         <a style="float: right;" class="senex__link senex__link--danger senex__clients__delete-note">Delete Note</a>
       </div>
       <div class="senex__form__text">
@@ -20,13 +22,17 @@
         <span v-else>
           Note is <strong>Not Published</strong>.
         </span>
-      </div></div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import type {PropType} from "vue";
 import type {NoteList} from "~/services/note/types";
+import {useNoteStore} from "~/store/note";
+
+const {setActiveNote} = useNoteStore();
 
 defineProps({
   note: {
@@ -35,3 +41,4 @@ defineProps({
   },
 })
 </script>
+

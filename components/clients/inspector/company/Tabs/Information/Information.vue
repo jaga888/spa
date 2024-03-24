@@ -47,12 +47,12 @@
 import {companyService} from "~/services/company/service";
 import {useCompanyStore} from "~/store/company";
 import type {Company} from "~/services/company/types";
-import BaseFieldset from "~/components/clients/inspector/company/fieldset/BaseFieldset.vue";
-import AddressFieldset from "~/components/clients/inspector/company/fieldset/AddressFieldset.vue";
-import ContactFieldset from "~/components/clients/inspector/company/fieldset/ContactFieldset.vue";
-import OtherFieldset from "~/components/clients/inspector/company/fieldset/OtherFieldset.vue";
-import PoliciesFieldset from "~/components/clients/inspector/company/fieldset/PoliciesFieldset.vue";
-import ActivateFieldset from "~/components/clients/inspector/company/fieldset/ActivateFieldset.vue";
+import BaseFieldset from "~/components/clients/inspector/company/Tabs/Information/fieldset/BaseFieldset.vue";
+import AddressFieldset from "~/components/clients/inspector/company/Tabs/Information/fieldset/AddressFieldset.vue";
+import ContactFieldset from "~/components/clients/inspector/company/Tabs/Information/fieldset/ContactFieldset.vue";
+import OtherFieldset from "~/components/clients/inspector/company/Tabs/Information/fieldset/OtherFieldset.vue";
+import PoliciesFieldset from "~/components/clients/inspector/company/Tabs/Information/fieldset/PoliciesFieldset.vue";
+import ActivateFieldset from "~/components/clients/inspector/company/Tabs/Information/fieldset/ActivateFieldset.vue";
 import {helpers, minValue, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
 

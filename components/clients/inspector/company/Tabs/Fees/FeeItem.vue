@@ -60,10 +60,7 @@
                       placeholder="Charge Type..."
                       :id="`form_fee_charge_type_id_${processingTypeAvailability.id}`"
               >
-                <option :value="chargeType.id"
-                        v-for="chargeType in chargeTypes">
-                  {{ chargeType.name }}
-                </option>
+                <ChargeTypeComponent v-for="chargeType in chargeTypes" :chargeType="chargeType" />
               </select>
               <label class="senex__form__label"  :for="`form_fee_charge_type_id_${processingTypeAvailability.id}`">
                 Charge Type
@@ -204,6 +201,7 @@ import type {ChargeType} from "~/services/charge_type/types";
 import {processingTypeAvailabilityService} from "~/services/processing_type_availability/service";
 import {feeService} from "~/services/fee/service";
 import CancelIcon from "~/components/icons/CancelIcon.vue";
+import ChargeTypeComponent from "~/components/clients/ChargeTypeComponent.vue";
 
 const props = defineProps({
   processingTypeAvailability: {

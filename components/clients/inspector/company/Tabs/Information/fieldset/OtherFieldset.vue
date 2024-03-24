@@ -76,7 +76,7 @@ import {useCompanyStore} from "~/store/company";
 import type {PmSoftwareList} from "~/services/pm_software/types";
 import {pmSoftwareService} from "~/services/pm_software/service";
 import type {Company} from "~/services/company/types";
-import PmSoftware from "~/components/clients/inspector/company/fieldset/PmSoftware.vue";
+import PmSoftware from "~/components/clients/inspector/company/Tabs/Information/fieldset/PmSoftware.vue";
 
 defineProps({
   pmSoftwareId: {
