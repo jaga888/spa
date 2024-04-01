@@ -21,14 +21,26 @@
 import {propertyService} from "~/services/property/service";
 import type {PropertyList} from "~/services/property/types";
 import {useCompanyStore} from "~/store/company";
+import {useUserStore} from "~/store/user";
 import {usePropertyStore} from "~/store/property";
 import {useDebounceFn} from "@vueuse/core";
-import Property from "./Property.vue"
+import Property from "./Property.vue";
 
-const {activeCompany, isNewCompany} = storeToRefs(useCompanyStore())
-const properties = ref<PropertyList[]>([])
-const {filter, isNewProperty} = storeToRefs(usePropertyStore())
-const {setIsNewProperty} = usePropertyStore()
+const {
+  activeCompany,
+  isNewCompany
+} = storeToRefs(useCompanyStore());
+
+
+
+const properties = ref<PropertyList[]>([]);
+
+const {
+  filter,
+  isNewProperty
+} = storeToRefs(usePropertyStore());
+
+const {setIsNewProperty} = usePropertyStore();
 
 watch(activeCompany, async () => {
   setIsNewProperty(false);
@@ -36,51 +48,51 @@ watch(activeCompany, async () => {
   if (activeCompany.value?.id) {
     try {
       properties.value = (await propertyService.getProperties({
-        sort: 'name',
-        'filter[company_id]': activeCompany.value.id
-      }))
+        sort: "name",
+        "filter[company_id]": activeCompany.value.id
+      }));
 
-      console.log(properties.value)
+      console.log(properties.value);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
-})
+});
 
 if (activeCompany.value?.id) {
-  setIsNewProperty(false);
+  // setIsNewProperty(false);
 
   try {
     properties.value = (await propertyService.getProperties({
-      sort: 'name',
-      'filter[company_id]': activeCompany.value.id,
-      'filter[full_name]': filter.value,
-    }))
+      sort: "name",
+      "filter[company_id]": activeCompany.value.id,
+      "filter[full_name]": filter.value,
+    }));
 
-    console.log(properties.value)
+    console.log(properties.value);
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 }
 
 const debouncedFn = useDebounceFn(async () => {
   properties.value = (await propertyService.getProperties({
-    sort: 'name',
-    'filter[company_id]': activeCompany.value?.id,
-    'filter[full_name]': filter.value,
-  }))
+    sort: "name",
+    "filter[company_id]": activeCompany.value?.id,
+    "filter[full_name]": filter.value,
+  }));
 
-  console.log(properties.value)
-}, 200)
+  console.log(properties.value);
+}, 200);
 
 watch(filter, () => {
   if (!isNewCompany.value) {
     try {
       debouncedFn();
     } catch (response) {
-      console.log(response)
+      console.log(response);
     }
   }
-})
+});
 
 </script>

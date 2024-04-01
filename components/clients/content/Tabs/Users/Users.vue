@@ -16,8 +16,11 @@ import User from "./User.vue"
 const {activeCompany, isNewCompany} = storeToRefs(useCompanyStore())
 const users = ref<UserList[]>([])
 const {filter} = storeToRefs(useUserStore())
+const {setActiveUser} = useUserStore();
 
 if (activeCompany.value?.id) {
+  // setActiveUser();
+
   try {
     users.value = (await userService.getUsers({
       sort: 'first_name,last_name',
@@ -50,5 +53,4 @@ watch(filter,  () => {
     }
   }
 })
-
 </script>

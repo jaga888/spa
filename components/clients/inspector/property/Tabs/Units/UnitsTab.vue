@@ -18,7 +18,7 @@
                 class="senex__form__select"
                 name="select_unit"
                 v-model="selectedUnitId"
-                @change="setActiveUnit({id: selectedUnitId})"
+                @change="updateActiveUnit(selectedUnitId)"
             >
               <Unit :unit="{id: 0, address: 'Select Unit', active: true}"/>
               <Unit v-for="unit in units" :unit="unit"/>
@@ -40,8 +40,8 @@
 
     <div class="senex__form senex__strip">
       <div class="senex__strip__right">
-        <Button class="senex__button" id="import_new" @click="importUnit = true">Import Unit</Button>
-        <Button class="senex__button" id="add_new" @click.prevent="setIsNewUnit">Add New Unit</Button>
+        <Button class="senex__button" id="import_new" @click.prevent="openImportForm">Import Unit</Button>
+        <Button class="senex__button" id="add_new" @click.prevent="openNewUnit">Add New Unit</Button>
       </div>
     </div>
 
@@ -58,9 +58,10 @@ import type {UnitList} from "~/services/unit/types";
 import Unit from "~/components/clients/inspector/property/Tabs/Units/Unit.vue";
 import Import from "~/components/clients/inspector/property/Tabs/Units/Import.vue";
 import UnitForm from "~/components/clients/inspector/property/Tabs/Units/UnitForm.vue";
+import {useDebounceFn} from "@vueuse/core";
 
 const {activeProperty} = storeToRefs(usePropertyStore());
-const {activeUnit, isNewUnit} = storeToRefs(useUnitStore());
+const {activeUnit, isNewUnit, filter} = storeToRefs(useUnitStore());
 const units = ref<Array<UnitList>>(<Array<UnitList>>[]);
 const importUnit = ref<boolean>(false);
 
@@ -82,4 +83,45 @@ if (activeProperty.value) {
 
 setActiveUnit(undefined)
 
+const debouncedFn = useDebounceFn(async () => {
+  if (activeProperty.value) {
+    try {
+      units.value = (await unitService.getUnits({
+        "filter[property_id]": activeProperty.value.id,
+        "filter[address]": filter.value,
+        sort: "-active,address",
+      }));
+
+      console.log(units.value)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}, 200);
+
+watch(filter, () => {
+  try {
+    debouncedFn();
+  } catch (response) {
+    console.log(response)
+  }
+});
+
+const openImportForm = () => {
+  importUnit.value = true
+  selectedUnitId.value = 0
+  setActiveUnit()
+}
+
+const updateActiveUnit = (unitId: number) => {
+  importUnit.value = false
+
+  setActiveUnit({id: unitId})
+}
+
+const openNewUnit = () => {
+  importUnit.value = false
+
+  setIsNewUnit()
+}
 </script>

@@ -3,31 +3,32 @@
     <div
         class="senex__master-button senex__master-button--cancel senex__clients__reset-info"
         :class="{'senex__master-button--disabled': isDisabled}"
-        @click.prevent="setIsDirty(false)">
+        @click.prevent="setIsDirty(false)"
+    >
       Reset
     </div>
     <div
         class="senex__master-button senex__master-button--save senex__clients__update-info"
         :class="{'senex__master-button--disabled': isDisabled}"
-        @click.prevent="setSaveCompany()">
+        @click.prevent="setSaveUser()"
+    >
       Save
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {useCompanyStore} from "~/store/company";
+import {useUserStore} from "~/store/user";
 
-const {isDirty} = storeToRefs(useCompanyStore());
+const {isDirty} = storeToRefs(useUserStore());
 const {
-  setSaveCompany,
+  setSaveUser,
   setIsDirty
-} = useCompanyStore();
+} = useUserStore();
 
 const isDisabled = ref<boolean>(true);
 
 watch(isDirty, async () => {
-  console.log(isDirty.value);
   isDisabled.value = !isDirty.value;
 });
 </script>

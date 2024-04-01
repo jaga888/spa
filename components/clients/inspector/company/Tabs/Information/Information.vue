@@ -238,6 +238,8 @@ if (activeCompany.value?.id) {
 watch(saveCompany, async () => {
   if (saveCompany.value) {
     console.log(company.value);
+    console.log(validation.value);
+    console.log(validation.value.$invalid);
     setSaveCompany(false);
   }
 });

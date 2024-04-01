@@ -45,7 +45,7 @@ export default defineNuxtConfig({
                 maxAgeInSeconds: 20000,
             }
         },
-        baseURL: "http://localhost:8000/api/admin/",
+        baseURL: process.env.HOST_API,
         globalAppMiddleware: true
 
     },

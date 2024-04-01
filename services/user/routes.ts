@@ -1,3 +1,4 @@
 export const routes = {
-    get: '/users'
+    get: '/users',
+    getById: (id: number) => '/users/' + id,
 }

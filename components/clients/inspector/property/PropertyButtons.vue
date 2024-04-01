@@ -9,20 +9,21 @@
     <div
         class="senex__master-button senex__master-button--save senex__clients__update-info"
         :class="{'senex__master-button--disabled': isDisabled}"
-        @click.prevent="setSaveCompany()">
+        @click.prevent="setSaveProperty()"
+    >
       Save
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {useCompanyStore} from "~/store/company";
+import {usePropertyStore} from "~/store/property";
 
-const {isDirty} = storeToRefs(useCompanyStore());
+const {isDirty} = storeToRefs(usePropertyStore());
 const {
-  setSaveCompany,
+  setSaveProperty,
   setIsDirty
-} = useCompanyStore();
+} = usePropertyStore();
 
 const isDisabled = ref<boolean>(true);
 

@@ -2,7 +2,8 @@
   <li class="senex__list__item senex__files__target"
       v-if="!isNewCompany"
       @click="setActiveProperty(property)"
-      :class="{'senex__list__item--active': activeProperty?.id === property.id && !isNewProperty}">
+      :class="{'senex__list__item--active': activeProperty?.id === property.id && !isNewProperty}"
+  >
     <div class="senex__list__item-title">{{ property.short_name }}</div>
     <div class="senex__list__item-subtitle">{{ property.legal_name }}</div>
     <div class="senex__list__item-text">

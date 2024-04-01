@@ -8,7 +8,7 @@ export const usePropertyStore = defineStore('property', () => {
     const isDirty = ref<boolean>(false);
     const saveProperty = ref<boolean>(false);
 
-    const setActiveProperty = (property: PropertyList) => {
+    const setActiveProperty = (property?: PropertyList) => {
         isNewProperty.value = false
         activeProperty.value = property
     }

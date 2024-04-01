@@ -2,27 +2,26 @@
   <div class="senex__master-button-group">
     <div
         class="senex__master-button senex__master-button--cancel senex__clients__reset-info"
-        :class="{'senex__master-button--disabled': isDisabled}"
-        @click.prevent="setIsDirty(false)">
-      Reset
+        @click.prevent="cancelNote"
+    >
+      Cancel
     </div>
     <div
         class="senex__master-button senex__master-button--save senex__clients__update-info"
         :class="{'senex__master-button--disabled': isDisabled}"
-        @click.prevent="setSaveCompany()">
+        @click.prevent="setSaveNote()"
+    >
       Save
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {useCompanyStore} from "~/store/company";
+import {useNoteStore} from "~/store/note";
 
-const {isDirty} = storeToRefs(useCompanyStore());
-const {
-  setSaveCompany,
-  setIsDirty
-} = useCompanyStore();
+const {isDirty} = storeToRefs(useNoteStore());
+
+const {setSaveNote, setActiveNote, setIsNewNote} = useNoteStore();
 
 const isDisabled = ref<boolean>(true);
 
@@ -30,4 +29,9 @@ watch(isDirty, async () => {
   console.log(isDirty.value);
   isDisabled.value = !isDirty.value;
 });
+
+const cancelNote = () => {
+  setActiveNote();
+  setIsNewNote(false);
+}
 </script>

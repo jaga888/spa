@@ -24,6 +24,5 @@ definePageMeta({
 
 const { status } = useAuth()
 
-const router = useRouter()
 console.log('status l', status.value)
 </script>

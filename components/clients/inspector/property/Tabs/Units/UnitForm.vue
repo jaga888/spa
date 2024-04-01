@@ -159,6 +159,11 @@
           </div>
         </div>
       </fieldset>
+      <div class="senex__footer senex__strip">
+        <div class="senex__strip__left">
+          <UnitButtons />
+        </div>
+      </div>
     </form>
   </div>
 </template>
@@ -170,10 +175,13 @@ import {useUnitStore} from "~/store/unit";
 import {helpers, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
 import {usePropertyStore} from "~/store/property";
+import UnitButtons from "~/components/clients/inspector/property/UnitButtons.vue"
 
 const {activeProperty} = storeToRefs(usePropertyStore());
 
-const {activeUnit, isNewUnit} = storeToRefs(useUnitStore());
+const {activeUnit, isNewUnit, isDirty, saveUnit} = storeToRefs(useUnitStore());
+
+const {setSaveUnit, setIsDirty} = useUnitStore();
 
 const unit = ref<Unit>(<Unit>{})
 
@@ -244,8 +252,6 @@ if (activeUnit.value) {
   }
 }
 
-const {setIsDirty} = useUnitStore();
-
 const setDirty = (element: { $touch: any; } | undefined = undefined) => {
   if (element) {
     element.$touch();
@@ -271,6 +277,29 @@ watch(isNewUnit, async () => {
     };
 
     validation.value.$reset();
+  }
+});
+
+watch(isDirty, async () => {
+  console.log(isDirty.value);
+
+  if (!isDirty.value && activeUnit.value) {
+    try {
+      unit.value = (await unitService.getUnit(activeUnit.value.id));
+
+      console.log(unit.value);
+
+      validation.value.$reset();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+});
+
+watch(saveUnit, async () => {
+  if (saveUnit.value) {
+    console.log(unit.value);
+    setSaveUnit(false);
   }
 });
 </script>

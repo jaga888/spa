@@ -41,7 +41,7 @@
       <div class="senex__strip__left">
         <div class="senex__form__field">
           <div class="senex__form__field-add-on">
-            <FilterIcon/>
+            <FilterIcon />
           </div>
           <input type="text"
                  v-model="search"
@@ -49,12 +49,14 @@
                  id="companies_filter"
                  class="senex__form__input client-mgmt-company-search"
                  placeholder="Filter clients..."
-                 @input="setFilter(search)"/>
+                 @input="setFilter(search)"
+          />
           <label for="companies_filter"></label>
           <div class="senex__form__field-add-on senex__form__field-add-on--button">
             <button class="senex__clients__remove-search-companies"
                     :disabled="search === ''"
-                    @click.prevent="clearFilter">
+                    @click.prevent="clearFilter"
+            >
               <CancelIcon/>
             </button>
           </div>
@@ -80,6 +82,9 @@ import {useCompanyStore} from "~/store/company";
 import CancelIcon from "~/components/icons/CancelIcon.vue";
 import ManageExport from "~/components/blocks/ManageExport.vue";
 import FilterIcon from "~/components/icons/FilterIcon.vue";
+import {useClientStore} from "~/store/client";
+
+const {setActiveInspector} = useClientStore()
 
 const search = ref("");
 
@@ -92,7 +97,7 @@ const {
 
 const clearFilter = () => {
   search.value = "";
-
+  setActiveInspector('');
   setFilter(search.value);
 };
 </script>
