@@ -78,18 +78,15 @@ watch(activeUser, async () => {
   }
 });
 
+setIsDirty(false);
 
 if (activeUser.value?.id) {
   try {
-    if (!isDirty.value) {
-      user.value = (await userService.getUser(activeUser.value.id, {tab: "info"}));
+    user.value = (await userService.getUser(activeUser.value.id, {tab: "info"}));
 
-      console.log(user.value);
+    console.log(user.value);
 
-      validation.value.$reset();
-    } else {
-      setIsDirty(false);
-    }
+    validation.value.$reset();
   } catch (error) {
     console.log(error);
   }

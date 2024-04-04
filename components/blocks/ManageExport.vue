@@ -1,15 +1,24 @@
 <template>
   <span class="pr-1">Export</span>
-  <CaretDown />
+  <CaretDown/>
   <ul class="senex__detail-menu__sub-menu">
     <li class="senex__detail-menu__sub-menu-item">
-      <a href="#" target="_blank"><PrintIcon class="absolute left-2"/>Print</a>
+      <a href="#" target="_blank">
+        <PrintIcon class="absolute left-2"/>
+        Print
+      </a>
     </li>
     <li class="senex__detail-menu__sub-menu-item">
-      <a href="#"><PDFIcon :fill="'white'" class="absolute left-2"/>Save PDF</a>
+      <a href="#">
+        <PDFIcon :fill="'white'" class="absolute left-2"/>
+        Save PDF
+      </a>
     </li>
     <li class="senex__detail-menu__sub-menu-item">
-      <a href="#"><CSVIcon class="absolute left-2"/>Save CSV</a>
+      <a href="#">
+        <CSVIcon class="absolute left-2"/>
+        Save CSV
+      </a>
     </li>
   </ul>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <form id="form-login" class="senex__form" method="POST" action="#" @submit.prevent="formSubmit">
+  <form id="form-login" class="senex__form" method="POST" action="/" @submit.prevent="formSubmit">
     <div class="senex__form__block">
       <div class="senex__form__header">Login</div>
       <div class="senex__form__item-group">
@@ -15,7 +15,8 @@
                     }"
                    name="email"
                    placeholder="email"
-                   v-model="user.email">
+                   v-model="user.email"
+            >
           </div>
           <span class="help-block">
             <strong v-if="v$.email.required.$invalid">{{ v$.email.required.$message }}</strong>
@@ -37,7 +38,8 @@
                     }"
                    name="password"
                    placeholder="password"
-                   v-model="user.password">
+                   v-model="user.password"
+            >
           </div>
           <span class="help-block">
             <strong v-if="v$.password.required.$invalid">{{ v$.password.required.$message }}</strong>
@@ -61,48 +63,54 @@
 </template>
 
 <script setup lang="ts">
-import {required, email, minLength, helpers} from '@vuelidate/validators';
-import {useVuelidate} from '@vuelidate/core';
+import {required, email, minLength, helpers} from "@vuelidate/validators";
+import {useVuelidate} from "@vuelidate/core";
 import type {UserLogin} from "~/services/user/types";
 
 const user = ref<UserLogin>({
-  email: '',
-  password: '',
+  email: "",
+  password: "",
 });
 
-const invalidCredentials = ref()
+const invalidCredentials = ref();
 
 const rules = {
   email: {
-    required: helpers.withMessage('The email field is required', required),
-    email: helpers.withMessage('Invalid email format', email),
+    required: helpers.withMessage("The email field is required", required),
+    email: helpers.withMessage("Invalid email format", email),
     $autoDirty: true,
     $lazy: true,
   },
   password: {
-    required: helpers.withMessage('The password field is required', required),
+    required: helpers.withMessage("The password field is required", required),
     minLength: minLength(6),
     $autoDirty: true,
     $lazy: true,
   },
 };
 
-const v$ = useVuelidate(rules, user)
+const v$ = useVuelidate(rules, user);
 
-const {signIn, token} = useAuth()
+const {
+  signIn,
+  token
+} = useAuth();
 
 const formSubmit = async () => {
-  invalidCredentials.value = ''
+  invalidCredentials.value = "";
 
-  await v$.value.$validate()
+  await v$.value.$validate();
 
   if (!v$.value.$error) {
-    await signIn(user.value, {callbackUrl: '/'})
-        .catch(({status, data}) => {
-          console.log(status, data.message)
+    await signIn(user.value, {callbackUrl: "/"})
+        .catch(({
+                  status,
+                  data
+                }) => {
+          console.log(status, data.message);
         });
 
-    useNuxtApp().$apiHeaders.common['Authorization'] = token.value
+    useNuxtApp().$apiHeaders.common["Authorization"] = token.value;
   }
 };
 </script>

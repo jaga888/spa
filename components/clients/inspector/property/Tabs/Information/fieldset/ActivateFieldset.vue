@@ -20,7 +20,7 @@
                     'senex__button--danger senex__clients__deactivate-company': active,
                     'senex__button--save senex__clients__activate-company': !active
                   }">
-            {{ active ? 'Deactivate' : 'Activate' }}
+            {{ active ? "Deactivate" : "Activate" }}
           </Button>
         </div>
       </div>
@@ -33,5 +33,5 @@ defineProps({
   active: {
     type: Boolean,
   },
-})
+});
 </script>

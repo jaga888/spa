@@ -1,10 +1,8 @@
 <template>
-  <li class="senex__list__item senex__files__target"
-      v-if="!isNewCompany"
-      @click="setActiveProperty(property)"
-      :class="{'senex__list__item--active': activeProperty?.id === property.id && !isNewProperty}"
-  >
-    <div class="senex__list__item-title">{{ property.short_name }}</div>
+  <li @click="setActiveProperty(property)">
+    <div class="senex__list__item-title">
+      <slot/>
+    </div>
     <div class="senex__list__item-subtitle">{{ property.legal_name }}</div>
     <div class="senex__list__item-text">
       <div class="senex__tag senex__tag--error" v-if="!property.court_id">No Jurisdiction</div>
@@ -19,12 +17,9 @@
 <script setup lang="ts">
 import type {PropType} from "vue";
 import type {PropertyList} from "~/services/property/types";
-import {useCompanyStore} from "~/store/company";
 import {usePropertyStore} from "~/store/property";
 
-const {isNewCompany} = storeToRefs(useCompanyStore())
-const {setActiveProperty} = usePropertyStore()
-const {activeProperty, isNewProperty} = storeToRefs(usePropertyStore())
+const {setActiveProperty} = usePropertyStore();
 
 defineProps({
   property: {

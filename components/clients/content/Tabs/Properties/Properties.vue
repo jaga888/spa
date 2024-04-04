@@ -14,14 +14,20 @@
       <div class="senex__tag senex__tag--info">No PM</div>
     </div>
   </li>
-  <Property v-for="property in properties" :property="property"/>
+  <Property class="senex__list__item senex__files__target"
+            v-for="property in properties"
+            :property="property"
+            v-if="!isNewCompany"
+            :class="{'senex__list__item--active': activeProperty?.id === property.id && !isNewProperty}"
+  >
+    {{ property.short_name }}
+  </Property>
 </template>
 
 <script setup lang="ts">
 import {propertyService} from "~/services/property/service";
 import type {PropertyList} from "~/services/property/types";
 import {useCompanyStore} from "~/store/company";
-import {useUserStore} from "~/store/user";
 import {usePropertyStore} from "~/store/property";
 import {useDebounceFn} from "@vueuse/core";
 import Property from "./Property.vue";
@@ -31,11 +37,10 @@ const {
   isNewCompany
 } = storeToRefs(useCompanyStore());
 
-
-
 const properties = ref<PropertyList[]>([]);
 
 const {
+  activeProperty,
   filter,
   isNewProperty
 } = storeToRefs(usePropertyStore());
@@ -60,8 +65,6 @@ watch(activeCompany, async () => {
 });
 
 if (activeCompany.value?.id) {
-  // setIsNewProperty(false);
-
   try {
     properties.value = (await propertyService.getProperties({
       sort: "name",
@@ -94,5 +97,4 @@ watch(filter, () => {
     }
   }
 });
-
 </script>

@@ -3,14 +3,16 @@
     <div id="senex-company-sidebar"
          class="high90__columns__column"
          data-high90-column="sidebar"
-         data-high90-column-width="1">
+         data-high90-column-width="1"
+    >
       <Sidebar/>
     </div>
 
     <div id="senex-company-content"
          class="high90__columns__column"
          data-high90-column="content"
-         data-high90-column-width="1">
+         data-high90-column-width="1"
+    >
       <Content/>
     </div>
 

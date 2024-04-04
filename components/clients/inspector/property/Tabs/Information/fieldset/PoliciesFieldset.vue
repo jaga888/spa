@@ -201,10 +201,4 @@ try {
 } catch (error) {
   console.log(error);
 }
-
-// const st = defineEmits(['update:useCompanyFilingThreshold'])
-//
-// function buttonClick($event: any) {
-//   st('update:useCompanyFilingThreshold', ($event.target as HTMLInputElement).checked))
-// }
 </script>

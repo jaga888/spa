@@ -1,7 +1,5 @@
 <template>
-  <div class="senex__form__fieldset"
-       :class="{'senex__form__fieldset--disabled': !processingTypeAvailability.available}"
-  >
+  <div>
     <legend class="senex__form__legend">
       {{ processingTypeAvailability.processing_type.plural_name }}
       <a class="senex__clients__make-unavailable"
@@ -60,9 +58,9 @@
                       placeholder="Charge Type..."
                       :id="`form_fee_charge_type_id_${processingTypeAvailability.id}`"
               >
-                <ChargeTypeComponent v-for="chargeType in chargeTypes" :chargeType="chargeType" />
+                <ChargeTypeComponent v-for="chargeType in chargeTypes" :chargeType="chargeType"/>
               </select>
-              <label class="senex__form__label"  :for="`form_fee_charge_type_id_${processingTypeAvailability.id}`">
+              <label class="senex__form__label" :for="`form_fee_charge_type_id_${processingTypeAvailability.id}`">
                 Charge Type
               </label>
             </div>

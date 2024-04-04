@@ -1,7 +1,9 @@
 <template>
-  <DropzoneComponent :files="files"
-    :id="activeCompany?.id"
-    :entity="'company'" />
+  <DropzoneComponent class="senex__body entity-files"
+                     :files="files"
+                     :id="activeCompany?.id"
+                     :entity="'company'"
+  />
 </template>
 
 <script setup lang="ts">

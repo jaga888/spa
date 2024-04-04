@@ -41,7 +41,7 @@
       <div class="senex__strip__left">
         <div class="senex__form__field">
           <div class="senex__form__field-add-on">
-            <FilterIcon />
+            <FilterIcon/>
           </div>
           <input type="text"
                  v-model="search"
@@ -84,7 +84,7 @@ import ManageExport from "~/components/blocks/ManageExport.vue";
 import FilterIcon from "~/components/icons/FilterIcon.vue";
 import {useClientStore} from "~/store/client";
 
-const {setActiveInspector} = useClientStore()
+const {setActiveInspector} = useClientStore();
 
 const search = ref("");
 
@@ -97,7 +97,7 @@ const {
 
 const clearFilter = () => {
   search.value = "";
-  setActiveInspector('');
+  setActiveInspector("");
   setFilter(search.value);
 };
 </script>

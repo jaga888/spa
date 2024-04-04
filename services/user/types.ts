@@ -25,5 +25,5 @@ export interface UserPermissions{
     first_name: string,
     last_name: string,
     email: string,
-    properties: Array<PropertyList>
+    property_ids: Array<Number>
 }

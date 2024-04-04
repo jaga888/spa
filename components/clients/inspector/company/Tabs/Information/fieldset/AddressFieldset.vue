@@ -37,7 +37,7 @@
           </div>
           <span class="error" style="color: red" v-if="validation.city.required.$invalid">
                 {{ validation.city.required.$message }}
-              </span><br  v-if="validation.city.required.$invalid">
+          </span><br v-if="validation.city.required.$invalid">
           <label class="senex__form__label" for="form_company_city">City</label>
         </div>
 
@@ -56,7 +56,7 @@
           </div>
           <span class="error" style="color: red" v-if="validation.state.required.$invalid">
                 {{ validation.state.required.$message }}
-              </span><br  v-if="validation.state.required.$invalid">
+          </span><br v-if="validation.state.required.$invalid">
           <label class="senex__form__label" for="form_company_state">ST</label>
         </div>
 
@@ -75,7 +75,7 @@
           </div>
           <span class="error" style="color: red" v-if="validation.zip.required.$invalid">
                 {{ validation.zip.required.$message }}
-              </span><br  v-if="validation.zip.required.$invalid">
+          </span><br v-if="validation.zip.required.$invalid">
           <label class="senex__form__label" for="form_company_zip">Zip</label>
         </div>
       </div>
@@ -195,64 +195,64 @@
 </template>
 
 <script setup lang="ts">
-  import {type Validation} from "@vuelidate/core";
-  import {useCompanyStore} from "~/store/company";
-  import type {Company} from "~/services/company/types";
+import {type Validation} from "@vuelidate/core";
+import {useCompanyStore} from "~/store/company";
+import type {Company} from "~/services/company/types";
 
-  defineProps({
-    address: {
-      type: String,
-      default: ""
-    },
-    city: {
-      type: String,
-      default: ""
-    },
-    state: {
-      type: String,
-      default: ""
-    },
-    zip: {
-      type: String,
-      default: ""
-    },
-    invoiceAddress: {
-      type: String,
-      default: ""
-    },
-    invoiceAddress2: {
-      type: String,
-      default: ""
-    },
-    invoiceCity: {
-      type: String,
-      default: ""
-    },
-    invoiceEmail: {
-      type: String,
-      default: ""
-    },
-    invoiceState: {
-      type: String,
-      default: ""
-    },
-    invoiceZip: {
-      type: String,
-      default: ""
-    },
-    validation: {
-      type: Object as PropType<Validation<Company>>,
-      default: <Validation<Company>>{}
-    },
-  })
+defineProps({
+  address: {
+    type: String,
+    default: ""
+  },
+  city: {
+    type: String,
+    default: ""
+  },
+  state: {
+    type: String,
+    default: ""
+  },
+  zip: {
+    type: String,
+    default: ""
+  },
+  invoiceAddress: {
+    type: String,
+    default: ""
+  },
+  invoiceAddress2: {
+    type: String,
+    default: ""
+  },
+  invoiceCity: {
+    type: String,
+    default: ""
+  },
+  invoiceEmail: {
+    type: String,
+    default: ""
+  },
+  invoiceState: {
+    type: String,
+    default: ""
+  },
+  invoiceZip: {
+    type: String,
+    default: ""
+  },
+  validation: {
+    type: Object as PropType<Validation<Company>>,
+    default: <Validation<Company>>{}
+  },
+});
 
-  const {setIsDirty} = useCompanyStore();
+const {setIsDirty} = useCompanyStore();
 
-  const setDirty = (element: { $touch: any; }|undefined = undefined) => {
-    if (element) {
-      element.$touch();
-    }
-
-    setIsDirty(true)
+const setDirty = (element: { $touch: any; } | undefined = undefined) => {
+  if (element) {
+    element.$touch();
   }
+
+  setIsDirty(true);
+};
 </script>

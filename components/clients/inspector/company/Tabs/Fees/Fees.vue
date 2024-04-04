@@ -10,7 +10,9 @@
         </div>
       </div>
       <div id="company-processing-types">
-        <FeeItem v-for="processingTypeAvailability in company.processing_type_availabilities"
+        <FeeItem class="senex__form__fieldset"
+                 :class="{'senex__form__fieldset--disabled': !processingTypeAvailability.available}"
+                 v-for="processingTypeAvailability in company.processing_type_availabilities"
                  :processingTypeAvailability="processingTypeAvailability"
                  :company="company"
                  :chargeTypes="chargeTypes"
@@ -31,51 +33,51 @@ import FeeItem from "~/components/clients/inspector/company/Tabs/Fees/FeeItem.vu
 import type {ChargeType} from "~/services/charge_type/types";
 import {chargeTypeService} from "~/services/charge_type/service";
 
-const {activeCompany} = storeToRefs(useCompanyStore())
+const {activeCompany} = storeToRefs(useCompanyStore());
 const company = ref<CompanyFee>({
   id: 0,
-  name: '',
-  legal_name: '',
+  name: "",
+  legal_name: "",
   active: false,
   processing_type_availabilities: [],
   firm: <Firm>{},
   fees: <FeeList[]>[]
-})
-const chargeTypes = ref<ChargeType[]>([])
+});
+const chargeTypes = ref<ChargeType[]>([]);
 
 if (activeCompany.value) {
   try {
-    company.value = (await companyService.getCompanyFees(activeCompany.value.id, {tab: 'fees'}))
+    company.value = (await companyService.getCompanyFees(activeCompany.value.id, {tab: "fees"}));
 
-    console.log(company.value)
+    console.log(company.value);
 
     chargeTypes.value = (await chargeTypeService.getChargeTypes({
-      'filter[fee]': 1,
-      sort: 'name'
-    }))
+      "filter[fee]": 1,
+      sort: "name"
+    }));
 
-    console.log(chargeTypes.value)
+    console.log(chargeTypes.value);
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 }
 
 const refreshCompanies = async () => {
   if (activeCompany.value) {
     try {
-      company.value = (await companyService.getCompanyFees(activeCompany.value.id, {tab: 'fees'}))
+      company.value = (await companyService.getCompanyFees(activeCompany.value.id, {tab: "fees"}));
 
-      console.log(company.value)
+      console.log(company.value);
 
       chargeTypes.value = (await chargeTypeService.getChargeTypes({
-        'filter[fee]': 1,
-        sort: 'name'
-      }))
+        "filter[fee]": 1,
+        sort: "name"
+      }));
 
-      console.log(chargeTypes.value)
+      console.log(chargeTypes.value);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
-}
+};
 </script>

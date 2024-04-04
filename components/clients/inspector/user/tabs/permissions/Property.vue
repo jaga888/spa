@@ -9,6 +9,7 @@
           :checked="propertyIds.includes(property.id)"
           :value="property.id"
           style="margin: 3px"
+          @change="setDirty($event)"
       >
       <label :for="'form-user-property-' + property.id"><slot/></label>
     </div>
@@ -18,8 +19,9 @@
 <script setup lang="ts">
 import type {PropType} from "vue";
 import type {PropertyList} from "~/services/property/types";
+import {useUserStore} from "~/store/user";
 
-defineProps({
+const props = defineProps({
   property: {
     type: Object as PropType<PropertyList>,
     default: {}
@@ -29,4 +31,24 @@ defineProps({
     default: []
   },
 })
+
+const {setIsDirty} = useUserStore();
+
+const setDirty = ($event: any, element: { $touch: any; } | undefined = undefined) => {
+  if (element) {
+    element.$touch();
+  }
+
+  if ($event.currentTarget) {
+    let propertyId = parseInt($event.target.value);
+
+    if ($event.currentTarget.checked) {
+      props.propertyIds.push(propertyId);
+    } else {
+      props.propertyIds.splice(props.propertyIds.indexOf(propertyId), 1);
+    }
+  }
+
+  setIsDirty(true);
+};
 </script>

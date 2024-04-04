@@ -1,5 +1,5 @@
 <template>
-  <div class="senex__body entity-files">
+  <div>
     <div class="senex__form__header">Files</div>
     <div ref="dropRef" class="dropzone senex__files__zone senex__files__target" :id="props.entity + '-zone-files'">
       <CloudUploadIcon/>
@@ -11,7 +11,9 @@
 
     <div class="senex__list" :id="props.entity + '-files'">
       <p v-if="!files.length">No attachments</p>
-      <File v-for="file in sortedFiles" :file="file"/>
+      <File class="senex__list__item" v-for="file in sortedFiles" :file="file">
+        {{ file.name }}
+      </File>
     </div>
   </div>
 </template>
@@ -109,6 +111,7 @@ const sortedFiles = computed(() => {
 #company-zone-files {
   cursor: pointer;
 }
+
 #property-zone-files {
   cursor: pointer;
 }

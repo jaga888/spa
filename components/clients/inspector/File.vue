@@ -1,5 +1,5 @@
 <template>
-  <div class="senex__list__item">
+  <div>
     <a target="_blank" :href="'/admin/files/' + file.uuid">
       <div class="senex__list__item-icon">
         <component :is="icon.name"
@@ -9,7 +9,7 @@
                    style="margin-top: 5px"/>
       </div>
       <div class="senex__list__item-title">
-        {{ file.name }}
+        <slot/>
       </div>
       <div class="senex__list__item-subtitle">
         {{ file.description }}
