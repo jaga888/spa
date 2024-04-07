@@ -46,3 +46,9 @@ export interface CompanyFee{
     firm: Firm,
     processing_type_availabilities: ProcessingTypeAvailabilityList[],
 }
+
+export interface CompanyInvoiceEmail{
+    email: string,
+}
+
+

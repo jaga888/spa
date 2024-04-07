@@ -46,14 +46,14 @@
 <script setup lang="ts">
 import {companyService} from "~/services/company/service";
 import {useCompanyStore} from "~/store/company";
-import type {Company} from "~/services/company/types";
+import type {Company, CompanyInvoiceEmail} from "~/services/company/types";
 import BaseFieldset from "~/components/clients/inspector/company/Tabs/Information/fieldset/BaseFieldset.vue";
 import AddressFieldset from "~/components/clients/inspector/company/Tabs/Information/fieldset/AddressFieldset.vue";
 import ContactFieldset from "~/components/clients/inspector/company/Tabs/Information/fieldset/ContactFieldset.vue";
 import OtherFieldset from "~/components/clients/inspector/company/Tabs/Information/fieldset/OtherFieldset.vue";
 import PoliciesFieldset from "~/components/clients/inspector/company/Tabs/Information/fieldset/PoliciesFieldset.vue";
 import ActivateFieldset from "~/components/clients/inspector/company/Tabs/Information/fieldset/ActivateFieldset.vue";
-import {helpers, minValue, required} from "@vuelidate/validators";
+import {email, helpers, minValue, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
 
 const {
@@ -90,6 +90,30 @@ const company = ref<Company>({
   url: "",
   zip: "",
 });
+
+const invoiceEmail = ref<CompanyInvoiceEmail>({email: ''})
+const validationEmailInvoice = useVuelidate(
+    {
+      email: {email}
+    },
+    invoiceEmail
+);
+
+const eachEmail = (value: string): boolean => {
+  let customValidationEmail = true;
+
+  value.split(';').forEach((element) => {
+    invoiceEmail.value = {
+      email: element
+    };
+
+    if (validationEmailInvoice.value.email.email.$invalid) {
+      customValidationEmail = false;
+    }
+  })
+
+  return customValidationEmail;
+}
 
 const rules = {
   legal_name: {
@@ -135,7 +159,10 @@ const rules = {
     dirty: false
   },
   invoice_email: {
-    dirty: false
+    eachEmail: helpers.withMessage('Invalid email format', eachEmail),
+    // eachEmail,
+    $autoDirty: true,
+    $lazy: true,
   },
   invoice_state: {
     dirty: false
@@ -144,7 +171,9 @@ const rules = {
     dirty: false
   },
   contact_email: {
-    dirty: false
+    email: helpers.withMessage('Invalid email format', email),
+    $autoDirty: true,
+    $lazy: true,
   },
   contact_name: {
     dirty: false
@@ -170,15 +199,25 @@ const validation = useVuelidate(
     company
 );
 
+// const emails = ref<Array<CompanyInvoiceEmail>>([]);
+//
+const emails = computed(() => {
+  return company.value.invoice_email.split(';').map((element) => {
+    return {email: element};
+  })
+})
+
+
+
 watch(activeCompany, async () => {
   if (activeCompany.value?.id) {
     try {
       if (!isDirty.value) {
         company.value = (await companyService.getCompany(activeCompany.value.id, {tab: "info"}));
 
-        validation.value.$reset();
-
         console.log(company.value);
+
+        validation.value.$reset();
       } else {
         setIsDirty(false);
       }

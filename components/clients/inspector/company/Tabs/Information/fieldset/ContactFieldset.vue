@@ -51,6 +51,9 @@
                 @keyup="setDirty(validation.contact_email)"
             />
           </div>
+          <span class="error" style="color: red" v-if="validation.contact_email?.email?.$invalid">
+            {{ validation.contact_email.email.$message }}
+          </span><br v-if="validation.contact_email.email.$invalid">
           <label class="senex__form__label" for="form_company_contact_email">Email</label>
         </div>
       </div>
@@ -80,7 +83,7 @@ defineProps({
     type: Object as PropType<Validation<Company>>,
     default: <Validation<Company>>{}
   },
-})
+});
 
 const {setIsDirty} = useCompanyStore();
 
@@ -89,6 +92,6 @@ const setDirty = (element: { $touch: any; } | undefined = undefined) => {
     element.$touch();
   }
 
-  setIsDirty(true)
-}
+  setIsDirty(true);
+};
 </script>

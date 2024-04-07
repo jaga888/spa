@@ -1,14 +1,9 @@
 export default defineNuxtConfig({
-    $development: undefined,
-    $env: undefined,
     runtimeConfig: {
         public: {
             HOST_API: process.env.HOST_API
         }
     },
-    $meta: undefined,
-    $production: undefined,
-    $test: undefined,
     ssr: false,
     app: {
         head: {
@@ -47,7 +42,6 @@ export default defineNuxtConfig({
         },
         baseURL: process.env.HOST_API,
         globalAppMiddleware: true
-
     },
     devtools: {
         enabled: true

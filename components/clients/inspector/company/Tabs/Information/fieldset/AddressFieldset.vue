@@ -187,6 +187,9 @@
                 @keyup="setDirty(validation.invoice_email)"
             />
           </div>
+          <span class="error" style="color: red" v-if="validation.invoice_email.eachEmail.$invalid">
+            {{ validation.invoice_email.eachEmail.$message }}
+          </span><br v-if="validation.invoice_email.eachEmail.$invalid">
           <label class="senex__form__label" for="form_company_invoice_email">Email</label>
         </div>
       </div>
