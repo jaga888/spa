@@ -37,17 +37,16 @@
           <NuxtLink to="#" class="senex__menu__submenu-item">Judgment & Possession Report </NuxtLink>
           <NuxtLink to="#" class="senex__menu__submenu-item">Processing Totals Report </NuxtLink>
           <NuxtLink to="#" class="senex__menu__submenu-item">Processing Calendar </NuxtLink>
+          <a class="senex__menu__submenu-item" href="/admin/reports/process-server-tracking/list">Process Server Tracking </a>
         </div>
       </div>
 
       <div class="two-columns-or-more senex__menu__item senex__menu__item--text senex__menu__item--submenu">
         Management
         <div class="senex__menu__submenu">
-          <NuxtLink class="senex__menu__submenu-item" to="/clients">Clients & Properties </NuxtLink>
-          <NuxtLink to="#" class="senex__menu__submenu-item">Courts & Dates </NuxtLink>
-          <NuxtLink to="#" class="senex__menu__submenu-item">User Admin </NuxtLink>
-          <NuxtLink to="#" class="senex__menu__submenu-item">Document Management </NuxtLink>
-          <NuxtLink to="#" class="senex__menu__submenu-item">Document Texts Management </NuxtLink>
+          <a class="senex__menu__submenu-item" href="/admin/company/list">Companies </a>
+          <a class="senex__menu__submenu-item" href="/admin/property/list">Properties </a>
+          <a class="senex__menu__submenu-item" href="/admin/user/list">Users </a>
         </div>
       </div>
     </div>
