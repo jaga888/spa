@@ -107,6 +107,9 @@ const formSubmit = async () => {
                   status,
                   data
                 }) => {
+          if (status === 400) {
+            invalidCredentials.value = data.message;
+          }
           console.log(status, data.message);
         });
 

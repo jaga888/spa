@@ -3,6 +3,7 @@ import type {Firm} from "~/services/firm/types";
 import type {PolicyList} from "~/services/policy/types";
 import type {FeeList} from "~/services/fee/types";
 import type {ProcessingTypeAvailabilityList} from "~/services/processing_type_availability/types";
+import type {Address} from "~/services/address/types";
 
 export interface PropertyList{
     id: number,
@@ -20,8 +21,7 @@ export interface Property{
     name: string,
     legal_name: string,
     active: boolean,
-    address: string,
-    city: string,
+    address: Address,
     client_property_id: string,
     company: CompanyList,
     company_id: number,
@@ -34,29 +34,21 @@ export interface Property{
     fax: string,
     firm: Firm,
     late_after_dom: number,
-    invoice_address: string,
+    invoice_address?: Address,
     invoice_address2: string,
-    invoice_city: string,
     invoice_email: string,
-    invoice_state: string,
-    invoice_zip: string,
     manager_cell: string,
     manager_email: string,
     manager_name: string,
     notice_rent_trigger: number,
     notification_email: string,
-    payment_address: string,
-    payment_city: string,
-    payment_state: string,
-    payment_zip: string,
+    payment_address?: Address,
     phone: string,
     pm_software_id: 0,
     policy_ids: number[],
     short_name: string,
-    state: string,
     use_company_filing_threshold: boolean,
     ud_filing_threshold: number,
-    zip: string,
     policies: Array<PolicyList>,
     unit_count: number,
 }

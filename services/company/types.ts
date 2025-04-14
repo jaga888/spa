@@ -2,6 +2,7 @@ import type {ProcessingTypeAvailabilityList} from "~/services/processing_type_av
 import type {Firm} from "~/services/firm/types";
 import type {FeeList} from "~/services/fee/types";
 import type {PolicyList} from "~/services/policy/types";
+import type {Address} from "~/services/address/types";
 
 export interface CompanyList{
     id: number,
@@ -17,24 +18,18 @@ export interface Company{
     name: string,
     legal_name: string,
     active: boolean,
-    address: string,
-    city: string,
+    address: Address,
     contact_email: string,
     contact_name: string,
     contact_phone: string,
-    invoice_address: string,
+    invoice_address?: Address,
     invoice_address2: string,
-    invoice_city: string,
     invoice_email: string,
-    invoice_state: string,
-    invoice_zip: string,
     pm_software_id: 0,
     policy_ids: number[],
     short_name: string,
-    state: string,
     ud_filing_threshold: number,
     url: string,
-    zip: string,
 }
 
 export interface CompanyFee{
