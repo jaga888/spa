@@ -10,7 +10,7 @@
     <p v-if="!companies.length">
       No companies
     </p>
-    <Company v-for="company in companies" :company="company" />
+    <Company v-for="company in companies" :company="company"/>
   </div>
 </template>
 
@@ -21,8 +21,15 @@ import {useCompanyStore} from "~/store/company";
 import {useDebounceFn} from "@vueuse/core";
 import Company from "~/components/management/clients/sidebar/Company.vue";
 
-const {filter} = storeToRefs(useCompanyStore());
-const {isNewCompany} = storeToRefs(useCompanyStore());
+const {
+  isNewCompany,
+  filter,
+  refreshCompanies,
+} = storeToRefs(useCompanyStore());
+
+const {
+  setRefreshCompanies
+} = useCompanyStore();
 
 const companies = ref<CompanyList[]>([]);
 
@@ -43,11 +50,16 @@ watch(filter, () => {
   }
 });
 
+watch(refreshCompanies, () => {
+  if (refreshCompanies.value) {
+    fetchCompanies();
+    setRefreshCompanies(false);
+  }
+});
+
 const fetchCompanies = async () => {
   try {
     companies.value = (await companyService.getCompanies({sort: "name"}));
-
-    console.log(companies.value);
   } catch (error) {
     // const response = error as AxiosError;
 

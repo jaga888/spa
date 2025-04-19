@@ -56,8 +56,6 @@ watch(activeCompany, async () => {
         sort: "name",
         "filter[company_id]": activeCompany.value.id
       }));
-
-      console.log(properties.value);
     } catch (error) {
       console.log(error);
     }
@@ -71,8 +69,6 @@ if (activeCompany.value?.id) {
       "filter[company_id]": activeCompany.value.id,
       "filter[full_name]": filter.value,
     }));
-
-    console.log(properties.value);
   } catch (error) {
     console.log(error);
   }
@@ -84,8 +80,6 @@ const debouncedFn = useDebounceFn(async () => {
     "filter[company_id]": activeCompany.value?.id,
     "filter[full_name]": filter.value,
   }));
-
-  console.log(properties.value);
 }, 200);
 
 watch(filter, () => {

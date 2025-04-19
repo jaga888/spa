@@ -9,15 +9,14 @@
 
       <div class="senex__form__item-group">
         <div class="senex__form__item">
-          <div class="senex__form__field" :class="{'senex__form__field--dirty': validation.legal_name.$dirty}">
+          <div class="senex__form__field" :class="{'senex__form__field--dirty': dirtyCompanyColumns.legalName}">
             <input id="form_company_legal_name"
                    type="text"
                    name="legal_name"
                    class="senex__form__input"
                    placeholder="Legal Name..."
-                   @input="$emit('update:legalName', ($event.target as HTMLInputElement).value)"
-                   :value="legalName"
-                   @keyup="setDirty(validation.legal_name)"
+                   v-model="legalName"
+                   @keyup="setDirty('legalName')"
             />
           </div>
 
@@ -36,17 +35,15 @@
 
       <div class="senex__form__item-group">
         <div class="senex__form__item">
-          <div class="senex__form__field" :class="{'senex__form__field--dirty': validation.name.$dirty}">
+          <div class="senex__form__field" :class="{'senex__form__field--dirty': dirtyCompanyColumns.name}">
             <input
                 id="form_company_name"
                 type="text"
                 name="name"
                 class="senex__form__input"
                 placeholder="Name..."
-                @input="$emit('update:name', ($event.target as HTMLInputElement).value)"
-                :value="name"
-                @keyup="setDirty(validation.name)"
-                autocomplete="off"
+                v-model="name"
+                @keyup="setDirty('name')"
             />
           </div>
           <span class="error" style="color: red" v-if="validation.name.required.$invalid">
@@ -62,16 +59,15 @@
       </div>
       <div class="senex__form__item-group">
         <div class="senex__form__item">
-          <div class="senex__form__field" :class="{'senex__form__field--dirty': validation.short_name.$dirty}">
+          <div class="senex__form__field" :class="{'senex__form__field--dirty': dirtyCompanyColumns.shortName}">
             <input
                 id="form_company_short_name"
                 type="text"
                 name="short_name"
                 class="senex__form__input"
                 placeholder="Short Name..."
-                @input="$emit('update:shortName', ($event.target as HTMLInputElement).value)"
-                :value="shortName"
-                @keyup="setDirty(validation.short_name)"
+                v-model="shortName"
+                @keyup="setDirty('shortName')"
                 required
             />
           </div>
@@ -87,35 +83,59 @@
 
 <script setup lang="ts">
 import {useCompanyStore} from "~/store/company";
-import type {Validation} from "@vuelidate/core";
+import type {Validation, ValidationArgs} from "@vuelidate/core";
 import type {Company} from "~/services/company/types";
 
-defineProps({
-  legalName: {
-    type: String,
-    default: ""
-  },
-  name: {
-    type: String,
-    default: ""
-  },
-  shortName: {
-    type: String,
-    default: ""
+const legalName = defineModel<string>("legalName", {
+  default: ""
+});
+const name = defineModel<string>("name", {
+  default: ""
+});
+const shortName = defineModel<string>("shortName", {
+  default: ""
+});
+
+const props = defineProps({
+  dirtyCompanyColumns: {
+    type: Object,
+    default: {
+      legalName: false,
+      name: false,
+      shortName: false,
+      address: {
+        address: false,
+        city: false,
+        state: false,
+        zip: false,
+      },
+      invoice_address: {
+        address: false,
+        city: false,
+        state: false,
+        zip: false,
+      },
+      invoice_address2: false,
+      invoice_email: false,
+      contact_email: false,
+      contact_name: false,
+      contact_phone: false,
+      url: false,
+      ud_filing_threshold: false
+    }
   },
   validation: {
-    type: Object as PropType<Validation<Company>>,
+    type: Object as PropType<Validation<ValidationArgs, Company>>,
     default: <Validation<Company>>{}
   },
-})
+});
 
+const {isDirty} = storeToRefs(useCompanyStore());
 const {setIsDirty} = useCompanyStore();
 
-const setDirty = (element: { $touch: any; } | undefined = undefined) => {
-  if (element) {
-    element.$touch();
-  }
+const setDirty = (column: string, address?: string) => {
+  address ? props.dirtyCompanyColumns[address][column] = true : props.dirtyCompanyColumns[column] = true;
 
-  setIsDirty(true)
-}
+  !isDirty.value ? setIsDirty() : false;
+};
 </script>

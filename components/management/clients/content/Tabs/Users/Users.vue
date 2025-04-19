@@ -32,8 +32,6 @@ if (activeCompany.value?.id) {
       "filter[company_id]": activeCompany.value?.id,
       "filter[full_name]": filter.value,
     }));
-
-    console.log(users.value);
   } catch (error) {
     console.log(error);
   }
@@ -45,8 +43,6 @@ const debouncedFn = useDebounceFn(async () => {
     "filter[company_id]": activeCompany.value?.id,
     "filter[full_name]": filter.value,
   }));
-
-  console.log(users.value);
 }, 200);
 
 watch(filter, () => {

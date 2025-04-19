@@ -8,13 +8,15 @@
             <div :class="{'policies_container_1': policies.length > 5, 'policies_container': policies.length < 6}">
               <Policy
                   v-for="policy in policies.length > 5 ? policies.slice(0, Math.round(policies.length / 2)) : policies"
-                  :policy="policy" :policyIds="policyIds"
+                  :policy="policy"
+                  v-model:policyIds="policyIds"
               />
             </div>
             <div class="policies_container_2" v-if="policies.length > 5">
               <Policy
                   v-for="policy in policies.length > 5 ? policies.slice(Math.round(policies.length / 2)) : policies"
-                  :policy="policy" :policyIds="policyIds"
+                  :policy="policy"
+                  v-model:policyIds="policyIds"
               />
             </div>
           </div>
@@ -29,11 +31,8 @@ import {policyService} from "~/services/policy/service";
 import type {PolicyList} from "~/services/policy/types";
 import Policy from "~/components/management/clients/inspector/company/Tabs/Information/fieldset/Policy.vue";
 
-defineProps({
-  policyIds: {
-    type: Array<Number>,
-    default: []
-  },
+const policyIds = defineModel<Array<Number>>("policyIds", {
+  default: []
 });
 
 const policies = ref<PolicyList[]>([]);
@@ -43,8 +42,6 @@ try {
     "filter[is_published]": 1,
     sort: "sort"
   }));
-
-  console.log(policies.value);
 } catch (error) {
   console.log(error);
 }

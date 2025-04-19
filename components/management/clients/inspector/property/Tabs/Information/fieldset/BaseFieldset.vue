@@ -15,8 +15,7 @@
                    name="legal_name"
                    class="senex__form__input"
                    placeholder="Legal Name..."
-                   @input="$emit('update:legalName', ($event.target as HTMLInputElement).value)"
-                   :value="legalName"
+                   v-model="legalName"
                    @keyup="setDirty(validation.legal_name)"
             />
           </div>
@@ -43,8 +42,7 @@
                 name="name"
                 class="senex__form__input"
                 placeholder="Name..."
-                @input="$emit('update:name', ($event.target as HTMLInputElement).value)"
-                :value="name"
+                v-model="name"
                 @keyup="setDirty(validation.name)"
                 autocomplete="off"
             />
@@ -69,8 +67,7 @@
                 name="short_name"
                 class="senex__form__input"
                 placeholder="Nickname..."
-                @input="$emit('update:shortName', ($event.target as HTMLInputElement).value)"
-                :value="shortName"
+                v-model="shortName"
                 @keyup="setDirty(validation.short_name)"
                 required
             />
@@ -95,8 +92,7 @@
                 name="client_property_id"
                 class="senex__form__input"
                 placeholder="Client Property Id..."
-                @input="$emit('update:shortName', ($event.target as HTMLInputElement).value)"
-                :value="clientPropertyId"
+                v-model="clientPropertyId"
                 @keyup="setDirty(validation.client_property_id)"
                 required
             />
@@ -113,23 +109,20 @@ import {usePropertyStore} from "~/store/property";
 import type {Validation} from "@vuelidate/core";
 import type {Property} from "~/services/property/types";
 
+const legalName = defineModel<string>("legalName", {
+  default: ""
+});
+const name = defineModel<string>("name", {
+  default: ""
+});
+const shortName = defineModel<string>("shortName", {
+  default: ""
+});
+const clientPropertyId = defineModel<string>("clientPropertyId", {
+  default: ""
+});
+
 defineProps({
-  legalName: {
-    type: String,
-    default: ""
-  },
-  name: {
-    type: String,
-    default: ""
-  },
-  shortName: {
-    type: String,
-    default: ""
-  },
-  clientPropertyId: {
-    type: String,
-    default: ""
-  },
   validation: {
     type: Object as PropType<Validation<Property>>,
     default: <Validation<Property>>{}

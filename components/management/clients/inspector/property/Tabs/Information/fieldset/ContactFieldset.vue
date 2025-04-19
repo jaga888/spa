@@ -11,8 +11,7 @@
                 name="phone"
                 class="senex__form__input"
                 placeholder="Phone..."
-                @input="$emit('update:phone', ($event.target as HTMLInputElement).value)"
-                :value="phone"
+                v-model="phone"
                 @keyup="setDirty(validation.phone)"
                 autocomplete="true"
             />
@@ -29,8 +28,7 @@
                 type="text"
                 name="fax"
                 class="senex__form__input"
-                @input="$emit('update:fax', ($event.target as HTMLInputElement).value)"
-                :value="fax"
+                v-model="fax"
                 @change="setDirty(validation.fax)"
             />
           </div>
@@ -48,8 +46,7 @@
                 class="senex__form__input"
                 autocomplete="true"
                 placeholder="Email..."
-                @input="$emit('update:email', ($event.target as HTMLInputElement).value)"
-                :value="email"
+                v-model="email"
                 @keyup="setDirty(validation.email)"
             />
           </div>
@@ -65,19 +62,17 @@ import {type Validation} from "@vuelidate/core";
 import {usePropertyStore} from "~/store/property";
 import type {Property} from "~/services/property/types";
 
+const phone = defineModel<string>("phone", {
+  default: ""
+});
+const fax = defineModel<string>("fax", {
+  default: ""
+});
+const email = defineModel<string>("email", {
+  default: ""
+});
+
 defineProps({
-  phone: {
-    type: String,
-    default: ""
-  },
-  fax: {
-    type: String,
-    default: ""
-  },
-  email: {
-    type: String,
-    default: ""
-  },
   validation: {
     type: Object as PropType<Validation<Property>>,
     default: <Validation<Property>>{}

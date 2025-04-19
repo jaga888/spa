@@ -56,15 +56,15 @@
 
         <div class="senex__form__item-group">
           <div class="senex__form__item">
-            <div class="senex__form__field" :class="{'senex__form__field--dirty': validation.address.$dirty}">
+            <div class="senex__form__field" :class="{'senex__form__field--dirty': validation.address.address.$dirty}">
               <input
                   type="text"
                   name="address"
                   id="form_unit_address"
                   class="senex__form__input"
                   placeholder="Unit Address..."
-                  v-model="unit.address"
-                  @keyup="setDirty(validation.address)"
+                  v-model="unit.address.address"
+                  @keyup="setDirty(validation.address.address)"
                   autocomplete="true"
               />
             </div>
@@ -91,15 +91,15 @@
 
         <div class="senex__form__item-group">
           <div class="senex__form__item">
-            <div class="senex__form__field" :class="{'senex__form__field--dirty': validation.state.$dirty}">
+            <div class="senex__form__field" :class="{'senex__form__field--dirty': validation.address.state.$dirty}">
               <input
                   type="text"
                   name="state"
                   id="form_unit_state"
                   class="senex__form__input"
                   placeholder="State..."
-                  v-model="unit.state"
-                  @keyup="setDirty(validation.state)"
+                  v-model="unit.address.state"
+                  @keyup="setDirty(validation.address.state)"
               />
             </div>
             <label class="senex__form__label" for="form_unit_state">State</label>
@@ -108,15 +108,15 @@
 
         <div class="senex__form__item-group">
           <div class="senex__form__item">
-            <div class="senex__form__field" :class="{'senex__form__field--dirty': validation.city.$dirty}">
+            <div class="senex__form__field" :class="{'senex__form__field--dirty': validation.address.city.$dirty}">
               <input
                   type="text"
                   name="city"
                   id="form_unit_city"
                   class="senex__form__input"
                   placeholder="City..."
-                  v-model="unit.city"
-                  @keyup="setDirty(validation.city)"
+                  v-model="unit.address.city"
+                  @keyup="setDirty(validation.address.city)"
               />
             </div>
             <label class="senex__form__label" for="form_unit_city">City</label>
@@ -125,15 +125,15 @@
 
         <div class="senex__form__item-group">
           <div class="senex__form__item">
-            <div class="senex__form__field" :class="{'senex__form__field--dirty': validation.zip.$dirty}">
+            <div class="senex__form__field" :class="{'senex__form__field--dirty': validation.address.zip.$dirty}">
               <input
                   type="text"
                   name="zip"
                   id="form_unit_zip"
                   class="senex__form__input"
                   placeholder="Zip..."
-                  v-model="unit.zip"
-                  @keyup="setDirty(validation.zip)"
+                  v-model="unit.address.zip"
+                  @keyup="setDirty(validation.address.zip)"
               />
             </div>
             <label class="senex__form__label" for="form_unit_zip">Zip</label>
@@ -178,11 +178,8 @@ import {usePropertyStore} from "~/store/property";
 import UnitButtons from "~/components/management/clients/inspector/property/UnitButtons.vue"
 
 const {activeProperty} = storeToRefs(usePropertyStore());
-
 const {activeUnit, isNewUnit, isDirty, saveUnit} = storeToRefs(useUnitStore());
-
 const {setSaveUnit, setIsDirty} = useUnitStore();
-
 const unit = ref<Unit>(<Unit>{})
 
 const rules = {
@@ -235,7 +232,14 @@ watch(activeUnit, async () => {
     try {
       unit.value = (await unitService.getUnit(activeUnit.value.id));
 
-      console.log(unit.value);
+      if (!unit.value.address) {
+        unit.value.address = {
+          address: '',
+          city: '',
+          state: '',
+          zip: '',
+        }
+      }
 
       validation.value.$reset();
     } catch (error) {
@@ -248,7 +252,14 @@ if (activeUnit.value) {
   try {
     unit.value = (await unitService.getUnit(activeUnit.value.id));
 
-    console.log(unit.value);
+    if (!unit.value.address) {
+      unit.value.address = {
+        address: '',
+        city: '',
+        state: '',
+        zip: '',
+      }
+    }
 
     validation.value.$reset();
   } catch (error) {
@@ -260,7 +271,7 @@ const setDirty = (element: { $touch: any; } | undefined = undefined) => {
   if (element) {
     element.$touch();
   }
-
+  console.log('setDirty');
   setIsDirty(true)
 }
 
@@ -269,15 +280,17 @@ watch(isNewUnit, async () => {
     unit.value = {
       id: undefined,
       active: true,
-      address: "",
+      address: {
+        address: "",
+        city: "",
+        state: "",
+        zip: "",
+      },
       address2: "",
-      city: "",
       complete_client_identifier: "",
       identifier: "",
       pm_software_unit_id: 0,
       property_id: activeProperty.value ? activeProperty.value.id : 0,
-      state: "",
-      zip: "",
     };
 
     validation.value.$reset();
@@ -285,13 +298,18 @@ watch(isNewUnit, async () => {
 });
 
 watch(isDirty, async () => {
-  console.log(isDirty.value);
-
   if (!isDirty.value && activeUnit.value) {
     try {
       unit.value = (await unitService.getUnit(activeUnit.value.id));
 
-      console.log(unit.value);
+      if (!unit.value.address) {
+        unit.value.address = {
+          address: '',
+          city: '',
+          state: '',
+          zip: '',
+        }
+      }
 
       validation.value.$reset();
     } catch (error) {

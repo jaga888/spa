@@ -9,8 +9,7 @@
             <select id="form_property_pm_software_id"
                     name="pm_software_id"
                     class="senex__form__select"
-                    @input="$emit('update:pmSoftwareId', parseInt(($event.target as HTMLInputElement).value))"
-                    :value="pmSoftwareId"
+                    v-model="pmSoftwareId"
                     @change="setDirty(validation?.pm_software_id)"
             >
               <PmSoftware v-for="pmSoftware in pmSoftwares" :pmSoftware="pmSoftware" />
@@ -47,10 +46,11 @@ import {pmSoftwareService} from "~/services/pm_software/service";
 import type {Property} from "~/services/property/types";
 import PmSoftware from "~/components/management/clients/inspector/property/Tabs/Information/fieldset/PmSoftware.vue";
 
+const pmSoftwareId = defineModel<number>("pmSoftwareId", {
+  default: 0
+});
+
 defineProps({
-  pmSoftwareId: {
-    type: Number,
-  },
   unitCount: {
     type: Number,
     default: 0
@@ -75,8 +75,6 @@ const pmSoftwares = ref<PmSoftwareList[]>([])
 
 try {
   pmSoftwares.value = (await pmSoftwareService.getPmSoftwares({sort: 'order'}))
-
-  console.log(pmSoftwares.value)
 } catch (error) {
   console.log(error)
 }

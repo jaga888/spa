@@ -11,8 +11,7 @@
                    name="manager_name"
                    class="senex__form__input"
                    placeholder="Name..."
-                   @input="$emit('update:managerName', ($event.target as HTMLInputElement).value)"
-                   :value="managerName"
+                   v-model="managerName"
                    @keyup="setDirty(validation.manager_name)"
             />
           </div>
@@ -28,8 +27,7 @@
                    name="manager_cell"
                    class="senex__form__input"
                    placeholder="Cell Phone..."
-                   @input="$emit('update:managerCell', ($event.target as HTMLInputElement).value)"
-                   :value="managerCell"
+                   v-model="managerCell"
                    @keyup="setDirty(validation.manager_cell)"
             />
           </div>
@@ -45,8 +43,7 @@
                    name="manager_email"
                    class="senex__form__input"
                    placeholder="Email..."
-                   @input="$emit('update:managerEmail', ($event.target as HTMLInputElement).value)"
-                   :value="managerEmail"
+                   v-model="managerEmail"
                    @keyup="setDirty(validation.manager_email)"
             />
           </div>
@@ -62,19 +59,17 @@ import {usePropertyStore} from "~/store/property";
 import type {Validation} from "@vuelidate/core";
 import type {Property} from "~/services/property/types";
 
+const managerName = defineModel<string>("managerName", {
+  default: ""
+});
+const managerCell = defineModel<string>("managerCell", {
+  default: ""
+});
+const managerEmail = defineModel<string>("managerEmail", {
+  default: ""
+});
+
 defineProps({
-  managerName: {
-    type: String,
-    default: ""
-  },
-  managerCell: {
-    type: String,
-    default: ""
-  },
-  managerEmail: {
-    type: String,
-    default: ""
-  },
   validation: {
     type: Object as PropType<Validation<Property>>,
     default: <Validation<Property>>{}

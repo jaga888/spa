@@ -11,5 +11,11 @@ export const companyService = {
     },
     getCompanyFees: (id: number, params?: QueryParams) => {
         return useNuxtApp().$api().get<CompanyFee>(routes.getById(id), {params})
-    }
+    },
+    createCompany: (params?: QueryParams) => {
+        return useNuxtApp().$api().post<Company>(routes.create(), params)
+    },
+    updateCompany: (id: number, params?: QueryParams) => {
+        return useNuxtApp().$api().put<Company>(routes.update(id), params)
+    },
 }

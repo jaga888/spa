@@ -245,13 +245,37 @@ const validation = useVuelidate(
 const excludedPolicyIds = ref<Array<Number>>([]);
 
 watch(activeProperty, async () => {
-  console.log(activeProperty.value);
   if (activeProperty.value?.id) {
     try {
       if (!isDirty.value) {
         property.value = (await propertyService.getProperty(activeProperty.value.id, {tab: "info"}));
 
-        console.log(property.value);
+        if (!property.value.address) {
+          property.value.address = {
+            address: '',
+            city: '',
+            state: '',
+            zip: '',
+          }
+        }
+
+        if (!property.value.invoice_address) {
+          property.value.invoice_address = {
+            address: '',
+            city: '',
+            state: '',
+            zip: '',
+          }
+        }
+
+        if (!property.value.payment_address) {
+          property.value.payment_address = {
+            address: '',
+            city: '',
+            state: '',
+            zip: '',
+          }
+        }
 
         validation.value.$reset();
       } else {
@@ -308,7 +332,7 @@ watch(isNewProperty, async () => {
         zip: "",
       },
       phone: "",
-      pm_software_id: 0,
+      pm_software_id: 6,
       policy_ids: [],
       short_name: "",
       use_company_filing_threshold: false,
@@ -320,8 +344,6 @@ watch(isNewProperty, async () => {
     validation.value.$reset();
 
     courts.value = (await courtService.getCourts());
-
-    console.log(courts.value);
   }
 });
 
@@ -330,13 +352,36 @@ if (activeProperty.value?.id) {
     if (!isDirty.value) {
       property.value = (await propertyService.getProperty(activeProperty.value.id, {tab: "info"}));
 
-      console.log(property.value);
+      if (!property.value.address) {
+        property.value.address = {
+          address: '',
+          city: '',
+          state: '',
+          zip: '',
+        }
+      }
+
+      if (!property.value.invoice_address) {
+        property.value.invoice_address = {
+          address: '',
+          city: '',
+          state: '',
+          zip: '',
+        }
+      }
+
+      if (!property.value.payment_address) {
+        property.value.payment_address = {
+          address: '',
+          city: '',
+          state: '',
+          zip: '',
+        }
+      }
 
       validation.value.$reset();
 
       courts.value = (await courtService.getCourts());
-
-      console.log(courts.value);
     } else {
       setIsDirty(false);
     }
@@ -347,8 +392,6 @@ if (activeProperty.value?.id) {
 
 watch(saveProperty, async () => {
   if (saveProperty.value) {
-    console.log(property.value);
-    console.log(excludedPolicyIds.value);
     setSaveProperty(false);
   }
 });
@@ -358,7 +401,32 @@ watch(isDirty, async () => {
   if (!isDirty.value && activeProperty.value) {
     property.value = (await propertyService.getProperty(activeProperty.value.id, {tab: "info"}));
 
-    console.log(property.value);
+    if (!property.value.address) {
+      property.value.address = {
+        address: '',
+        city: '',
+        state: '',
+        zip: '',
+      }
+    }
+
+    if (!property.value.invoice_address) {
+      property.value.invoice_address = {
+        address: '',
+        city: '',
+        state: '',
+        zip: '',
+      }
+    }
+
+    if (!property.value.payment_address) {
+      property.value.payment_address = {
+        address: '',
+        city: '',
+        state: '',
+        zip: '',
+      }
+    }
 
     validation.value.$reset();
   }

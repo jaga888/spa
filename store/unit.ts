@@ -32,6 +32,7 @@ export const useUnitStore = defineStore('unit', () => {
 
     const setIsDirty = (value:boolean = true) => {
         isDirty.value = value
+        console.log(isDirty.value);
     }
 
     const setSaveUnit= ($value:boolean = true) => {

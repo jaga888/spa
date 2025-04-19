@@ -12,8 +12,7 @@
                 name="property_address_address"
                 class="senex__form__input"
                 placeholder="Address..."
-                @input="$emit('update:address.address', ($event.target as HTMLInputElement).value)"
-                :value="address.address"
+                v-model="address.address"
                 @keyup="setDirty(validation.address.address)"
             />
           </div>
@@ -35,8 +34,7 @@
                 name="property_address_city"
                 class="senex__form__input"
                 placeholder="City..."
-                @input="$emit('update:address.city', ($event.target as HTMLInputElement).value)"
-                :value="address.city"
+                v-model="address.city"
                 @keyup="setDirty(validation.address.city)"
             />
           </div>
@@ -54,8 +52,7 @@
                 name="property_address_state"
                 class="senex__form__input"
                 placeholder="ST..."
-                @input="$emit('update:address.state', ($event.target as HTMLInputElement).value)"
-                :value="address.state"
+                v-model="address.state"
                 @keyup="setDirty(validation.address.state)"
             />
           </div>
@@ -73,8 +70,7 @@
                 name="zip"
                 class="senex__form__input"
                 placeholder="Zip..."
-                @input="$emit('update:address.zip', ($event.target as HTMLInputElement).value)"
-                :value="address.zip"
+                v-model="address.zip"
                 @keyup="setDirty(validation.address.zip)"
             />
           </div>
@@ -91,8 +87,7 @@
             <select id="form_property_court_id"
                     name="court_id"
                     class="senex__form__select"
-                    @input="$emit('update:courtId', parseInt(($event.target as HTMLInputElement).value))"
-                    :value="courtId"
+                    v-model="courtId"
                     @change="setDirty(validation?.court_id)"
             >
               <Court v-for="court in courts" :court="court"/>
@@ -127,8 +122,7 @@
                    name="default_unit_city"
                    class="senex__form__input"
                    placeholder="City..."
-                   @input="$emit('update:defaultUnitCity', ($event.target as HTMLInputElement).value)"
-                   :value="defaultUnitCity"
+                   v-model="defaultUnitCity"
                    @keyup="setDirty(validation.default_unit_city)"
             />
           </div>
@@ -142,8 +136,7 @@
                    name="default_unit_state"
                    class="senex__form__input"
                    placeholder="ST..."
-                   @input="$emit('update:defaultUnitState', ($event.target as HTMLInputElement).value)"
-                   :value="defaultUnitState"
+                   v-model="defaultUnitState"
                    @keyup="setDirty(validation.default_unit_state)"
             />
           </div>
@@ -157,8 +150,7 @@
                    name="default_unit_zip"
                    class="senex__form__input"
                    placeholder="Zip..."
-                   @input="$emit('update:defaultUnitZip', ($event.target as HTMLInputElement).value)"
-                   :value="defaultUnitZip"
+                   v-model="defaultUnitZip"
                    @keyup="setDirty(validation.default_unit_zip)"
             />
           </div>
@@ -177,31 +169,26 @@ import type {Court as CourtType} from "~/services/court/types";
 import Court from "~/components/management/clients/inspector/property/Tabs/Information/fieldset/Court.vue";
 import type {Address} from "~/services/address/types";
 
+const address = defineModel<Address>("address", {
+  required: true
+});
+const courtId = defineModel<number>("courtId", {
+  default: 0
+});
+const defaultUnitCity = defineModel<string>("defaultUnitCity", {
+  default: ""
+});
+const defaultUnitState = defineModel<string>("defaultUnitState", {
+  default: ""
+});
+const defaultUnitZip = defineModel<string>("defaultUnitZip", {
+  default: ""
+});
+const courts = defineModel<Array<CourtType>>("courts", {
+  default: []
+});
+
 defineProps({
-  address: {
-    type: Object as PropType<Address>,
-    default: <Address>{}
-  },
-  courtId: {
-    type: Number,
-    default: 0
-  },
-  defaultUnitCity: {
-    type: String,
-    default: ""
-  },
-  defaultUnitState: {
-    type: String,
-    default: ""
-  },
-  defaultUnitZip: {
-    type: String,
-    default: ""
-  },
-  courts: {
-    type: Array<CourtType>,
-    default: [],
-  },
   validation: {
     type: Object as PropType<Validation<Property>>,
     default: <Validation<Property>>{}

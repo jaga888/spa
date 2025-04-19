@@ -9,7 +9,7 @@
               <Policy
                   v-for="policy in policies.length > 5 ? policies.slice(0, Math.round(policies.length / 2)) : policies"
                   :policy="policy"
-                  :policyIds="policyIds"
+                  v-model:policyIds="policyIds"
                   :excludedPolicyIds="excludedPolicyIds"
                   :policies="propertyPolicies"
                   :companyPolicies="companyPolicies"
@@ -19,7 +19,7 @@
               <Policy
                   v-for="policy in policies.length > 5 ? policies.slice(Math.round(policies.length / 2)) : policies"
                   :policy="policy"
-                  :policyIds="policyIds"
+                  v-model:policyIds="policyIds"
                   :policies="propertyPolicies"
                   :companyPolicies="companyPolicies"
               />
@@ -41,8 +41,7 @@
                    required
                    min="1"
                    max="15"
-                   @input="$emit('update:lateAfterDom', ($event.target as HTMLInputElement).value)"
-                   :value="lateAfterDom"
+                   v-model="lateAfterDom"
                    @keyup="setDirty(validation.late_after_dom)"
             />
           </div>
@@ -74,8 +73,7 @@
                    placeholder="Notice creation threshold..."
                    required
                    min="0"
-                   @input="$emit('update:noticeRentTrigger', ($event.target as HTMLInputElement).value)"
-                   :value="noticeRentTrigger"
+                   v-model="noticeRentTrigger"
                    @keyup="setDirty(validation.notice_rent_trigger)"
             />
           </div>
@@ -97,8 +95,7 @@
                    type="checkbox"
                    name="use_company_filing_threshold"
                    class="senex__form__checkbox senex__clients__use_company_filing_threshold"
-                   :checked="useCompanyFilingThreshold"
-                   @change="$emit('update:useCompanyFilingThreshold', ($event.target as HTMLInputElement).checked)"
+                   v-model="useCompanyFilingThreshold"
                    @click="setDirty(validation.use_company_filing_threshold)"
             />
             <label for="form_property_use_company_filing_threshold"
@@ -114,10 +111,20 @@
                    placeholder="UD Filing Threshold..."
                    required
                    min="0"
-                   @input="$emit('update:udFilingThreshold', ($event.target as HTMLInputElement).value)"
-                   :value="useCompanyFilingThreshold ? companyUdFilingThreshold : udFilingThreshold"
+                   :value="companyUdFilingThreshold"
+                   readonly
+                   v-if="useCompanyFilingThreshold"
+            />
+            <input id="form_property_ud_filing_threshold"
+                   type="number"
+                   name="ud_filing_threshold"
+                   class="senex__form__input"
+                   placeholder="UD Filing Threshold..."
+                   required
+                   min="0"
+                   v-model="udFilingThreshold"
                    @keyup="setDirty(validation.ud_filing_threshold)"
-                   :readonly="useCompanyFilingThreshold"
+                   v-else
             />
           </div>
           <label class="senex__form__label" for="form_property_ud_filing_threshold">
@@ -137,6 +144,22 @@ import type {Validation} from "@vuelidate/core";
 import type {Property} from "~/services/property/types";
 import {usePropertyStore} from "~/store/property";
 
+const policyIds = defineModel<Array<Number>>("policyIds", {
+  default: []
+});
+const lateAfterDom = defineModel<number>("lateAfterDom", {
+  default: 5
+});
+const noticeRentTrigger = defineModel<number>("noticeRentTrigger", {
+  default: 100
+});
+const useCompanyFilingThreshold = defineModel<boolean>("useCompanyFilingThreshold", {
+  default: false
+});
+const udFilingThreshold = defineModel<number>("udFilingThreshold", {
+  default: 500
+});
+
 defineProps({
   companyPolicies: {
     type: Array<PolicyList>,
@@ -146,29 +169,9 @@ defineProps({
     type: Array<PolicyList>,
     default: []
   },
-  policyIds: {
-    type: Array<Number>,
-    default: []
-  },
   excludedPolicyIds: {
     type: Array<Number>,
     default: []
-  },
-  lateAfterDom: {
-    type: Number,
-    default: 5
-  },
-  noticeRentTrigger: {
-    type: Number,
-    default: 100
-  },
-  useCompanyFilingThreshold: {
-    type: Boolean,
-    default: false
-  },
-  udFilingThreshold: {
-    type: Number,
-    default: 500
   },
   companyUdFilingThreshold: {
     type: Number,
@@ -196,8 +199,6 @@ try {
     "filter[is_published]": 1,
     sort: "sort"
   }));
-
-  console.log(policies.value);
 } catch (error) {
   console.log(error);
 }

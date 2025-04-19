@@ -4,16 +4,15 @@
     <div class="senex__form__block">
       <div class="senex__form__item-group">
         <div class="senex__form__item">
-          <div class="senex__form__field" :class="{'senex__form__field--dirty': validation.contact_name.$dirty}">
+          <div class="senex__form__field" :class="{'senex__form__field--dirty': dirtyCompanyColumns.contact_name}">
             <input
                 id="form_company_contact_name"
                 type="text"
                 name="contact_name"
                 class="senex__form__input"
                 placeholder="Name..."
-                @input="$emit('update:contactName', ($event.target as HTMLInputElement).value)"
-                :value="contactName"
-                @keyup="setDirty(validation.contact_name)"
+                v-model="contactName"
+                @keyup="setDirty('contact_name')"
             />
           </div>
           <label class="senex__form__label" for="form_company_contact_name">Name</label>
@@ -22,15 +21,14 @@
 
       <div class="senex__form__item-group">
         <div class="senex__form__item">
-          <div class="senex__form__field" :class="{'senex__form__field--dirty': validation.contact_phone.$dirty}">
+          <div class="senex__form__field" :class="{'senex__form__field--dirty': dirtyCompanyColumns.contact_phone}">
             <input
                 id="form_company_contact_phone"
                 type="tel"
                 name="contact_phone"
                 class="senex__form__input"
-                @input="$emit('update:contactPhone', ($event.target as HTMLInputElement).value)"
-                :value="contactPhone"
-                @change="setDirty(validation.contact_phone)"
+                v-model="contactPhone"
+                @keyup="setDirty('contact_phone')"
             />
           </div>
           <label class="senex__form__label" for="form_company_contact_phone">Phone</label>
@@ -39,16 +37,15 @@
 
       <div class="senex__form__item-group">
         <div class="senex__form__item">
-          <div class="senex__form__field" :class="{'senex__form__field--dirty': validation.contact_email.$dirty}">
+          <div class="senex__form__field" :class="{'senex__form__field--dirty': dirtyCompanyColumns.contact_email}">
             <input
                 id="form_company_contact_email"
                 type="email"
                 name="contact_email"
                 class="senex__form__input"
                 placeholder="Email..."
-                @input="$emit('update:contactEmail', ($event.target as HTMLInputElement).value)"
-                :value="contactEmail"
-                @keyup="setDirty(validation.contact_email)"
+                v-model="contactEmail"
+                @keyup="setDirty('contact_email')"
             />
           </div>
           <span class="error" style="color: red" v-if="validation.contact_email?.email?.$invalid">
@@ -62,36 +59,63 @@
 </template>
 
 <script setup lang="ts">
-import {type Validation} from "@vuelidate/core";
+import {type Validation, type ValidationArgs} from "@vuelidate/core";
 import {useCompanyStore} from "~/store/company";
 import type {Company} from "~/services/company/types";
 
-defineProps({
-  contactName: {
-    type: String,
-    default: ""
-  },
-  contactPhone: {
-    type: String,
-    default: ""
-  },
-  contactEmail: {
-    type: String,
-    default: ""
+const contactName = defineModel<string>("contactName", {
+  default: ""
+});
+
+const contactPhone = defineModel<string>("contactPhone", {
+  default: ""
+});
+
+const contactEmail = defineModel<string>("contactEmail", {
+  default: ""
+});
+
+const props = defineProps({
+  dirtyCompanyColumns: {
+    type: Object,
+    default: {
+      legalName: false,
+      name: false,
+      shortName: false,
+      address: {
+        address: false,
+        city: false,
+        state: false,
+        zip: false,
+      },
+      invoice_address: {
+        address: false,
+        city: false,
+        state: false,
+        zip: false,
+      },
+      invoice_address2: false,
+      invoice_email: false,
+      contact_email: false,
+      contact_name: false,
+      contact_phone: false,
+      url: false,
+      ud_filing_threshold: false
+    }
   },
   validation: {
-    type: Object as PropType<Validation<Company>>,
+    type: Object as PropType<Validation<ValidationArgs, Company>>,
     default: <Validation<Company>>{}
   },
 });
 
+const {isDirty} = storeToRefs(useCompanyStore());
+
 const {setIsDirty} = useCompanyStore();
 
-const setDirty = (element: { $touch: any; } | undefined = undefined) => {
-  if (element) {
-    element.$touch();
-  }
+const setDirty = (column: string, address?: string) => {
+  address ? props.dirtyCompanyColumns[address][column] = true : props.dirtyCompanyColumns[column] = true;
 
-  setIsDirty(true);
+  !isDirty.value ? setIsDirty() : false;
 };
 </script>

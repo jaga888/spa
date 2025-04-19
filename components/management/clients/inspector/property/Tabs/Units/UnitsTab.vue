@@ -65,7 +65,7 @@ const {activeUnit, isNewUnit, filter} = storeToRefs(useUnitStore());
 const units = ref<Array<UnitList>>(<Array<UnitList>>[]);
 const importUnit = ref<boolean>(false);
 
-const {setActiveUnit, setIsNewUnit} = useUnitStore();
+const {setActiveUnit, setIsNewUnit, setIsDirty} = useUnitStore();
 const selectedUnitId = ref(0);
 
 if (activeProperty.value) {
@@ -74,8 +74,6 @@ if (activeProperty.value) {
       "filter[property_id]": activeProperty.value.id,
       sort: "-active,address",
     }));
-
-    console.log(units.value);
   } catch (error) {
     console.log(error);
   }
@@ -91,8 +89,6 @@ const debouncedFn = useDebounceFn(async () => {
         "filter[address]": filter.value,
         sort: "-active,address",
       }));
-
-      console.log(units.value)
     } catch (error) {
       console.log(error)
     }
@@ -117,6 +113,7 @@ const updateActiveUnit = (unitId: number) => {
   importUnit.value = false
 
   setActiveUnit({id: unitId})
+  setIsDirty(false);
 }
 
 const openNewUnit = () => {

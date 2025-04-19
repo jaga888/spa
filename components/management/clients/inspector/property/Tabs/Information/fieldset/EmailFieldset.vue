@@ -16,8 +16,7 @@
                    name="notification_email"
                    class="senex__form__input"
                    placeholder="email..."
-                   @input="$emit('update:notificationEmail', ($event.target as HTMLInputElement).value)"
-                   :value="notificationEmail"
+                   v-model="notificationEmail"
                    @keyup="setDirty(validation.notification_email)"
             />
           </div>
@@ -42,8 +41,7 @@
                    name="document_email"
                    class="senex__form__input"
                    placeholder="email..."
-                   @input="$emit('update:documentEmail', ($event.target as HTMLInputElement).value)"
-                   :value="documentEmail"
+                   v-model="documentEmail"
                    @keyup="setDirty(validation.document_email)"
             />
           </div>
@@ -61,15 +59,14 @@ import {usePropertyStore} from "~/store/property";
 import type {Validation} from "@vuelidate/core";
 import type {Property} from "~/services/property/types";
 
+const notificationEmail = defineModel<string>("notificationEmail", {
+  default: ""
+});
+const documentEmail = defineModel<string>("documentEmail", {
+  default: ""
+});
+
 defineProps({
-  notificationEmail: {
-    type: String,
-    default: ""
-  },
-  documentEmail: {
-    type: String,
-    default: ""
-  },
   validation: {
     type: Object as PropType<Validation<Property>>,
     default: <Validation<Property>>{}

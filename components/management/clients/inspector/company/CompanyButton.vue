@@ -9,7 +9,7 @@
     <div
         class="senex__master-button senex__master-button--save senex__clients__update-info"
         :class="{'senex__master-button--disabled': isDisabled}"
-        @click.prevent="setSaveCompany()">
+        @click.prevent="isDisabled ? false : setSaveCompany()">
       Save
     </div>
   </div>
@@ -27,7 +27,6 @@ const {
 const isDisabled = ref<boolean>(true);
 
 watch(isDirty, async () => {
-  console.log(isDirty.value);
   isDisabled.value = !isDirty.value;
 });
 </script>

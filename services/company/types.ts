@@ -25,7 +25,7 @@ export interface Company{
     invoice_address?: Address,
     invoice_address2: string,
     invoice_email: string,
-    pm_software_id: 0,
+    pm_software_id: number,
     policy_ids: number[],
     short_name: string,
     ud_filing_threshold: number,

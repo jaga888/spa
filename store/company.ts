@@ -7,6 +7,7 @@ export const useCompanyStore = defineStore('company', () => {
     const isDirty = ref<boolean>(false);
     const isNewCompany = ref<boolean>(false);
     const filter = ref<string>();
+    const refreshCompanies = ref<boolean>(false);
 
     const setIsDirty = (value:boolean = true) => {
         isDirty.value = value
@@ -14,6 +15,10 @@ export const useCompanyStore = defineStore('company', () => {
 
     const setSaveCompany = ($value:boolean = true) => {
         saveCompany.value = $value
+    }
+
+    const setRefreshCompanies = ($value:boolean = true) => {
+        refreshCompanies.value = $value
     }
 
     const setActiveCompany = (company: CompanyList) => {
@@ -38,10 +43,12 @@ export const useCompanyStore = defineStore('company', () => {
         isNewCompany,
         saveCompany,
         isDirty,
+        refreshCompanies,
         setIsDirty,
         setSaveCompany,
         setActiveCompany,
         setIsNewCompany,
-        setFilter
+        setFilter,
+        setRefreshCompanies
     }
 })

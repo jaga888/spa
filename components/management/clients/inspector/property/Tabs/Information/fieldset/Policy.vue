@@ -85,6 +85,7 @@ const isDisabled = computed((): boolean => {
     companyPolicyFilter.value = props.companyPolicies.filter(
         (currentPolicy) => props.policy.identifier === currentPolicy.identifier
     );
+
     return companyPolicyFilter.value.length > 0;
   } else {
     return false;
