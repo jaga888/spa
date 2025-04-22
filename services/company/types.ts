@@ -9,15 +9,21 @@ export interface CompanyList{
     name: string,
     legal_name: string,
     active: boolean,
+}
+
+export interface ActiveCompany{
+    id: number,
+    active: boolean,
+    name: string,
     policies?: Array<PolicyList>
     ud_filing_threshold?: number,
 }
 
 export interface Company{
     id?: number,
-    name: string,
     legal_name: string,
-    active: boolean,
+    name: string,
+    short_name: string,
     address: Address,
     contact_email: string,
     contact_name: string,
@@ -27,9 +33,10 @@ export interface Company{
     invoice_email: string,
     pm_software_id: number,
     policy_ids: number[],
-    short_name: string,
     ud_filing_threshold: number,
     url: string,
+    active: boolean,
+    policies?: Array<PolicyList>
 }
 
 export interface CompanyFee{

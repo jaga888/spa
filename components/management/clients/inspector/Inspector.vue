@@ -31,6 +31,7 @@ const {
 
 const {
   activeProperty,
+  isNewProperty,
 } = storeToRefs(usePropertyStore());
 
 const {
@@ -53,6 +54,12 @@ watch(isNewCompany, async () => {
 
 watch(activeProperty, async () => {
   if (activeProperty.value) {
+    setActiveInspector(activeInspectorProperty.value);
+  }
+});
+
+watch(isNewProperty, async () => {
+  if (isNewProperty.value) {
     setActiveInspector(activeInspectorProperty.value);
   }
 });

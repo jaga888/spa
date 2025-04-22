@@ -24,24 +24,12 @@ import Doc from "~/components/management/clients/inspector/property/Tabs/Docs/Do
 
 const {activeProperty} = storeToRefs(usePropertyStore())
 const property = ref<PropertyDoc>({
-  id: 0,
-  court_id: 0,
-  data_availability: 0,
-  document_email: "",
-  name: "",
-  legal_name: "",
-  manager_name: "",
-  active: false,
   processing_type_availabilities: [],
-  short_name: "",
-  sort_name: "",
 })
 
 if (activeProperty.value) {
   try {
     property.value = (await propertyService.getPropertyDocs(activeProperty.value.id, {tab: 'docs'}))
-
-    console.log(property.value)
   } catch (error) {
     console.log(error)
   }

@@ -1,12 +1,13 @@
 <template>
   <span>
     <input type="checkbox"
-           name="policies[]"
+           name="company_policies[]"
            class="senex__form__checkbox"
            :id="'form_company_policy_' + policy.id"
            :value="policy.id"
            v-model="policyIds"
-           @change="setDirty($event)">
+           @change="setIsDirty"
+    />
     <label :for="'form_company_policy_' + policy.id" :title="policy.description">
       {{
         policy.name
@@ -38,12 +39,4 @@ defineProps({
 });
 
 const {setIsDirty} = useCompanyStore();
-
-const setDirty = ($event: any, element: { $touch: any; } | undefined = undefined) => {
-  if (element) {
-    element.$touch();
-  }
-
-  setIsDirty(true);
-};
 </script>

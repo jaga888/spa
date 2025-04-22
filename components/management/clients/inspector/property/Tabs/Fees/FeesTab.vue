@@ -33,6 +33,7 @@ import {chargeTypeService} from "~/services/charge_type/service";
 import type {CompanyList} from "~/services/company/types";
 
 const {activeProperty} = storeToRefs(usePropertyStore())
+
 const property = ref<PropertyFee>({
   id: 0,
   court_id: 0,
@@ -53,16 +54,12 @@ const chargeTypes = ref<ChargeType[]>([])
 
 if (activeProperty.value) {
   try {
-    property.value = (await propertyService.getPropertyFees(activeProperty.value.id, {tab: 'fees'}))
-
-    console.log(property.value)
+    property.value = (await propertyService.getPropertyFees(activeProperty.value.id))
 
     chargeTypes.value = (await chargeTypeService.getChargeTypes({
       'filter[fee]': 1,
       sort: 'name'
     }))
-
-    console.log(chargeTypes.value)
   } catch (error) {
     console.log(error)
   }
@@ -73,14 +70,10 @@ const refreshProperty = async () => {
     try {
       property.value = (await propertyService.getPropertyFees(activeProperty.value.id, {tab: 'fees'}))
 
-      console.log(property.value)
-
       chargeTypes.value = (await chargeTypeService.getChargeTypes({
         'filter[fee]': 1,
         sort: 'name'
       }))
-
-      console.log(chargeTypes.value)
     } catch (error) {
       console.log(error)
     }

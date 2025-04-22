@@ -10,7 +10,7 @@
             <input
                 id="form_company_address_address"
                 type="text"
-                name="mailing-address-address"
+                name="company_mailing_address_address"
                 class="senex__form__input"
                 placeholder="Address..."
                 v-model="address.address"
@@ -31,7 +31,7 @@
             <input
                 id="form_company_address_city"
                 type="text"
-                name="mailing-address-city"
+                name="company_mailing_address_city"
                 class="senex__form__input"
                 placeholder="City..."
                 v-model="address.city"
@@ -49,7 +49,7 @@
             <input
                 id="form_company_address_state"
                 type="text"
-                name="mailing-address-state"
+                name="company_mailing_address_state"
                 class="senex__form__input"
                 placeholder="ST..."
                 v-model="address.state"
@@ -66,8 +66,8 @@
           <div class="senex__form__field" :class="{'senex__form__field--dirty': dirtyCompanyColumns.address.zip}">
             <input
                 id="form_company_address_zip"
-                type="text"
-                name="mailing-address-zip"
+                type="number"
+                name="company_mailing_address_zip"
                 class="senex__form__input"
                 placeholder="Zip..."
                 v-model="address.zip"
@@ -91,15 +91,15 @@
       <div class="senex__form__item-group">
         <div class="senex__form__item">
           <div class="senex__form__field"
-               :class="{'senex__form__field--dirty': dirtyCompanyColumns.invoice_address.address}">
+               :class="{'senex__form__field--dirty': dirtyCompanyColumns.invoiceAddress.address}">
             <input
                 id="form_company_invoice_address_address"
                 type="text"
-                name="invoice-address-address"
+                name="company_invoice_address_address"
                 class="senex__form__input"
                 placeholder="Address Line 1..."
                 v-model="invoiceAddress.address"
-                @keyup="setDirty('address', 'invoice_address')"
+                @keyup="setDirty('address', 'invoiceAddress')"
             />
           </div>
           <label class="senex__form__label" for="form_company_invoice_address_address">Address Line 1</label>
@@ -108,15 +108,15 @@
 
       <div class="senex__form__item-group">
         <div class="senex__form__item">
-          <div class="senex__form__field" :class="{'senex__form__field--dirty': dirtyCompanyColumns.invoice_address2}">
+          <div class="senex__form__field" :class="{'senex__form__field--dirty': dirtyCompanyColumns.invoiceAddress2}">
             <input
                 id="form_company_invoice_address2"
                 type="text"
-                name="invoice_address2"
+                name="company_invoice_address2"
                 class="senex__form__input"
                 placeholder="Address Line 2..."
                 v-model="invoiceAddress2"
-                @keyup="setDirty('invoice_address2')"
+                @keyup="setDirty('invoiceAddress2')"
             />
           </div>
           <label class="senex__form__label" for="form_company_invoice_address2">Address Line 2</label>
@@ -126,15 +126,15 @@
       <div class="senex__form__item-group">
         <div class="senex__form__item senex__form__item--flex-5">
           <div class="senex__form__field"
-               :class="{'senex__form__field--dirty': dirtyCompanyColumns.invoice_address.city}">
+               :class="{'senex__form__field--dirty': dirtyCompanyColumns.invoiceAddress.city}">
             <input
                 id="form_company_invoice_address_city"
                 type="text"
-                name="invoice-address-city"
+                name="company_invoice_address_city"
                 class="senex__form__input"
                 placeholder="City..."
                 v-model="invoiceAddress.city"
-                @keyup="setDirty('city', 'invoice_address')"
+                @keyup="setDirty('city', 'invoiceAddress')"
             />
           </div>
           <label class="senex__form__label" for="form_company_invoice_address_city">City</label>
@@ -142,15 +142,15 @@
 
         <div class="senex__form__item senex__form__item--flex-1">
           <div class="senex__form__field"
-               :class="{'senex__form__field--dirty': dirtyCompanyColumns.invoice_address.state}">
+               :class="{'senex__form__field--dirty': dirtyCompanyColumns.invoiceAddress.state}">
             <input
                 id="form_company_invoice_address_state"
                 type="text"
-                name="invoice-address-state"
+                name="company_invoice_address_state"
                 class="senex__form__input"
                 placeholder="ST..."
                 v-model="invoiceAddress.state"
-                @change="setDirty('state', 'invoice_address')"
+                @keyup="setDirty('state', 'invoiceAddress')"
             />
           </div>
           <label class="senex__form__label" for="form_company_invoice_address_state">ST</label>
@@ -158,15 +158,15 @@
 
         <div class="senex__form__item senex__form__item--flex-2">
           <div class="senex__form__field"
-               :class="{'senex__form__field--dirty': dirtyCompanyColumns.invoice_address.zip}">
+               :class="{'senex__form__field--dirty': dirtyCompanyColumns.invoiceAddress.zip}">
             <input
                 id="form_company_invoice_address_zip"
-                type="text"
-                name="invoice-address-zip"
+                type="number"
+                name="company_invoice_address_zip"
                 class="senex__form__input"
                 placeholder="Zip..."
                 v-model="invoiceAddress.zip"
-                @keyup="setDirty('zip', 'invoice_address')"
+                @keyup="setDirty('zip', 'invoiceAddress')"
             />
           </div>
           <label class="senex__form__label" for="form_company_invoice_address_zip">Zip</label>
@@ -175,15 +175,15 @@
 
       <div class="senex__form__item-group">
         <div class="senex__form__item">
-          <div class="senex__form__field" :class="{'senex__form__field--dirty': dirtyCompanyColumns.invoice_email}">
+          <div class="senex__form__field" :class="{'senex__form__field--dirty': dirtyCompanyColumns.invoiceEmail}">
             <input
                 id="form_company_invoice_email"
                 type="text"
-                name="invoice_email"
+                name="company_invoice_email"
                 class="senex__form__input"
                 placeholder="Email..."
                 v-model="invoiceEmail"
-                @keyup="setDirty('invoice_email')"
+                @keyup="setDirty('invoiceEmail')"
             />
           </div>
           <span class="error" style="color: red" v-if="validation.invoice_email.eachEmail.$invalid">
@@ -204,7 +204,13 @@ import type {Address} from "~/services/address/types";
 import type {PropType} from "vue";
 
 const address = defineModel<Address>("address", {
-  required: true
+  required: true,
+  default: <Address>{
+    address: "",
+    city: "",
+    state: "",
+    zip: "",
+  }
 });
 
 const invoiceAddress = defineModel<Address>("invoiceAddress", {
@@ -237,24 +243,24 @@ const props = defineProps({
         state: false,
         zip: false,
       },
-      invoice_address: {
+      invoiceAddress: {
         address: false,
         city: false,
         state: false,
         zip: false,
       },
-      invoice_address2: false,
-      invoice_email: false,
-      contact_email: false,
-      contact_name: false,
-      contact_phone: false,
+      invoiceAddress2: false,
+      invoiceEmail: false,
+      contactEmail: false,
+      contactName: false,
+      contactPhone: false,
       url: false,
-      ud_filing_threshold: false
+      udFilingThreshold: false
     }
   },
   validation: {
     type: Object as PropType<Validation<ValidationArgs, Company>>,
-    default: <Validation<Company>>{}
+    default: <Validation<ValidationArgs, Company>>{}
   },
 });
 

@@ -42,10 +42,11 @@ const properties = ref<PropertyList[]>([]);
 const {
   activeProperty,
   filter,
-  isNewProperty
+  isNewProperty,
+  refreshProperties
 } = storeToRefs(usePropertyStore());
 
-const {setIsNewProperty} = usePropertyStore();
+const {setIsNewProperty, setRefreshProperties} = usePropertyStore();
 
 watch(activeCompany, async () => {
   setIsNewProperty(false);
@@ -81,6 +82,20 @@ const debouncedFn = useDebounceFn(async () => {
     "filter[full_name]": filter.value,
   }));
 }, 200);
+
+watch(refreshProperties, async () => {
+  if (refreshProperties.value && activeCompany.value) {
+    try {
+      properties.value = (await propertyService.getProperties({
+        sort: "name",
+        "filter[company_id]": activeCompany.value.id
+      }));
+    } catch (error) {
+      console.log(error);
+    }
+    setRefreshProperties(false);
+  }
+});
 
 watch(filter, () => {
   if (!isNewCompany.value) {

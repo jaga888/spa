@@ -28,7 +28,6 @@ const {
 const isDisabled = ref<boolean>(true);
 
 watch(isDirty, async () => {
-  console.log(isDirty.value);
   isDisabled.value = !isDirty.value;
 });
 </script>

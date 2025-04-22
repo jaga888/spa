@@ -2,15 +2,15 @@
   <fieldset class="senex__form__fieldset">
     <legend class="senex__form__legend">Other Information</legend>
     <div class="senex__form__block">
-      <div class="senex__form__header">Property Mangement Software</div>
+      <div class="senex__form__header">Property Management Software</div>
       <div class="senex__form__item-group">
         <div class="senex__form__item">
           <div class="senex__form__field">
             <select id="form_property_pm_software_id"
-                    name="pm_software_id"
+                    name="property_pm_software_id"
                     class="senex__form__select"
                     v-model="pmSoftwareId"
-                    @change="setDirty(validation?.pm_software_id)"
+                    @change="!isDirty ? setIsDirty() : false"
             >
               <PmSoftware v-for="pmSoftware in pmSoftwares" :pmSoftware="pmSoftware" />
             </select>
@@ -24,7 +24,7 @@
           <div class="senex__form__field">
             <input id="form_property_unit_count"
                    type="text"
-                   name="unit_count"
+                   name="property_unit_count"
                    class="senex__form__input"
                    placeholder="Unit Count..."
                    :value="unitCount"
@@ -39,11 +39,9 @@
 </template>
 
 <script setup lang="ts">
-import {type Validation} from "@vuelidate/core";
 import {usePropertyStore} from "~/store/property";
 import type {PmSoftwareList} from "~/services/pm_software/types";
 import {pmSoftwareService} from "~/services/pm_software/service";
-import type {Property} from "~/services/property/types";
 import PmSoftware from "~/components/management/clients/inspector/property/Tabs/Information/fieldset/PmSoftware.vue";
 
 const pmSoftwareId = defineModel<number>("pmSoftwareId", {
@@ -55,21 +53,11 @@ defineProps({
     type: Number,
     default: 0
   },
-  validation: {
-    type: Object as PropType<Validation<Property>>,
-    default: <Validation<Property>>{}
-  },
 })
 
+const {isDirty} = storeToRefs(usePropertyStore());
+
 const {setIsDirty} = usePropertyStore();
-
-const setDirty = (element: { $touch: any; } | undefined = undefined) => {
-  if (element) {
-    element.$touch();
-  }
-
-  setIsDirty(true)
-}
 
 const pmSoftwares = ref<PmSoftwareList[]>([])
 

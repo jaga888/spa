@@ -47,7 +47,7 @@ const chargeTypes = ref<ChargeType[]>([]);
 
 if (activeCompany.value) {
   try {
-    company.value = (await companyService.getCompanyFees(activeCompany.value.id, {tab: "fees"}));
+    company.value = (await companyService.getCompanyFees(activeCompany.value.id));
 
     console.log(company.value);
 
@@ -65,7 +65,7 @@ if (activeCompany.value) {
 const refreshCompanies = async () => {
   if (activeCompany.value) {
     try {
-      company.value = (await companyService.getCompanyFees(activeCompany.value.id, {tab: "fees"}));
+      company.value = (await companyService.getCompanyFees(activeCompany.value.id));
 
       console.log(company.value);
 

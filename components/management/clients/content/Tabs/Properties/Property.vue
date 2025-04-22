@@ -1,5 +1,5 @@
 <template>
-  <li @click="setActiveProperty(property)">
+  <li @click="setActiveProperty(<ActiveProperty>{id: property.id, short_name: property.short_name})">
     <div class="senex__list__item-title">
       <slot/>
     </div>
@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 import type {PropType} from "vue";
-import type {PropertyList} from "~/services/property/types";
+import type {ActiveProperty, PropertyList} from "~/services/property/types";
 import {usePropertyStore} from "~/store/property";
 
 const {setActiveProperty} = usePropertyStore();

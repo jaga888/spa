@@ -9,7 +9,6 @@
 
 <script setup lang="ts">
 import type {PropType} from "vue";
-import type {PacketTemplateList} from "~/services/packet_template/types";
 import type {PacketTemplateDocumentList} from "~/services/packet_template_document/types";
 import PDFIcon from "~/components/icons/File/PDFIcon.vue";
 

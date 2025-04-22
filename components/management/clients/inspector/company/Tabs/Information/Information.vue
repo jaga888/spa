@@ -44,7 +44,7 @@
 <script setup lang="ts">
 import {companyService} from "~/services/company/service";
 import {useCompanyStore} from "~/store/company";
-import type {Company, CompanyInvoiceEmail} from "~/services/company/types";
+import type {ActiveCompany, Company, CompanyInvoiceEmail} from "~/services/company/types";
 import BaseFieldset from "~/components/management/clients/inspector/company/Tabs/Information/fieldset/BaseFieldset.vue";
 import AddressFieldset
   from "~/components/management/clients/inspector/company/Tabs/Information/fieldset/AddressFieldset.vue";
@@ -97,7 +97,7 @@ const company = ref<Company>({
   pm_software_id: 6,
   policy_ids: [],
   short_name: "",
-  ud_filing_threshold: 0,
+  ud_filing_threshold: 500,
   url: "",
 });
 
@@ -158,18 +158,16 @@ const rules = {
   },
   invoice_email: {
     eachEmail: helpers.withMessage("Invalid email format", eachEmail),
-    $autoDirty: true,
     $lazy: true,
   },
   contact_email: {
     email: helpers.withMessage("Invalid email format", email),
-    $autoDirty: true,
     $lazy: true,
   },
   ud_filing_threshold: {
     required: helpers.withMessage("The field ud filing threshold is required", required),
     minValue: helpers.withMessage("The field must have a min value 0", minValue(0)),
-    dirty: false
+    $lazy: true,
   },
 };
 
@@ -188,19 +186,19 @@ const dirtyCompanyColumns = ref({
     state: false,
     zip: false,
   },
-  invoice_address: {
+  invoiceAddress: {
     address: false,
     city: false,
     state: false,
     zip: false,
   },
-  invoice_address2: false,
-  invoice_email: false,
-  contact_email: false,
-  contact_name: false,
-  contact_phone: false,
+  invoiceAddress2: false,
+  invoiceEmail: false,
+  contactEmail: false,
+  contactName: false,
+  contactPhone: false,
   url: false,
-  ud_filing_threshold: false
+  udFilingThreshold: false
 });
 
 const setDeFaultValues = () => {
@@ -227,7 +225,7 @@ watch(activeCompany, async () => {
   if (activeCompany.value?.id) {
     try {
       if (!isDirty.value) {
-        company.value = (await companyService.getCompany(activeCompany.value.id, {tab: "info"}));
+        company.value = (await companyService.getCompany(activeCompany.value.id));
 
         setDeFaultValues();
 
@@ -268,7 +266,7 @@ watch(isNewCompany, async () => {
       pm_software_id: 6,
       policy_ids: [],
       short_name: "",
-      ud_filing_threshold: 0,
+      ud_filing_threshold: 500,
       url: "",
     };
 
@@ -304,12 +302,12 @@ watch(saveCompany, async () => {
 
           setDeFaultValues();
 
-          setActiveCompany({
+          setActiveCompany(<ActiveCompany>{
             id: company.value.id ?? 0,
             name: company.value.name,
             legal_name: company.value.legal_name,
             active: company.value.active,
-            ud_filing_threshold: company.value.ud_filing_threshold,
+            policies: company.value.policies
           });
 
           setRefreshCompanies();
@@ -329,7 +327,7 @@ watch(saveCompany, async () => {
 watch(isDirty, async () => {
   if (!isDirty.value) {
     if (activeCompany.value) {
-      company.value = (await companyService.getCompany(activeCompany.value.id, {tab: "info"}));
+      company.value = (await companyService.getCompany(activeCompany.value.id));
 
       setDeFaultValues();
     } else {
@@ -364,9 +362,7 @@ watch(isDirty, async () => {
     }
 
     validation.value.$reset();
-  }
 
-  if (!isDirty.value) {
     dirtyCompanyColumns.value = {
       legalName: false,
       name: false,
@@ -377,19 +373,19 @@ watch(isDirty, async () => {
         state: false,
         zip: false,
       },
-      invoice_address: {
+      invoiceAddress: {
         address: false,
         city: false,
         state: false,
         zip: false,
       },
-      invoice_address2: false,
-      invoice_email: false,
-      contact_email: false,
-      contact_name: false,
-      contact_phone: false,
+      invoiceAddress2: false,
+      invoiceEmail: false,
+      contactEmail: false,
+      contactName: false,
+      contactPhone: false,
       url: false,
-      ud_filing_threshold: false
+      udFilingThreshold: false
     };
   }
 });
@@ -397,7 +393,7 @@ watch(isDirty, async () => {
 if (activeCompany.value?.id) {
   try {
     if (!isDirty.value) {
-      company.value = (await companyService.getCompany(activeCompany.value.id, {tab: "info"}));
+      company.value = (await companyService.getCompany(activeCompany.value.id));
 
       setDeFaultValues();
 

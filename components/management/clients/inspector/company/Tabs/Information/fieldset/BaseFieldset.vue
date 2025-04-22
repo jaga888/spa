@@ -12,14 +12,13 @@
           <div class="senex__form__field" :class="{'senex__form__field--dirty': dirtyCompanyColumns.legalName}">
             <input id="form_company_legal_name"
                    type="text"
-                   name="legal_name"
+                   name="company_legal_name"
                    class="senex__form__input"
                    placeholder="Legal Name..."
                    v-model="legalName"
                    @keyup="setDirty('legalName')"
             />
           </div>
-
           <span class="error" style="color: red" v-if="validation.legal_name.required.$invalid">
             {{ validation.legal_name.required.$message }}
           </span><br v-if="validation.legal_name.required.$invalid">
@@ -39,11 +38,12 @@
             <input
                 id="form_company_name"
                 type="text"
-                name="name"
+                name="company_name"
                 class="senex__form__input"
                 placeholder="Name..."
                 v-model="name"
                 @keyup="setDirty('name')"
+                autocomplete="false"
             />
           </div>
           <span class="error" style="color: red" v-if="validation.name.required.$invalid">
@@ -63,7 +63,7 @@
             <input
                 id="form_company_short_name"
                 type="text"
-                name="short_name"
+                name="company_short_name"
                 class="senex__form__input"
                 placeholder="Short Name..."
                 v-model="shortName"
@@ -89,9 +89,11 @@ import type {Company} from "~/services/company/types";
 const legalName = defineModel<string>("legalName", {
   default: ""
 });
+
 const name = defineModel<string>("name", {
   default: ""
 });
+
 const shortName = defineModel<string>("shortName", {
   default: ""
 });
@@ -109,28 +111,29 @@ const props = defineProps({
         state: false,
         zip: false,
       },
-      invoice_address: {
+      invoiceAddress: {
         address: false,
         city: false,
         state: false,
         zip: false,
       },
-      invoice_address2: false,
-      invoice_email: false,
-      contact_email: false,
-      contact_name: false,
-      contact_phone: false,
+      invoiceAddress2: false,
+      invoiceEmail: false,
+      contactEmail: false,
+      contactName: false,
+      contactPhone: false,
       url: false,
-      ud_filing_threshold: false
+      udFilingThreshold: false
     }
   },
   validation: {
     type: Object as PropType<Validation<ValidationArgs, Company>>,
-    default: <Validation<Company>>{}
+    default: <Validation<ValidationArgs, Company>>{}
   },
 });
 
 const {isDirty} = storeToRefs(useCompanyStore());
+
 const {setIsDirty} = useCompanyStore();
 
 const setDirty = (column: string, address?: string) => {

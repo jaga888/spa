@@ -4,15 +4,15 @@
     <div class="senex__form__block">
       <div class="senex__form__item-group">
         <div class="senex__form__item">
-          <div class="senex__form__field" :class="{'senex__form__field--dirty': dirtyCompanyColumns.contact_name}">
+          <div class="senex__form__field" :class="{'senex__form__field--dirty': dirtyCompanyColumns.contactName}">
             <input
                 id="form_company_contact_name"
                 type="text"
-                name="contact_name"
+                name="company_contact_name"
                 class="senex__form__input"
                 placeholder="Name..."
                 v-model="contactName"
-                @keyup="setDirty('contact_name')"
+                @keyup="setDirty('contactName')"
             />
           </div>
           <label class="senex__form__label" for="form_company_contact_name">Name</label>
@@ -21,14 +21,14 @@
 
       <div class="senex__form__item-group">
         <div class="senex__form__item">
-          <div class="senex__form__field" :class="{'senex__form__field--dirty': dirtyCompanyColumns.contact_phone}">
+          <div class="senex__form__field" :class="{'senex__form__field--dirty': dirtyCompanyColumns.contactPhone}">
             <input
                 id="form_company_contact_phone"
                 type="tel"
-                name="contact_phone"
+                name="company_contact_phone"
                 class="senex__form__input"
                 v-model="contactPhone"
-                @keyup="setDirty('contact_phone')"
+                @keyup="setDirty('contactPhone')"
             />
           </div>
           <label class="senex__form__label" for="form_company_contact_phone">Phone</label>
@@ -37,15 +37,15 @@
 
       <div class="senex__form__item-group">
         <div class="senex__form__item">
-          <div class="senex__form__field" :class="{'senex__form__field--dirty': dirtyCompanyColumns.contact_email}">
+          <div class="senex__form__field" :class="{'senex__form__field--dirty': dirtyCompanyColumns.contactEmail}">
             <input
                 id="form_company_contact_email"
                 type="email"
-                name="contact_email"
+                name="company_contact_email"
                 class="senex__form__input"
                 placeholder="Email..."
                 v-model="contactEmail"
-                @keyup="setDirty('contact_email')"
+                @keyup="setDirty('contactEmail')"
             />
           </div>
           <span class="error" style="color: red" v-if="validation.contact_email?.email?.$invalid">
@@ -88,24 +88,24 @@ const props = defineProps({
         state: false,
         zip: false,
       },
-      invoice_address: {
+      invoiceAddress: {
         address: false,
         city: false,
         state: false,
         zip: false,
       },
-      invoice_address2: false,
-      invoice_email: false,
-      contact_email: false,
-      contact_name: false,
-      contact_phone: false,
+      invoiceAddress2: false,
+      invoiceEmail: false,
+      contactEmail: false,
+      contactName: false,
+      contactPhone: false,
       url: false,
-      ud_filing_threshold: false
+      udFilingThreshold: false
     }
   },
   validation: {
     type: Object as PropType<Validation<ValidationArgs, Company>>,
-    default: <Validation<Company>>{}
+    default: <Validation<ValidationArgs, Company>>{}
   },
 });
 

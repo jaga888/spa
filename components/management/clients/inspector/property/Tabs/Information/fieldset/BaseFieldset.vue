@@ -9,14 +9,14 @@
 
       <div class="senex__form__item-group">
         <div class="senex__form__item">
-          <div class="senex__form__field" :class="{'senex__form__field--dirty': validation.legal_name.$dirty}">
+          <div class="senex__form__field" :class="{'senex__form__field--dirty': dirtyPropertyColumns.legalName}">
             <input id="form_property_legal_name"
                    type="text"
-                   name="legal_name"
+                   name="property_legal_name"
                    class="senex__form__input"
                    placeholder="Legal Name..."
                    v-model="legalName"
-                   @keyup="setDirty(validation.legal_name)"
+                   @keyup="setDirty('legalName', undefined, validation.legal_name)"
             />
           </div>
 
@@ -35,15 +35,15 @@
 
       <div class="senex__form__item-group">
         <div class="senex__form__item">
-          <div class="senex__form__field" :class="{'senex__form__field--dirty': validation.name.$dirty}">
+          <div class="senex__form__field" :class="{'senex__form__field--dirty': dirtyPropertyColumns.name}">
             <input
                 id="form_property_name"
                 type="text"
-                name="name"
+                name="property_name"
                 class="senex__form__input"
                 placeholder="Name..."
                 v-model="name"
-                @keyup="setDirty(validation.name)"
+                @keyup="setDirty('name')"
                 autocomplete="off"
             />
           </div>
@@ -60,15 +60,15 @@
       </div>
       <div class="senex__form__item-group">
         <div class="senex__form__item">
-          <div class="senex__form__field" :class="{'senex__form__field--dirty': validation.short_name.$dirty}">
+          <div class="senex__form__field" :class="{'senex__form__field--dirty': dirtyPropertyColumns.shortName}">
             <input
                 id="form_property_short_name"
                 type="text"
-                name="short_name"
+                name="property_short_name"
                 class="senex__form__input"
                 placeholder="Nickname..."
                 v-model="shortName"
-                @keyup="setDirty(validation.short_name)"
+                @keyup="setDirty('shortName')"
                 required
             />
           </div>
@@ -85,16 +85,16 @@
       </div>
       <div class="senex__form__item-group">
         <div class="senex__form__item">
-          <div class="senex__form__field" :class="{'senex__form__field--dirty': validation.client_property_id.$dirty}">
+          <div class="senex__form__field">
             <input
                 id="form_property_client_property_id"
                 type="text"
-                name="client_property_id"
+                name="property_client_property_id"
                 class="senex__form__input"
                 placeholder="Client Property Id..."
                 v-model="clientPropertyId"
-                @keyup="setDirty(validation.client_property_id)"
                 required
+                :readonly="!!activeProperty?.id"
             />
           </div>
           <label class="senex__form__label" for="form_property_client_property_id">Client Property Id</label>
@@ -106,7 +106,7 @@
 
 <script setup lang="ts">
 import {usePropertyStore} from "~/store/property";
-import type {Validation} from "@vuelidate/core";
+import type {Validation, ValidationArgs} from "@vuelidate/core";
 import type {Property} from "~/services/property/types";
 
 const legalName = defineModel<string>("legalName", {
@@ -122,20 +122,68 @@ const clientPropertyId = defineModel<string>("clientPropertyId", {
   default: ""
 });
 
-defineProps({
-  validation: {
-    type: Object as PropType<Validation<Property>>,
-    default: <Validation<Property>>{}
+const props = defineProps({
+  dirtyPropertyColumns: {
+    type: Object,
+    default: {
+      legalName: false,
+      name: false,
+      shortName: false,
+      address: {
+        address: false,
+        city: false,
+        state: false,
+        zip: false,
+      },
+      defaultUnitCity: false,
+      defaultUnitState: false,
+      defaultUnitZip: false,
+      phone: false,
+      fax: false,
+      email: false,
+      invoiceAddress: {
+        address: false,
+        city: false,
+        state: false,
+        zip: false,
+      },
+      invoiceAddress2: false,
+      invoiceEmail: false,
+      paymentAddress: {
+        address: false,
+        city: false,
+        state: false,
+        zip: false,
+      },
+      notificationEmail: false,
+      documentEmail: false,
+      managerName: false,
+      managerCell: false,
+      managerEmail: false,
+      lateAfterDom: false,
+      noticeRentTrigger: false,
+      useCompanyFilingThreshold: false,
+      udFilingThreshold: false,
+      pmSoftwareId: false,
+    }
   },
-})
+  validation: {
+    type: Object as PropType<Validation<ValidationArgs, Property>>,
+    default: <Validation<ValidationArgs, Property>>{}
+  },
+});
+
+const {isDirty, activeProperty} = storeToRefs(usePropertyStore());
 
 const {setIsDirty} = usePropertyStore();
 
-const setDirty = (element: { $touch: any; } | undefined = undefined) => {
+const setDirty = (column: string, address?: string, element: { $touch: any; } | undefined = undefined) => {
   if (element) {
     element.$touch();
   }
 
-  setIsDirty(true)
-}
+  address ? props.dirtyPropertyColumns[address][column] = true : props.dirtyPropertyColumns[column] = true;
+
+  !isDirty.value ? setIsDirty() : false;
+};
 </script>

@@ -1,4 +1,4 @@
-import type {CompanyList} from "~/services/company/types";
+import type {ActiveCompany, CompanyList} from "~/services/company/types";
 import type {Firm} from "~/services/firm/types";
 import type {PolicyList} from "~/services/policy/types";
 import type {FeeList} from "~/services/fee/types";
@@ -16,6 +16,11 @@ export interface PropertyList{
     manager_name: string
 }
 
+export interface ActiveProperty{
+    id: number,
+    short_name: string,
+}
+
 export interface Property{
     id?: number,
     name: string,
@@ -23,7 +28,7 @@ export interface Property{
     active: boolean,
     address: Address,
     client_property_id: string,
-    company: CompanyList,
+    company: ActiveCompany,
     company_id: number,
     court_id: number,
     default_unit_city: string,
@@ -32,9 +37,8 @@ export interface Property{
     document_email: string,
     email: string,
     fax: string,
-    firm: Firm,
     late_after_dom: number,
-    invoice_address: Address,
+    invoice_address?: Address,
     invoice_address2: string,
     invoice_email: string,
     manager_cell: string,
@@ -42,7 +46,7 @@ export interface Property{
     manager_name: string,
     notice_rent_trigger: number,
     notification_email: string,
-    payment_address: Address,
+    payment_address?: Address,
     phone: string,
     pm_software_id: 6,
     policy_ids: number[],
@@ -71,15 +75,9 @@ export interface PropertyFee{
 }
 
 export interface PropertyDoc{
-    id: number,
-    court_id: number,
-    data_availability: number,
-    document_email: string,
-    name: string,
-    legal_name: string,
-    manager_name: string,
-    active: boolean,
     processing_type_availabilities: ProcessingTypeAvailabilityList[],
-    short_name: string,
-    sort_name: string,
+}
+
+export interface PropertyEmail{
+    email: string,
 }

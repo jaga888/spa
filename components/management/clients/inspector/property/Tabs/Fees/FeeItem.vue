@@ -44,7 +44,7 @@
       </div>
 
       <div class="senex__form__text" v-else>
-        {{ property.name }} is using the default {{ property.company.name }} fees for
+        {{ property.name }} is using the default {{ activeCompany?.name }} fees for
         {{ processingTypeAvailability.processing_type.plural_name }}
       </div>
 
@@ -202,6 +202,7 @@ import {processingTypeAvailabilityService} from "~/services/processing_type_avai
 import {feeService} from "~/services/fee/service";
 import CancelIcon from "~/components/icons/CancelIcon.vue";
 import ChargeTypeComponent from "~/components/management/clients/ChargeTypeComponent.vue";
+import {useCompanyStore} from "~/store/company";
 
 const props = defineProps({
   processingTypeAvailability: {
@@ -216,10 +217,15 @@ const props = defineProps({
     type: Array as PropType<ChargeType[]>
   }
 });
+
 const feesOverridden: number = 1;
+
 const feesComplicated: number = 2;
+
 const scopeFirm: string = "firm";
+
 const scopeProperty: string = "property";
+
 const getFees = computed((): FeeList[] => {
   return (props.processingTypeAvailability.fees & feesOverridden) !== feesOverridden
       ? props.property.firm.fees.filter(
@@ -229,29 +235,36 @@ const getFees = computed((): FeeList[] => {
           (fee) => fee.processing_type_id === props.processingTypeAvailability.processing_type_id
       );
 });
+
 const getFee = computed((): FeeList | null => {
   return getFees.value[0] ? getFees.value[0] : null;
 });
+
 const showForm = ref(false);
+
 const emit = defineEmits(["feeWasUpdated"]);
+
 const setCustomFee = async (fees: number) => {
   await processingTypeAvailabilityService.updateProcessingTypeAvailability(props.processingTypeAvailability.id, {fees: fees});
 
   showForm.value = false;
   emit("feeWasUpdated");
 };
+
 const fee = ref<Fee>({
   base_amount: 0,
   charge_type_id: 1,
   description: "",
   processing_type_availability_id: props.processingTypeAvailability.id
 });
+
 const saveFee = async () => {
   await feeService.createFee(fee.value);
 
   showForm.value = false;
   emit("feeWasUpdated");
 };
+
 const deleteFee = async () => {
   if (getFee.value) {
     await feeService.deleteFee(getFee.value.id);
@@ -259,4 +272,8 @@ const deleteFee = async () => {
   showForm.value = false;
   emit("feeWasUpdated");
 };
+
+const {
+  activeCompany,
+} = storeToRefs(useCompanyStore());
 </script>

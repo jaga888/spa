@@ -52,10 +52,6 @@ const props = defineProps({
     type: Object as PropType<PolicyList>,
     default: {}
   },
-  policies: {
-    type: Array<PolicyList>,
-    default: []
-  },
 });
 
 const {setIsDirty} = usePropertyStore();

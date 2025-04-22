@@ -11,7 +11,6 @@
                   :policy="policy"
                   v-model:policyIds="policyIds"
                   :excludedPolicyIds="excludedPolicyIds"
-                  :policies="propertyPolicies"
                   :companyPolicies="companyPolicies"
               />
             </div>
@@ -20,7 +19,7 @@
                   v-for="policy in policies.length > 5 ? policies.slice(Math.round(policies.length / 2)) : policies"
                   :policy="policy"
                   v-model:policyIds="policyIds"
-                  :policies="propertyPolicies"
+                  :excludedPolicyIds="excludedPolicyIds"
                   :companyPolicies="companyPolicies"
               />
             </div>
@@ -32,7 +31,7 @@
           <div class="senex__form__text">
             Rent is considered late, and new claims may be created after this day:
           </div>
-          <div class="senex__form__field" :class="{'senex__form__field--dirty': validation.late_after_dom.$dirty}">
+          <div class="senex__form__field" :class="{'senex__form__field--dirty': dirtyPropertyColumns.lateAfterDom}">
             <input id="form_property_late_after_dom"
                    type="number"
                    name="late_after_dom"
@@ -42,12 +41,12 @@
                    min="1"
                    max="15"
                    v-model="lateAfterDom"
-                   @keyup="setDirty(validation.late_after_dom)"
+                   @keyup="setDirty('lateAfterDom')"
             />
           </div>
           <span class="error" style="color: red" v-if="validation.late_after_dom.required.$invalid">
             {{ validation.late_after_dom.required.$message }}
-          </span><br v-if="validation.legal_name.required.$invalid">
+          </span><br v-if="validation.late_after_dom.required.$invalid">
           <span class="error" style="color: red" v-if="validation.late_after_dom.minValue.$invalid">
             {{ validation.late_after_dom.minValue.$message }}
           </span><br v-if="validation.late_after_dom.minValue.$invalid">
@@ -65,16 +64,17 @@
             New claims may be created if balance outstanding is greater than or equal to this
             amount:
           </div>
-          <div class="senex__form__field" :class="{'senex__form__field--dirty': validation.notice_rent_trigger.$dirty}">
+          <div class="senex__form__field"
+               :class="{'senex__form__field--dirty': dirtyPropertyColumns.noticeRentTrigger}">
             <input id="form_property_notice_rent_trigger"
                    type="number"
-                   name="notice_rent_trigger"
+                   name="property_notice_rent_trigger"
                    class="senex__form__input"
                    placeholder="Notice creation threshold..."
                    required
                    min="0"
                    v-model="noticeRentTrigger"
-                   @keyup="setDirty(validation.notice_rent_trigger)"
+                   @keyup="setDirty('noticeRentTrigger')"
             />
           </div>
           <span class="error" style="color: red" v-if="validation.notice_rent_trigger.required.$invalid">
@@ -93,20 +93,24 @@
           <div class="senex__form__text">
             <input id="form_property_use_company_filing_threshold"
                    type="checkbox"
-                   name="use_company_filing_threshold"
+                   name="property_use_company_filing_threshold"
                    class="senex__form__checkbox senex__clients__use_company_filing_threshold"
                    v-model="useCompanyFilingThreshold"
-                   @click="setDirty(validation.use_company_filing_threshold)"
+                   @click="setDirty('useCompanyFilingThreshold')"
             />
             <label for="form_property_use_company_filing_threshold"
                    title="Use Company Filing Threshold">
               Use Company Filing Threshold
             </label>
           </div>
-          <div class="senex__form__field" :class="{'senex__form__field--dirty': validation.ud_filing_threshold.$dirty}">
-            <input id="form_property_ud_filing_threshold"
+          <div class="senex__form__field"
+               :class="{
+                  'senex__form__field--dirty': dirtyPropertyColumns.useCompanyFilingThreshold || dirtyPropertyColumns.udFilingThreshold
+              }"
+          >
+            <input id="form_property_ud_filing_threshold_company"
                    type="number"
-                   name="ud_filing_threshold"
+                   name="property_ud_filing_threshold_company"
                    class="senex__form__input"
                    placeholder="UD Filing Threshold..."
                    required
@@ -117,17 +121,20 @@
             />
             <input id="form_property_ud_filing_threshold"
                    type="number"
-                   name="ud_filing_threshold"
+                   name="property_ud_filing_threshold"
                    class="senex__form__input"
                    placeholder="UD Filing Threshold..."
                    required
                    min="0"
                    v-model="udFilingThreshold"
-                   @keyup="setDirty(validation.ud_filing_threshold)"
+                   @keyup="setDirty('udFilingThreshold')"
                    v-else
             />
           </div>
-          <label class="senex__form__label" for="form_property_ud_filing_threshold">
+          <label class="senex__form__label" for="form_property_ud_filing_threshold_company" v-if="useCompanyFilingThreshold">
+            UD Filing Threshold
+          </label>
+          <label class="senex__form__label" for="form_property_ud_filing_threshold" v-else>
             UD Filing Threshold
           </label>
         </div>
@@ -140,7 +147,7 @@
 import {policyService} from "~/services/policy/service";
 import type {PolicyList} from "~/services/policy/types";
 import Policy from "~/components/management/clients/inspector/property/Tabs/Information/fieldset/Policy.vue";
-import type {Validation} from "@vuelidate/core";
+import type {Validation, ValidationArgs} from "@vuelidate/core";
 import type {Property} from "~/services/property/types";
 import {usePropertyStore} from "~/store/property";
 
@@ -160,12 +167,8 @@ const udFilingThreshold = defineModel<number>("udFilingThreshold", {
   default: 500
 });
 
-defineProps({
+const props = defineProps({
   companyPolicies: {
-    type: Array<PolicyList>,
-    default: []
-  },
-  propertyPolicies: {
     type: Array<PolicyList>,
     default: []
   },
@@ -177,22 +180,67 @@ defineProps({
     type: Number,
     default: 500
   },
+  dirtyPropertyColumns: {
+    type: Object,
+    default: {
+      legalName: false,
+      name: false,
+      shortName: false,
+      address: {
+        address: false,
+        city: false,
+        state: false,
+        zip: false,
+      },
+      defaultUnitCity: false,
+      defaultUnitState: false,
+      defaultUnitZip: false,
+      phone: false,
+      fax: false,
+      email: false,
+      invoiceAddress: {
+        address: false,
+        city: false,
+        state: false,
+        zip: false,
+      },
+      invoiceAddress2: false,
+      invoiceEmail: false,
+      paymentAddress: {
+        address: false,
+        city: false,
+        state: false,
+        zip: false,
+      },
+      notificationEmail: false,
+      documentEmail: false,
+      managerName: false,
+      managerCell: false,
+      managerEmail: false,
+      lateAfterDom: false,
+      noticeRentTrigger: false,
+      useCompanyFilingThreshold: false,
+      udFilingThreshold: false,
+      pmSoftwareId: false,
+    }
+  },
   validation: {
-    type: Object as PropType<Validation<Property>>,
-    default: <Validation<Property>>{}
+    type: Object as PropType<Validation<ValidationArgs, Property>>,
+    default: <Validation<ValidationArgs, Property>>{}
   },
 });
 
 const policies = ref<PolicyList[]>([]);
 
+const {isDirty} = storeToRefs(usePropertyStore());
+
 const {setIsDirty} = usePropertyStore();
 
-const setDirty = ($event: any, element: { $touch: any; } | undefined = undefined) => {
-  if (element) {
-    element.$touch();
-  }
-  setIsDirty(true)
-}
+const setDirty = (column: string, address?: string) => {
+  address ? props.dirtyPropertyColumns[address][column] = true : props.dirtyPropertyColumns[column] = true;
+
+  !isDirty.value ? setIsDirty() : false;
+};
 
 try {
   policies.value = (await policyService.getPolicies({

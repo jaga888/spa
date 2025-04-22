@@ -6,8 +6,8 @@
       <div class="senex__form__item-group">
         <div class="senex__form__item">
           <div class="senex__form__field">
-            <select name="pm_software_id"
-                    id="form_company_pm_software_id"
+            <select id="form_company_pm_software_id"
+                    name="company_pm_software_id"
                     class="senex__form__select"
                     v-model="pmSoftwareId"
                     @change="!isDirty ? setIsDirty() : false"
@@ -24,14 +24,13 @@
       <div class="senex__form__item-group">
         <div class="senex__form__item">
           <div class="senex__form__field" :class="{'senex__form__field--dirty': dirtyCompanyColumns.url}">
-            <input
-                id="form_company_url"
-                type="text"
-                name="url"
-                class="senex__form__input"
-                placeholder="Website URL..."
-                v-model="url"
-                @keyup="setDirty('url')"
+            <input id="form_company_url"
+                   type="text"
+                   name="company_url"
+                   class="senex__form__input"
+                   placeholder="Website URL..."
+                   v-model="url"
+                   @keyup="setDirty('url')"
             />
           </div>
           <label class="senex__form__label" for="form_company_url">Website URL</label>
@@ -42,16 +41,16 @@
 
       <div class="senex__form__item-group">
         <div class="senex__form__item">
-          <div class="senex__form__field" :class="{'senex__form__field--dirty': dirtyCompanyColumns.ud_filing_threshold}">
-            <input
-                id="form_company_ud_filing_threshold"
-                type="number"
-                name="ud_filing_threshold"
-                v-model="udFilingThreshold"
-                class="senex__form__input"
-                placeholder="UD Filing Threshold..."
-                min="0"
-                @keyup="setDirty('ud_filing_threshold')"
+          <div class="senex__form__field"
+               :class="{'senex__form__field--dirty': dirtyCompanyColumns.udFilingThreshold}">
+            <input id="form_company_ud_filing_threshold"
+                   type="number"
+                   name="company_ud_filing_threshold"
+                   v-model="udFilingThreshold"
+                   class="senex__form__input"
+                   placeholder="UD Filing Threshold..."
+                   min="0"
+                   @keyup="setDirty('udFilingThreshold')"
             />
           </div>
           <span class="error" style="color: red" v-if="validation.ud_filing_threshold.required.$invalid">
@@ -100,24 +99,24 @@ const props = defineProps({
         state: false,
         zip: false,
       },
-      invoice_address: {
+      invoiceAddress: {
         address: false,
         city: false,
         state: false,
         zip: false,
       },
-      invoice_address2: false,
-      invoice_email: false,
-      contact_email: false,
-      contact_name: false,
-      contact_phone: false,
+      invoiceAddress2: false,
+      invoiceEmail: false,
+      contactEmail: false,
+      contactName: false,
+      contactPhone: false,
       url: false,
-      ud_filing_threshold: false
+      udFilingThreshold: false
     }
   },
   validation: {
     type: Object as PropType<Validation<ValidationArgs, Company>>,
-    default: <Validation<Company>>{}
+    default: <Validation<ValidationArgs, Company>>{}
   },
 });
 
@@ -131,15 +130,11 @@ const setDirty = (column: string, address?: string) => {
   !isDirty.value ? setIsDirty() : false;
 };
 
-const {activeCompany} = storeToRefs(useCompanyStore());
-
 const pmSoftwares = ref<PmSoftwareList[]>([]);
 
-if (activeCompany.value?.id) {
-  try {
-    pmSoftwares.value = (await pmSoftwareService.getPmSoftwares({sort: "order"}));
-  } catch (error) {
-    console.log(error);
-  }
+try {
+  pmSoftwares.value = (await pmSoftwareService.getPmSoftwares({sort: "order"}));
+} catch (error) {
+  console.log(error);
 }
 </script>
