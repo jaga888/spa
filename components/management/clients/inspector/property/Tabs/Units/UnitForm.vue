@@ -1,6 +1,6 @@
 <template>
   <div id="frmunit">
-    <form id="unitForm" class="senex__form" method="post" >
+    <form id="unitForm" class="senex__form" method="post">
       <fieldset class="senex__form__fieldset">
         <div class="senex__form__item-group">
           <div class="senex__form__item">
@@ -173,7 +173,7 @@
       </fieldset>
       <div class="senex__footer senex__strip">
         <div class="senex__strip__left">
-          <UnitButtons />
+          <UnitButtons/>
         </div>
       </div>
     </form>
@@ -187,12 +187,20 @@ import {useUnitStore} from "~/store/unit";
 import {helpers, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
 import {usePropertyStore} from "~/store/property";
-import UnitButtons from "~/components/management/clients/inspector/property/UnitButtons.vue"
+import UnitButtons from "~/components/management/clients/inspector/property/UnitButtons.vue";
 
 const {activeProperty} = storeToRefs(usePropertyStore());
-const {activeUnit, isNewUnit, isDirty, saveUnit} = storeToRefs(useUnitStore());
-const {setSaveUnit, setIsDirty} = useUnitStore();
-const unit = ref<Unit>(<Unit>{})
+const {
+  activeUnit,
+  isNewUnit,
+  isDirty,
+  saveUnit
+} = storeToRefs(useUnitStore());
+const {
+  setSaveUnit,
+  setIsDirty
+} = useUnitStore();
+const unit = ref<Unit>(<Unit>{});
 
 const rules = {
   address: {
@@ -227,11 +235,11 @@ watch(activeUnit, async () => {
 
       if (!unit.value.address) {
         unit.value.address = {
-          address: '',
-          city: '',
-          state: '',
-          zip: '',
-        }
+          address: "",
+          city: "",
+          state: "",
+          zip: "",
+        };
       }
 
       validation.value.$reset();
@@ -247,11 +255,11 @@ if (activeUnit.value) {
 
     if (!unit.value.address) {
       unit.value.address = {
-        address: '',
-        city: '',
-        state: '',
-        zip: '',
-      }
+        address: "",
+        city: "",
+        state: "",
+        zip: "",
+      };
     }
 
     validation.value.$reset();
@@ -277,7 +285,7 @@ const props = defineProps({
       pm_software_unit_id: false,
     }
   }
-})
+});
 
 const setDirty = (column: string, address?: string, element: { $touch: any; } | undefined = undefined) => {
   if (element) {
@@ -318,11 +326,11 @@ watch(isDirty, async () => {
 
       if (!unit.value.address) {
         unit.value.address = {
-          address: '',
-          city: '',
-          state: '',
-          zip: '',
-        }
+          address: "",
+          city: "",
+          state: "",
+          zip: "",
+        };
       }
 
       validation.value.$reset();
@@ -336,9 +344,21 @@ watch(saveUnit, async () => {
   if (saveUnit.value) {
     const isFormCorrect = await validation.value.$validate();
     if (isFormCorrect) {
-
+      if (unit.value.id) {
+        try {
+          unit.value = (await unitService.updateUnit(unit.value.id, unit.value));
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        try {
+          unit.value = (await unitService.createUnit(unit.value));
+        } catch (error) {
+          console.log(error);
+        }
+      }
     }
-    console.log(unit.value);
+
     setSaveUnit(false);
   }
 });

@@ -9,4 +9,10 @@ export const unitService = {
     getUnit: (id: number, params?: QueryParams) => {
         return useNuxtApp().$api().get<Unit>(routes.getById(id), {params})
     },
+    createUnit: (params?: QueryParams) => {
+        return useNuxtApp().$api().post<Unit>(routes.create(), params)
+    },
+    updateUnit: (id: number, params?: QueryParams) => {
+        return useNuxtApp().$api().put<Unit>(routes.update(id), params)
+    },
 }
